@@ -1,0 +1,20 @@
+" Credit to gmarik, original: https://github.com/gmarik/dotfiles/blob/master/.vimrc
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+if filereadable(expand("~/.vim/plugins.vim"))
+  source ~/.vim/plugins.vim
+endif
+
+if filereadable(expand("~/.vim/settings.vim"))
+  source ~/.vim/settings.vim
+endif
+
+if has("gui_running") && filereadable(expand("~/.vim/gvimrc"))
+    source ~/.vim/gvimrc
+endif
+
+if filereadable(expand("~/.vim/vimrc.local"))
+  source ~/.vim/vimrc.local
+endif
