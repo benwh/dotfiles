@@ -3,28 +3,30 @@ filetype plugin indent on
 
 set nofsync " Stop fsyncs to disable freezing
 
-" presentation settings
-set shortmess+=I        " Skip splash screen
+" Interface settings
+set shortmess=filmrxtToOI " Skip splash screen
 set number              " Precede each line with its line number
 set numberwidth=3       " Number of culumns for line numbers
-set textwidth=0         " Do not wrap words (insert)
 set scrolloff=4         " Keep a margin of 4 lines at the top and bottom
-set nowrap              " Do not wrap words (view)
 set showcmd             " Show (partial) command in status line.
-set showmatch           " Show matching brackets.
 set ruler               " Line and column number of the cursor position
 set wildmenu            " Enhanced command completion
 set visualbell          " Use visual bell instead of beeping
-set laststatus=2        " Always show the status line
+set laststatus=2        " Show the status line all the time, not just with split windows
+
+" File display and editing settings
+set textwidth=0         " Do not wrap words (insert)
+set nowrap              " Do not wrap words (view)
+set showmatch           " Show matching brackets.
 set listchars=tab:▷⋅,trail:·,extends:>,precedes:<,eol:$,nbsp:·
-" set list
 
 " Terminal settings
 if &term =~? '^\(xterm\|screen\|putty\|konsole\|gnome\)'
-  let &t_RV="\<Esc>[>c" " Let Vim check for xterm-compatibility
-  set ttyfast " Because no one should have to suffer
-  set ttymouse=xterm2 " Assume xterm mouse support
-  set title
+    let &t_RV="\<Esc>[>c" " Let Vim check for xterm-compatibility
+    set ttyfast " Because no one should have to suffer
+    set ttymouse=xterm2 " Assume xterm mouse support
+    set title
+    set titlelen=30         " Don't set a ridiculously huge terminal title
 endif
 
 " Colour settings
@@ -115,11 +117,6 @@ set ignorecase " Do case insensitive matching
 set smartcase  " Do not ignore if search pattern has CAPS
 set wrapscan   " Searches wrap around at end of file
 
-" Omni completion settings
-set ofu=syntaxcomplete#Complete
-let g:rubycomplete_buffer_loading = 0
-let g:rubycomplete_classes_in_global = 1
-
 " Directory settings
 set backupdir=~/.backup,.       " list of directories for the backup file
 set directory=~/.backup,~/tmp,. " list of directory names for the swap file
@@ -133,4 +130,4 @@ set foldlevel=9
 set nofoldenable      " dont fold by default "
 
 " Extended '%' mapping for if/then/else/end etc
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
