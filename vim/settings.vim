@@ -2,8 +2,6 @@ syntax on
 filetype plugin indent on
 
 set nofsync " Stop fsyncs to disable freezing
-set noeol   " Prevent vim from adding EOL characters
-set binary
 
 " presentation settings
 set shortmess+=I        " Skip splash screen
