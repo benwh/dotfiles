@@ -1,8 +1,6 @@
 syntax on
 filetype plugin indent on
 
-set nofsync " Stop fsyncs to disable freezing
-
 " Interface settings
 set shortmess=filmrxtToOI " Skip splash screen
 set number              " Precede each line with its line number
@@ -15,33 +13,28 @@ set visualbell          " Use visual bell instead of beeping
 set laststatus=2        " Show the status line all the time, not just with split windows
 
 " File display settings
-set textwidth=0         " Do not wrap words (insert)
-set nowrap              " Do not wrap words (view)
+set textwidth=0         " Do not wrap lines in insert mode
+set nowrap              " Do not wrap words in normal mod
 set showmatch           " Show matching brackets.
 set listchars=tab:▷⋅,trail:·,extends:>,precedes:<,eol:$,nbsp:·
 
 " Terminal settings
 if &term =~? '^\(xterm\|screen\|putty\|konsole\|gnome\)'
-    let &t_RV="\<Esc>[>c" " Let Vim check for xterm-compatibility
-    set ttyfast " Because no one should have to suffer
-    set ttymouse=xterm2 " Assume xterm mouse support
-    set title
-    set titlelen=30         " Don't set a ridiculously huge terminal title
+	let &t_RV="\<Esc>[>c" " Let Vim check for xterm-compatibility
+	set ttyfast " Because no one should have to suffer
+	set ttymouse=xterm2 " Assume xterm mouse support
+	set title
+	set titlelen=30         " Don't set a ridiculously huge terminal title
 endif
 
 " Colour settings
 set background=dark
 if &term == "linux"
-    set t_Co=16
-    colorscheme slate
+	set t_Co=16
+	colorscheme slate
 else
-    set t_Co=256
+	set t_Co=256
 "    colorscheme synic
-endif
-
-" Only use diff colours in diff mode
-if &diff
-    syntax off
 endif
 
 " Make completion menus readable
@@ -98,25 +91,26 @@ set cinoptions=(0,u0,U0
 
 " Mouse settings
 if has("mouse")
-    set mouse=v
+	set mouse=v
 endif
 set mousemodel=popup_setpos     " Reposition the cursor on right-click
 set mousehide                           " Hide mouse pointer on insert mode."
 
 " Encoding (Fixed and working well as of 20120803)
 if has('multi_byte')
-  if &enc !~? '^u\(tf\|cs\)'
-      if !strlen(&tenc)
-        let &termencoding = &encoding
-      endif
-      set encoding=utf-8
-  endif
-  set fileencodings=ucs-bom,utf-8,utf-16le,latin1
-  setglobal fileencoding=utf-8 " Use utf-8 for new files
+	if &enc !~? '^u\(tf\|cs\)'
+		if !strlen(&tenc)
+			let &termencoding = &encoding
+		endif
+		set encoding=utf-8
+	endif
+
+	set fileencodings=ucs-bom,utf-8,utf-16le,latin1
+	setglobal fileencoding=utf-8 " Use utf-8 for new files
 else
-    echohl error
-    echomsg 'Vim not compiled with +multi_byte! No Unicode support'
-    echohl none
+	echohl error
+	echomsg 'Vim not compiled with +multi_byte! No Unicode support'
+	echohl none
 endif
 
 " Syntax highlight shell scripts as per POSIX,
@@ -142,5 +136,65 @@ set foldmethod=indent
 set foldlevel=9
 set nofoldenable      " dont fold by default "
 
-" Extended '%' mapping for if/then/else/end etc
-" runtime macros/matchit.vim
+" Filetype-specific settings:
+" Only use diff colours in diff mode
+if &diff
+	syntax off
+endif
+
+" Key bindings
+
+" Buffer switching/manipulation
+let mapleader = '\'
+map <Leader>t :CommandT<Return>
+map <Leader>h :bprev<Return>
+map <Leader>l :bnext<Return>
+map <Leader>d :bd<Return>
+map <Leader>f :b
+
+let mapleader = ","
+
+" Remap jk to escape
+inoremap jk <Esc>
+
+" ,l to toggle visible whitespace
+nmap <silent> <Leader>l :set list!<CR>
+
+" Indent as many times as you like in visual mode without returning to normal
+vnoremap < <gv
+vnoremap > >gv
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+"make Y consistent with C and D
+nnoremap Y y$
+
+" Disable F1 for help
+map <F1> <Nop>
+
+" Ctrl-N to clear search results
+nmap <silent> <C-N> :silent noh<CR>
+
+" Ctrl-E to switch between 2 last buffers
+nmap <C-E> :b#<CR>
+
+" ,e to fast finding files. just type beginning of a name and hit TAB
+nmap <Leader>e :e **/
+
+" Use sudo to write to protected files, but reload to get rid of the warning
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+
+" Destroy EOL whitespace with <leader>w
+" http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
+nmap <Leader>w :%s/\s\+$//<CR>:let @/=''<CR>
+
+" Make shift-insert work like in Xterm
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+
+" ,n to get the next location (compilation errors, grep etC)
+nmap <Leader>n :cn<CR>
+
+"set completeopt=menuone,preview,longest
+set completeopt=menuone,preview
