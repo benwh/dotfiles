@@ -14,7 +14,7 @@ set wildmenu            " Enhanced command completion
 set visualbell          " Use visual bell instead of beeping
 set laststatus=2        " Show the status line all the time, not just with split windows
 
-" File display and editing settings
+" File display settings
 set textwidth=0         " Do not wrap words (insert)
 set nowrap              " Do not wrap words (view)
 set showmatch           " Show matching brackets.
@@ -63,7 +63,7 @@ else
 endif
 "set statusline=%02n:%<%1*%f%*\ %*%=%-14.(%l,%c%V%)\ %P
 " Highlight status line file name
-hi User1 term=bold,reverse cterm=bold ctermfg=4 ctermbg=2 gui=bold guifg=Blue guibg=#44aa00
+"hi User1 term=bold,reverse cterm=bold ctermfg=4 ctermbg=2 gui=bold guifg=Blue guibg=#44aa00
 
 
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif
@@ -86,10 +86,15 @@ set viminfo+='100 " Remember 100 previously edited files' marks
 set viminfo+=!    " Remember some global variables
 set viminfo+=h    " Don't restore the hlsearch highlighting
 
-" Tabbing
-set tabstop=4    " Number of spaces in a tab
-set shiftwidth=4 " Number of spaces for indent
-set expandtab    " Expand tabs into spaces
+" Tabbing and Indentation - to be used with SmartTabs plugin
+set noexpandtab " Use tabs for tabbing, not spaces
+set copyindent
+set preserveindent
+set softtabstop=0
+set shiftwidth=4
+set tabstop=4
+set cindent " Also see autoindent
+set cinoptions=(0,u0,U0
 
 " Mouse settings
 if has("mouse")
@@ -98,12 +103,20 @@ endif
 set mousemodel=popup_setpos     " Reposition the cursor on right-click
 set mousehide                           " Hide mouse pointer on insert mode."
 
-" Encoding
-if has('multi_byte') && &enc !~? '^u\(tf\|cs\)'
-  if !strlen(&tenc) && exists(':let') == 2
-    let &tenc = &enc
+" Encoding (Fixed and working well as of 20120803)
+if has('multi_byte')
+  if &enc !~? '^u\(tf\|cs\)'
+      if !strlen(&tenc)
+        let &termencoding = &encoding
+      endif
+      set encoding=utf-8
   endif
-  set encoding=utf-8
+  set fileencodings=ucs-bom,utf-8,utf-16le,latin1
+  setglobal fileencoding=utf-8 " Use utf-8 for new files
+else
+    echohl error
+    echomsg 'Vim not compiled with +multi_byte! No Unicode support'
+    echohl none
 endif
 
 " Syntax highlight shell scripts as per POSIX,
@@ -114,7 +127,7 @@ let g:is_posix = 1
 set incsearch  " Incremental search
 set hlsearch   " Highlight search match
 set ignorecase " Do case insensitive matching
-set smartcase  " Do not ignore if search pattern has CAPS
+set smartcase  " If input has capitals in, then do a case-sensitive search
 set wrapscan   " Searches wrap around at end of file
 
 " Directory settings
