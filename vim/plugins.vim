@@ -14,6 +14,9 @@ Bundle 'gmarik/vundle'
 
 " Plugins:
 
+" Smart Tabs
+Bundle 'Smart-Tabs'
+
 " syntastic
 Bundle 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
