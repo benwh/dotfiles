@@ -1,5 +1,8 @@
 " Credit to gmarik, original: https://github.com/gmarik/dotfiles/blob/master/.vimrc
 
+" Get this out of the way first
+set nocompatible
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
