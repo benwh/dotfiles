@@ -60,7 +60,7 @@ if &term == "linux"
 	colorscheme slate
 else
 	set t_Co=256
-"    colorscheme synic
+    colorscheme synic
 endif
 
 " Make completion menus readable

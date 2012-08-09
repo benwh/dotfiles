@@ -15,11 +15,23 @@ Bundle 'gmarik/vundle'
 " Align
 Bundle 'Align'
 
+" ir_black colour scheme
+Bundle 'wgibbs/vim-irblack'
+
+" JellyBeans colour scheme
+Bundle 'nanotech/jellybeans.vim'
+
 " MiniBufExplorer (new fork: https://github.com/fholgado/minibufexpl.vim)
 Bundle 'fholgado/minibufexpl.vim'
 
+" NERD Commenter
+Bundle 'scrooloose/nerdcommenter'
+
 " Smart Tabs - fork with fixes
 Bundle 'skroll/Smart-Tabs'
+
+" Synic colour scheme
+Bundle 'synic.vim'
 
 " syntastic
 Bundle 'scrooloose/syntastic'
