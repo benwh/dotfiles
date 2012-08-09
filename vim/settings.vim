@@ -167,6 +167,13 @@ if &diff
 endif
 "}}}
 
+" Git:{{{
+augroup filetype_gitcommit
+	autocmd!
+	autocmd FileType gitcommit setlocal foldlevel=2
+augroup END
+"}}}
+
 " PHP:{{{
 "PHP highlighting extras
 let php_sql_query = 1
