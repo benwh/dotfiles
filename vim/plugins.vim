@@ -15,8 +15,11 @@ Bundle 'gmarik/vundle'
 " Align
 Bundle 'Align'
 
-" Smart Tabs
-Bundle 'Smart-Tabs'
+" MiniBufExplorer (new fork: https://github.com/fholgado/minibufexpl.vim)
+Bundle 'fholgado/minibufexpl.vim'
+
+" Smart Tabs - fork with fixes
+Bundle 'skroll/Smart-Tabs'
 
 " syntastic
 Bundle 'scrooloose/syntastic'
