@@ -1,4 +1,5 @@
 " vim:foldmethod=marker
+scriptencoding utf-8
 
 syntax on
 filetype plugin indent on
