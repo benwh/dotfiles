@@ -60,7 +60,7 @@ if &term == "linux"
 	colorscheme slate
 else
 	set t_Co=256
-    colorscheme synic
+    colorscheme ir_black
 endif
 
 " Make completion menus readable
@@ -125,6 +125,10 @@ if has('multi_byte')
 			let &termencoding = &encoding
 		endif
 		set encoding=utf-8
+	endif
+
+	if strlen($TMUX)
+		let &termencoding='utf-8'
 	endif
 
 	set fileencodings=ucs-bom,utf-8,utf-16le,latin1
