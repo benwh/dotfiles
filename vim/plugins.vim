@@ -21,11 +21,17 @@ Bundle 'wgibbs/vim-irblack'
 " JellyBeans colour scheme
 Bundle 'nanotech/jellybeans.vim'
 
+" Matchit - with a couple of fixes
+Bundle 'tmhedberg/matchit'
+
 " MiniBufExplorer (new fork: https://github.com/fholgado/minibufexpl.vim)
 Bundle 'fholgado/minibufexpl.vim'
 
 " NERD Commenter
 Bundle 'scrooloose/nerdcommenter'
+
+" Powerline
+Bundle 'Lokaltog/vim-powerline'
 
 " Smart Tabs - fork with fixes
 Bundle 'skroll/Smart-Tabs'
