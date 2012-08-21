@@ -96,6 +96,7 @@ set completeopt=menu,preview,longest " Show a menu if more than one match. Show 
 let bash_is_sh=1                     " Syntax shell files as bash scripts
 set modelines=5                      " Number of lines to check for vim: directives at the start/end of file
 set sessionoptions=blank,buffers,curdir,folds,globals,help,localoptions,options,resize,tabpages,winsize,winpos
+set binary                           " Don't add newlines at the end of files when I don't ask for them
 
 " Viminfo
 set history=1000  " Keep 1000 lines of command line history
@@ -111,7 +112,6 @@ set nobackup                    " do not write backup files
 set noswapfile                  " do not write .swp files
 
 " Undo settings
-
 if strlen(finddir($HOME . "/.vim/tmp/undo")) == 0
 	silent call mkdir($HOME . "/.vim/tmp/undo", "p", 0700)
 endif
