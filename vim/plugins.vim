@@ -12,6 +12,9 @@ Bundle 'gmarik/vundle'
 
 " Plugins:
 
+" Ack
+Bundle 'mileszs/ack.vim'
+
 " Align
 Bundle 'Align'
 
@@ -45,6 +48,8 @@ let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_disabled_filetypes=['html']
 
+" Tag list (Best fork as of 20120822)
+Bundle 'klen/vim-taglist-plus'
 
 " And we're done
 filetype plugin indent on
