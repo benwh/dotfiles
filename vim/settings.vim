@@ -15,7 +15,7 @@ set showcmd               " Show (partial) command in status line.
 set ruler                 " Line and column number of the cursor position
 set wildmenu              " Enhanced command completion
 set wildmode=list:longest " List all completions, match until longest common string
-set visualbell            " Use visual bell instead of beeping
+set novisualbell          " Use visual bell instead of beeping
 set laststatus=2          " Show the status line all the time, not just with split windows
 
 " Search settings
@@ -41,9 +41,9 @@ endif
 
 " Status line
 if exists("g:loaded_syntastic_plugin")
-	set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%{SyntasticStatuslineFlag()}%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
+	"set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%{SyntasticStatuslineFlag()}%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
 else
-	set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
+	"set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
 endif
 
 " Mouse settings

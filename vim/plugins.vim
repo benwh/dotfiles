@@ -35,6 +35,7 @@ Bundle 'scrooloose/nerdcommenter'
 
 " Powerline
 Bundle 'Lokaltog/vim-powerline'
+let g:Powerline_symbols = 'fancy'
 
 " Smart Tabs - fork with fixes
 Bundle 'skroll/Smart-Tabs'
