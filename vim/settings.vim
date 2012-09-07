@@ -187,10 +187,13 @@ augroup END
 "}}}
 
 " PHP:{{{
-"PHP highlighting extras
+" PHP highlighting extras
 let php_sql_query = 1
 let php_htmlInStrings = 1
 let php_baselib = 1
+
+" Don't show variables in tag list
+let tlist_php_settings='php;f:function'
 "}}}
 
 " Vim:{{{

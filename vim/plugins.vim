@@ -18,6 +18,9 @@ Bundle 'mileszs/ack.vim'
 " Align
 Bundle 'Align'
 
+" CtrlP fuzzy finder
+Bundle 'kien/ctrlp.vim'
+
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
 
@@ -51,6 +54,9 @@ let g:syntastic_disabled_filetypes=['html']
 
 " Tag list (Best fork as of 20120822)
 Bundle 'klen/vim-taglist-plus'
+
+" Tomorrow colour scheme
+Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
 " And we're done
 filetype plugin indent on
