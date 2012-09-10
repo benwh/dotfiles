@@ -121,11 +121,13 @@ set nobackup                    " do not write backup files
 set noswapfile                  " do not write .swp files
 
 " Undo settings
-if strlen(finddir($HOME . "/.vim/tmp/undo")) == 0
-	silent call mkdir($HOME . "/.vim/tmp/undo", "p", 0700)
+if has('persistent_undo')
+	if strlen(finddir($HOME . "/.vim/tmp/undo")) == 0
+		silent call mkdir($HOME . "/.vim/tmp/undo", "p", 0700)
+	endif
+	set undodir=~/.vim/tmp/undo
+	set undofile
 endif
-set undodir=~/.vim/tmp/undo
-set undofile
 
 " Encoding (Fixed and working well as of 20120803)
 if has('multi_byte')
