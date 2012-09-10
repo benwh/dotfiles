@@ -39,6 +39,15 @@ if &term =~? '^\(xterm\|screen\|putty\|konsole\|gnome\)'
 	set titlelen=30       " Don't set a ridiculously huge terminal title
 endif
 
+" Handle TERM quirks in vim
+if $TERM =~ '^screen-256color'
+	set t_Co=256
+	nmap <Esc>OH <Home>
+	imap <Esc>OH <Home>
+	nmap <Esc>OF <End>
+	imap <Esc>OF <End>
+endif
+
 " Status line
 if exists("g:loaded_syntastic_plugin")
 	"set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%{SyntasticStatuslineFlag()}%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)

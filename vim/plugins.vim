@@ -20,6 +20,8 @@ Bundle 'Align'
 
 " CtrlP fuzzy finder
 Bundle 'kien/ctrlp.vim'
+" Use files+buffers+MRU mode as default
+let g:ctrlp_cmd = 'CtrlPMixed'
 
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
