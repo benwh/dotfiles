@@ -22,6 +22,10 @@ Bundle 'Align'
 Bundle 'kien/ctrlp.vim'
 " Use files+buffers+MRU mode as default
 let g:ctrlp_cmd = 'CtrlPMixed'
+" Display top-to-bottom
+let g:ctrlp_match_window_reversed = 1
+" Use the working directory that Vim was started in
+let g:ctrlp_working_path_mode = ''
 
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
@@ -53,6 +57,9 @@ Bundle 'scrooloose/syntastic'
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=1
 let g:syntastic_disabled_filetypes=['html']
+
+" Tagbar
+Bundle 'majutsushi/tagbar'
 
 " Tag list (Best fork as of 20120822)
 Bundle 'klen/vim-taglist-plus'
