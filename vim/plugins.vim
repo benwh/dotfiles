@@ -30,8 +30,19 @@ let g:ctrlp_working_path_mode = ''
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
 
+" vim-javascript (syntax and indentation)
+Bundle 'pangloss/vim-javascript'
+
 " JellyBeans colour scheme
 Bundle 'nanotech/jellybeans.vim'
+
+" JST/EJS highlighting + indenting
+"Bundle 'rummik/vim-jst'
+
+" Local vimrc - project-specific settings
+Bundle 'embear/vim-localvimrc'
+" Use upper-case Y/N/A to remember decision to load or not
+let g:localvimrc_persistent = 1
 
 " Matchit - with a couple of fixes
 Bundle 'tmhedberg/matchit'
@@ -48,6 +59,13 @@ let g:Powerline_symbols = 'fancy'
 
 " Smart Tabs - fork with fixes
 Bundle 'skroll/Smart-Tabs'
+
+" Snipmate
+Bundle 'garbas/vim-snipmate'
+Bundle 'honza/snipmate-snippets'
+" Required for snipmate
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tomtom/tlib_vim'
 
 " Synic colour scheme
 Bundle 'synic.vim'
@@ -69,6 +87,9 @@ Bundle 'klen/vim-taglist-plus'
 
 " Tomorrow colour scheme
 Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+
+" Display whitespace
+Bundle 'benwh/vim-trailing-whitespace'
 
 " And we're done
 filetype plugin indent on
