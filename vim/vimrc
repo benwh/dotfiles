@@ -14,6 +14,11 @@ if filereadable(expand("~/.vim/settings.vim"))
   source ~/.vim/settings.vim
 endif
 
+" Workaround for utf-8 listchars issue
+if filereadable(expand("~/.vim/settings2.vim"))
+  source ~/.vim/settings2.vim
+endif
+
 if has("gui_running") && filereadable(expand("~/.vim/gvimrc"))
     source ~/.vim/gvimrc
 endif

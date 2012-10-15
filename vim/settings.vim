@@ -4,6 +4,28 @@ scriptencoding utf-8
 syntax on
 filetype plugin indent on
 
+" Encoding {{{
+if has('multi_byte')
+	if &encoding !~? '^u\(tf\|cs\)'
+		if !strlen(&tenc)
+			let &termencoding = &encoding
+		endif
+		set encoding=utf-8
+	endif
+
+	if strlen($TMUX)
+		let &termencoding='utf-8'
+	endif
+
+	set fileencodings=ucs-bom,utf-8,utf-16le,latin1
+	setglobal fileencoding=utf-8 " Use utf-8 for new files
+else
+	echohl error
+	echomsg 'Vim not compiled with +multi_byte! No Unicode support'
+	echohl none
+endif
+"}}}
+
 " Interface settings{{{
 
 " General
@@ -69,7 +91,7 @@ if &term == "linux"
 	colorscheme slate
 else
 	set t_Co=256
-    colorscheme ir_black
+    colorscheme Tomorrow-Night
 endif
 
 " Make completion menus readable
@@ -97,7 +119,7 @@ set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jp
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 
 set shell=/bin/bash                  " Use bash for shell commands
-set autowriteall                     " Automatically save before commands like :next and :make
+set autowrite                        " Automatically save before commands like :next and :make
 set hidden                           " Enable multiple modified buffers
 set autoread                         " Automatically read file that has been changed on disk and doesn't have changes in vim
 set backspace=indent,eol,start
@@ -128,29 +150,6 @@ if has('persistent_undo')
 	set undodir=~/.vim/tmp/undo
 	set undofile
 endif
-
-" Encoding (Fixed and working well as of 20120803)
-if has('multi_byte')
-	if &enc !~? '^u\(tf\|cs\)'
-		if !strlen(&tenc)
-			let &termencoding = &encoding
-		endif
-		set encoding=utf-8
-	endif
-
-	if strlen($TMUX)
-		let &termencoding='utf-8'
-	endif
-
-	set fileencodings=ucs-bom,utf-8,utf-16le,latin1
-	setglobal fileencoding=utf-8 " Use utf-8 for new files
-else
-	echohl error
-	echomsg 'Vim not compiled with +multi_byte! No Unicode support'
-	echohl none
-endif
-
-"}}}
 
 " Editing, indentation settings{{{
 

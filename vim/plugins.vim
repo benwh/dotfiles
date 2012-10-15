@@ -66,6 +66,7 @@ Bundle 'honza/snipmate-snippets'
 " Required for snipmate
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
+let g:snips_author = 'Ben Wheatley <contact@benwh.com>'
 
 " Synic colour scheme
 Bundle 'synic.vim'
