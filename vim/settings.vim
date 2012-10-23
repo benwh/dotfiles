@@ -174,6 +174,19 @@ set cino+=l1 " Align case statements properly
 
 "}}}
 
+" Autocmds{{{
+function DeleteIfWhitespaceOnly()
+	if getline('.') =~? '^\s\+$'
+		normal! 0
+		normal! d$
+	endif
+endfunction
+
+augroup DeleteLineWithSpaces
+	autocmd InsertLeave * call DeleteIfWhitespaceOnly()
+augroup END
+"}}}
+
 " Filetype-specific settings {{{
 
 " (ba)sh:{{{
