@@ -26,6 +26,8 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_match_window_reversed = 1
 " Use the working directory that Vim was started in
 let g:ctrlp_working_path_mode = ''
+" More results
+let g:ctrlp_max_height = 25
 
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
