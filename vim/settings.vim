@@ -178,7 +178,7 @@ set cino+=l1 " Align case statements properly
 function DeleteIfWhitespaceOnly()
 	if getline('.') =~? '^\s\+$'
 		normal! 0
-		normal! d$
+		normal! "_d$
 	endif
 endfunction
 
