@@ -35,8 +35,8 @@ set numberwidth=3         " Number of culumns for line numbers
 set scrolloff=8           " Keep a margin of 4 lines at the top and bottom
 set showcmd               " Show (partial) command in status line.
 set ruler                 " Line and column number of the cursor position
+set wildmode=longest,list,full " List all completions, match until longest common string
 set wildmenu              " Enhanced command completion
-set wildmode=list:longest " List all completions, match until longest common string
 set novisualbell          " Use visual bell instead of beeping
 set laststatus=2          " Show the status line all the time, not just with split windows
 
