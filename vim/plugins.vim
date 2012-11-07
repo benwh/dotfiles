@@ -96,6 +96,9 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 " NERD Commenter
 Bundle 'scrooloose/nerdcommenter'
 
+" Occur - powerful buffer searching
+Bundle 'occur.vim'
+
 " Powerline{{{
 Bundle 'Lokaltog/vim-powerline'
 let g:Powerline_symbols = 'fancy'
