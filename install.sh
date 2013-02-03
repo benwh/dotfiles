@@ -4,3 +4,6 @@ ln -b -s ~/dotfiles/inputrc ~/.inputrc
 ln -b -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -b -s ~/dotfiles/vim ~/.vim
 ln -b -s ~/dotfiles/vim/vimrc ~/.vimrc
+
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+vim +BundleInstall +qall
