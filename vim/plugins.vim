@@ -101,6 +101,9 @@ Bundle 'scrooloose/nerdcommenter'
 " Occur - powerful buffer searching
 Bundle 'occur.vim'
 
+" PIV - PHP integration
+Bundle 'spf13/PIV'
+
 " Powerline{{{
 Bundle 'Lokaltog/vim-powerline'
 let g:Powerline_symbols = 'fancy'
