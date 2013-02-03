@@ -6,11 +6,11 @@ source ~/.bashrc.functions
 if [ -f /etc/bash_completion ]
 then
 	. /etc/bash_completion
-	. ~/.bash_completion_custom
-	complete -F _root_command s
-	complete -C perldoc-complete -o nospace -o default perldoc
-	complete -C perldoc-complete -o nospace -o default pod
-	complete -o bashdefault -o default -o nospace -F _git g
+	#. ~/.bash_completion_custom
+	#complete -F _root_command s
+	#complete -C perldoc-complete -o nospace -o default perldoc
+	#complete -C perldoc-complete -o nospace -o default pod
+	#complete -o bashdefault -o default -o nospace -F _git g
 fi
 
 # Vi mode ON!
