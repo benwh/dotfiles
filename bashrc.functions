@@ -1,0 +1,120 @@
+
+##
+## Functions
+##
+
+extract () {
+	if [ -f $1 ] ; then
+		case $1 in
+			*.tar.bz2)   tar xjf $1      ;;
+			*.tar.gz)    tar xzf $1      ;;
+			*.bz2)       bunzip2 $1      ;;
+			*.rar)       unrar e $1        ;;
+			*.gz)        gunzip $1       ;;
+			*.tar)       tar xf $1       ;;
+			*.tbz2)      tar xjf $1      ;;
+			*.tgz)       tar xzf $1      ;;
+			*.zip)       unzip $1        ;;
+			*.Z)         uncompress $1   ;;
+			*)           echo "'$1' cannot be extracted via extract()" ;;
+		esac
+	else
+		echo "'$1' is not a valid file"
+	fi
+}
+
+psgrep() {
+	if [ ! -z $1 ] ; then
+		echo "Grepping for processes matching $1..."
+		ps aux | grep -i $1 | grep -v grep
+	else
+		echo "!! Need name to grep for"
+	fi
+}
+
+
+bash_prompt() {
+	case $TERM in
+		xterm*|rxvt*)
+		local TITLEBAR='\[\033]0;\u:${NEW_PWD}\007\]'
+		;;
+		*)
+		local TITLEBAR=""
+		;;
+	esac
+	local NONE="\[\033[0m\]"    # unsets color to term's fg color
+
+	# regular colors
+	local K="\[\033[0;30m\]"    # black
+	local R="\[\033[0;31m\]"    # red
+	local G="\[\033[0;32m\]"    # green
+	local Y="\[\033[0;33m\]"    # yellow
+	local B="\[\033[0;34m\]"    # blue
+	local M="\[\033[0;35m\]"    # magenta
+	local C="\[\033[0;36m\]"    # cyan
+	local W="\[\033[0;37m\]"    # white
+
+	# emphasized (bolded) colors
+	local EMK="\[\033[1;30m\]"
+	local EMR="\[\033[1;31m\]"
+	local EMG="\[\033[1;32m\]"
+	local EMY="\[\033[1;33m\]"
+	local EMB="\[\033[1;34m\]"
+	local EMM="\[\033[1;35m\]"
+	local EMC="\[\033[1;36m\]"
+	local EMW="\[\033[1;37m\]"
+
+	# background colors
+	local BGK="\[\033[40m\]"
+	local BGR="\[\033[41m\]"
+	local BGG="\[\033[42m\]"
+	local BGY="\[\033[43m\]"
+	local BGB="\[\033[44m\]"
+	local BGM="\[\033[45m\]"
+	local BGC="\[\033[46m\]"
+	local BGW="\[\033[47m\]"
+
+	# Prompt setup, white user and host for normal, red host for root
+	# extra backslash in front of \$ to make bash colorize the prompt
+	if [[ $UID -eq "0" ]]
+	then
+		local UC=$EMR
+		PS1="${EMK}[${UC}\h ${EMB}\w${EMK}]${EMW}\\$ ${W}"
+	else
+		local UC=$EMW
+		PS1="${EMK}[${UC}\u${EMW}@${UC}\h ${EMB}\w${EMK}]${EMW}\\$ ${W}"
+	fi
+}
+
+vnice() {
+	if [[ -z "$1" ]] ; then
+		echo "vnice [ <pid>... | <program> ]" >&2
+		return 1
+	elif [[ "$1" =~ ^[0-9]+$ ]] ; then
+		while [[ "$1" =~ ^[0-9]+$ ]] ; do
+			ionice -n7 -p $1
+			renice 20 $1
+			shift
+		done
+	else
+		ionice -n7 nice -n20 $@
+	fi
+}
+
+g() {
+	if [[ $# == '0' ]]; then
+		git status -s -uno
+	else
+		case $1 in
+			fuss)
+				shift
+				git rebase -i HEAD~"$1";;
+			*)
+				git "$@";;
+		esac
+	fi
+}
+
+svndiff() {
+	svn diff "${@} | colordiff"
+}
