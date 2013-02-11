@@ -1,0 +1,59 @@
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[color]
+    ui = true
+[core]
+    excludesfile = .gitignore.global
+[alias]
+    s       = status
+    st      = status -s
+    ss      = status -s -uno
+
+    c       = commit
+    cm      = commit -m
+
+	d = difftool
+    l       = log
+    lg      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    unstage = reset HEAD
+    f       = fetch
+    p       = push
+
+    # Remote update, fetch remote info only
+    ru      = remote update
+
+    # Remote log diff, shows commits which exist remotely but not locally
+    rl      = log HEAD..origin/master
+    rlp     = log -p HEAD..origin/master
+[user]
+    name = Ben Wheatley
+    email = contact@benwh.com
+[branch]
+    # Auto merge only for remote branches
+    # autosetupmerge = true
+    # Don't create unintentional and unnecessary merge commits.
+    # Remember to use --no-rebase if pulling from a feature branch though
+    # autosetuprebase = always
+[push]
+    default = tracking
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[include]
+	path = .gitconfig.github
