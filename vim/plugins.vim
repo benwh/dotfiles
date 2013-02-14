@@ -48,6 +48,8 @@ Bundle 'nanotech/jellybeans.vim'
 Bundle 'embear/vim-localvimrc'
 " Use upper-case Y/N/A to remember decision to load or not
 let g:localvimrc_persistent = 1
+" Potentially dangerous: disable sandboxing
+let g:localvimrc_sandbox = 0
 "}}}
 
 " Matchit - with a couple of fixes
