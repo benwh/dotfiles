@@ -1,5 +1,5 @@
 set bind-tty-special-chars off
-set completion-ignore-case On
+set completion-ignore-case on
 set editing-mode vi
 "jj": vi-movement-mode
 

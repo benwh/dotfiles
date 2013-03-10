@@ -91,7 +91,7 @@ if &term == "linux"
 	colorscheme slate
 else
 	set t_Co=256
-    colorscheme Tomorrow-Night
+    colorscheme jellybeans
 endif
 
 " Make completion menus readable
@@ -208,7 +208,7 @@ endif
 " Git:{{{
 augroup filetype_gitcommit
 	autocmd!
-	autocmd FileType gitcommit setlocal foldlevel=2
+	autocmd FileType gitcommit setlocal foldlevel=2 spell
 augroup END
 "}}}
 

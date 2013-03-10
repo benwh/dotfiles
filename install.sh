@@ -1,11 +1,41 @@
-ln -b -s ~/dotfiles/bashrc ~/.bashrc
-ln -b -s ~/dotfiles/bashrc.functions ~/.bashrc.functions
-ln -b -s ~/dotfiles/inputrc ~/.inputrc
-ln -b -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -b -s ~/dotfiles/vim ~/.vim
-ln -b -s ~/dotfiles/vim/vimrc ~/.vimrc
-ln -b -s ~/dotfiles/gitconfig ~/.gitconfig
-ln -b -s ~/dotfiles/gitignore.global ~/.gitignore
+# Assumptions are made that the dotfiles directory is residing under $HOME, in order to provide relative symlinks
+if [[ -z "$(readlink -f $0 | grep $HOME)" ]]; then
+	echo "$(readlink -f $0) must reside under $HOME"
+	exit 1
+fi
 
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-vim +BundleInstall +qall
+DOTFILESDIR=$(dirname $(readlink -f $0) | sed -e s,$HOME/,, )
+MAPFILE=$HOME/$DOTFILESDIR/install.mapping
+
+# cd to $HOME so that we can create relative symlinks
+pushd $HOME > /dev/null
+
+# Iterate over the mappings in the mapping file
+for kv in $(cat $MAPFILE); do
+	# Split the two parts between the colon into SOURCE and DEST
+	IFS=":" read -ra MAP <<< "$kv"
+	SOURCE=${MAP[0]}
+	DEST=${MAP[1]}
+
+	# Check to see if there's already a symlink between the destination and source paths
+	if [ "$(readlink -e $HOME/$DEST)" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
+		# If not, create a relative symlink, backing up any old file with the same name
+		ln -b -s $DOTFILESDIR/$SOURCE $DEST
+	fi
+done
+
+popd > /dev/null
+
+# Check out all git submodules
+pushd $HOME/$DOTFILESDIR > /dev/null
+git submodule update --init --recursive
+popd > /dev/null
+
+# If we haven't already cloned vundle, then do it now
+if [[ ! -d $HOME/.vim/bundle/vundle/.git ]]; then
+	git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+fi
+
+vim +BundleInstall! +qall
+
+echo "If this is the first time running this script, then start a new shell"

@@ -5,13 +5,11 @@ source ~/.bashrc.functions
 
 if [ -f /etc/bash_completion ]
 then
-	. /etc/bash_completion
-	#. ~/.bash_completion_custom
-	#complete -F _root_command s
-	#complete -C perldoc-complete -o nospace -o default perldoc
-	#complete -C perldoc-complete -o nospace -o default pod
-	#complete -o bashdefault -o default -o nospace -F _git g
+	source /etc/bash_completion
 fi
+
+# Load z
+source $HOME/dotfiles/vendor/rupa-z/z.sh
 
 # Vi mode ON!
 set -o vi
@@ -28,13 +26,25 @@ then
 fi
 umask 022
 
+if [ "$TERM" = "linux" ]
+then
+	# we're on the system console or maybe telnetting in
+	export PS1="\[\e[32;1m\]\u@\H > \[\e[0m\]"
+else
+	# we're not on the console, assume an xterm
+	bash_prompt
+	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"; history -a'
+	export TERM='screen-256color'
+fi
+
+
 export LS_OPTIONS='--color=auto'
 export GREP_OPTIONS='--color'
 export PERL_CPANM_OPT='--sudo '
 
 # http://gophersays.com/from-r60-to-go1/
-mygo=/home/ben/go
-goroot=/home/ben/dev/go
+mygo=$HOME/go
+goroot=$HOME/dev/go
 gobin=$goroot/bin:$mygo/bin
 export GOPATH=$goroot:$mygo
 export PATH=$PATH:$gobin
@@ -68,35 +78,26 @@ alias pacman='pacman-color'
 export LS_OPTIONS='--color=auto'
 export EDITOR=vim
 export PAGER=less
-export PATH=$HOME/bin:$HOME/go/bin:/home/ben/android-sdk/platform-tools:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/android-sdk/platform-tools:/usr/local/bin:$PATH
 export LESS='-RX'
 
 # Bash history commands
 export HISTSIZE=500000 # Record last 500,000 commands
-export HISTFILESIZE=100000 # Record 100,000 commands per session
+export HISTFILESIZE=1000 # Record 1000 commands per session
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups,ignorespace
-export HISTIGNORE="&:ls:ll:la:l.:pwd:exit:clear"
+export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs"
 # Don't overwrite history if using multiple bash sessions
 shopt -s histappend
 
+# Don't immediately execute command when using history substitution
+shopt -s histverify
 
-if [ "$TERM" = "linux" ]
-then
-	# we're on the system console or maybe telnetting in
-	export PS1="\[\e[32;1m\]\u@\H > \[\e[0m\]"
-else
-	# we're not on the console, assume an xterm
-	bash_prompt
-	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-	export TERM='screen-256color'
-fi
-
-# Enable autojump
-if [ -x /etc/profile.d/autojump.bash ]
-then
-    source /etc/profile.d/autojump.bash
-fi
+# Bash eternal history:
+# http://www.debian-administration.org/articles/543
+[[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
+export HISTTIMEFORMAT="%s "
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ; }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Enable SCM Breeze
-[ -s "/home/ben/.scm_breeze/scm_breeze.sh" ] && source "/home/ben/.scm_breeze/scm_breeze.sh"
+[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
