@@ -33,7 +33,8 @@ then
 else
 	# we're not on the console, assume an xterm
 	bash_prompt
-	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"; history -a'
+	# Append, because z.sh may have already tampered with PROMPT_COMMAND
+	PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 	export TERM='screen-256color'
 fi
 
