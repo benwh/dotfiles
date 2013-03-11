@@ -83,8 +83,8 @@ export PATH=$HOME/bin:$HOME/android-sdk/platform-tools:/usr/local/bin:$PATH
 export LESS='-RX'
 
 # Bash history commands
-export HISTSIZE=500000 # Record last 500,000 commands
-export HISTFILESIZE=1000 # Record 1000 commands per session
+export HISTSIZE=1000 # Keep 1000 lines in session history
+export HISTFILESIZE=100000 # Truncate file at 100,000 lines
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups,ignorespace
 export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs"
