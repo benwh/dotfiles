@@ -34,7 +34,7 @@ else
 	# we're not on the console, assume an xterm
 	bash_prompt
 	# Append, because z.sh may have already tampered with PROMPT_COMMAND
-	PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
+	PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history; history -a'
 	export TERM='screen-256color'
 fi
 
