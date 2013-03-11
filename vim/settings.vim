@@ -212,6 +212,14 @@ augroup filetype_gitcommit
 augroup END
 "}}}
 
+" HTML:{{{
+augroup filetype_html
+	autocmd!
+	" http://morearty.com/blog/2013/01/22/fixing-vims-indenting-of-html-files.html
+	autocmd FileType html setlocal indentkeys-=*<Return>
+augroup END
+"}}}
+
 " PHP:{{{
 " PHP highlighting extras
 let php_sql_query = 1
