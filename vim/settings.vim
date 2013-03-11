@@ -86,12 +86,23 @@ set mousehide                           " Hide mouse pointer on insert mode."
 
 " Colour and style settings{{{
 set background=dark
+
+let g:jellybeans_overrides =
+\{
+\    'Todo': { 'guifg': 'eeeeee', 'guibg': 'ff0080',
+\              'ctermfg': 'White', 'ctermbg': 'Pink',
+\              'attr': 'bold' },
+\    'Search': { 'guifg': '444444', 'guibg': 'ffd000',
+\              'ctermfg': 'Grey', 'ctermbg': 'Yellow',
+\              'attr': 'bold' },
+\}
+
 if &term == "linux"
 	set t_Co=16
 	colorscheme slate
 else
 	set t_Co=256
-    colorscheme jellybeans
+	colorscheme jellybeans
 endif
 
 " Make completion menus readable
@@ -106,9 +117,6 @@ hi SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
 " this rule really applies to everything.
 highlight RedundantSpaces term=standout ctermbg=red guibg=red
 match RedundantSpaces /\s\+$\| \+\ze\t/ " \ze sets end of match so only spaces highlighted
-
-" Highlight TODOs
-hi Todo ctermbg=yellow ctermfg=red
 
 "}}}
 
