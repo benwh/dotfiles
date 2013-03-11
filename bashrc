@@ -8,8 +8,8 @@ then
 	source /etc/bash_completion
 fi
 
-# Load z
-source $HOME/dotfiles/vendor/rupa-z/z.sh
+# Load z, only if running an interactive shell (otherwise scp is cocked up)
+[[ $- == *i* ]] && source $HOME/dotfiles/vendor/rupa-z/z.sh
 
 # Vi mode ON!
 set -o vi
