@@ -35,6 +35,9 @@ Bundle 'Align'
 " Command-T finder
 Bundle 'git://git.wincent.com/command-t.git'
 
+" Fugitive - Git integration
+Bundle 'tpope/vim-fugitive'
+
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
 
@@ -116,6 +119,9 @@ let g:Powerline_symbols = 'fancy'
 
 " Smart Tabs - fork with fixes
 "Bundle 'skroll/Smart-Tabs'
+
+" Sleuth - Automatic buffer options based on file contents
+Bundle 'tpope/vim-sleuth'
 
 " Snipmate{{{
 "Bundle 'garbas/vim-snipmate'
