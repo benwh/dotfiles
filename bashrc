@@ -33,8 +33,6 @@ then
 else
 	# we're not on the console, assume an xterm
 	bash_prompt
-	# Append, because z.sh may have already tampered with PROMPT_COMMAND
-	PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history; history -a'
 	export TERM='screen-256color'
 fi
 
@@ -98,7 +96,8 @@ shopt -s histverify
 # http://www.debian-administration.org/articles/543
 [[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
 export HISTTIMEFORMAT="%s "
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ; }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
+# Append, because z.sh may have already tampered with PROMPT_COMMAND
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Enable SCM Breeze
 [ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
