@@ -38,6 +38,9 @@ Bundle 'git://git.wincent.com/command-t.git'
 " Fugitive - Git integration
 Bundle 'tpope/vim-fugitive'
 
+" Git gutter
+Bundle 'airblade/vim-gitgutter'
+
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
 
