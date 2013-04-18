@@ -71,7 +71,6 @@ alias vless='/usr/share/vim/vimcurrent/macros/less.sh'
 alias du1='du -h --max-depth=1'
 alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
-alias pacman='pacman-color'
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
@@ -81,7 +80,7 @@ export PATH=$HOME/bin:$HOME/android-sdk/platform-tools:/usr/local/bin:$PATH
 export LESS='-RX'
 
 # Bash history commands
-export HISTSIZE=1000 # Keep 1000 lines in session history
+export HISTSIZE=10000 # Keep 10000 lines in session history
 export HISTFILESIZE=100000 # Truncate file at 100,000 lines
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups,ignorespace
