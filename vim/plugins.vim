@@ -18,22 +18,22 @@ Bundle 'mileszs/ack.vim'
 " Align
 Bundle 'Align'
 
-"" CtrlP fuzzy finder{{{
-"Bundle 'kien/ctrlp.vim'
-"" Use files+buffers+MRU mode as default
-"let g:ctrlp_cmd = 'CtrlPMixed'
-"" Display top-to-bottom
-"let g:ctrlp_match_window_reversed = 1
-"" Use the working directory that Vim was started in
-"let g:ctrlp_working_path_mode = ''
-"" More results
-"let g:ctrlp_max_height = 25
-"" Sane Ignore For ctrlp
- "let g:ctrlp_custom_ignore = { 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$', 'file': '\.exe$\|\.so$\|\.dat$'  }
-""}}}
+" CtrlP fuzzy finder{{{
+Bundle 'kien/ctrlp.vim'
+" Use files+buffers+MRU mode as default
+let g:ctrlp_cmd = 'CtrlPMixed'
+" Display top-to-bottom
+let g:ctrlp_match_window_reversed = 1
+" Use the working directory that Vim was started in
+let g:ctrlp_working_path_mode = ''
+" More results
+let g:ctrlp_max_height = 25
+" Sane Ignore For ctrlp
+let g:ctrlp_custom_ignore = { 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$', 'file': '\.exe$\|\.so$\|\.dat$'  }
+"}}}
 
 " Command-T finder
-Bundle 'git://git.wincent.com/command-t.git'
+"Bundle 'git://git.wincent.com/command-t.git'
 
 " Fugitive - Git integration
 Bundle 'tpope/vim-fugitive'
