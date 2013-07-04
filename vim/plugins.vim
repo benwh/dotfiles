@@ -12,8 +12,11 @@ Bundle 'gmarik/vundle'
 
 " Plugins:
 
-" Ack
-Bundle 'mileszs/ack.vim'
+"" Ack
+"Bundle 'mileszs/ack.vim'
+
+"Ag
+Bundle 'epmatsw/ag.vim'
 
 " Align
 Bundle 'Align'
