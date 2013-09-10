@@ -154,9 +154,6 @@ Bundle 'tpope/vim-surround'
 " Tagbar
 Bundle 'majutsushi/tagbar'
 
-" Tag list (Best fork as of 20120822)
-Bundle 'klen/vim-taglist-plus'
-
 " Tomorrow colour scheme
 Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
