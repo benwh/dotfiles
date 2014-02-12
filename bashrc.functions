@@ -118,3 +118,8 @@ g() {
 svndiff() {
 	svn diff "${@} | colordiff"
 }
+
+# Print a horizontal rule across the terminal
+hr() {
+	printf '━%.0s' $(seq $COLUMNS);
+}
