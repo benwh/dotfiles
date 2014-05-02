@@ -220,6 +220,15 @@ augroup filetype_gitcommit
 augroup END
 "}}}
 
+" Go:{{{
+augroup filetype_go
+	autocmd!
+	autocmd FileType go setlocal shiftwidth=2 tabstop=2 omnifunc=gocomplete#Complete noexpandtab
+	autocmd FileType go set completeopt-=preview
+augroup END
+"}}}
+
+
 " HTML:{{{
 augroup filetype_html
 	autocmd!

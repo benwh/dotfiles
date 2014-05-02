@@ -41,13 +41,6 @@ export LS_OPTIONS='--color=auto'
 export GREP_OPTIONS='--color'
 export PERL_CPANM_OPT='--sudo '
 
-# http://gophersays.com/from-r60-to-go1/
-mygo=$HOME/go
-goroot=$HOME/dev/go
-gobin=$goroot/bin:$mygo/bin
-export GOPATH=$goroot:$mygo
-export PATH=$PATH:$gobin
-
 if [ -x /usr/bin/dircolors ]
 then
 	# -b switch is to force bash style output on win32/cygwin
@@ -90,6 +83,15 @@ shopt -s histappend
 
 # Don't immediately execute command when using history substitution
 shopt -s histverify
+
+# Golang stuff
+# http://gophersays.com/from-r60-to-go1/
+# 'go get' will install in to $HOME/go. My code will live under $HOME/dev/go
+GOROOT=$HOME/go
+MYGO=$HOME/dev/go
+GOBIN=$GOROOT/bin:$MYGO/bin
+export GOPATH=$GOROOT:$MYGO
+export PATH=$GOBIN:$PATH
 
 # Bash eternal history:
 # http://www.debian-administration.org/articles/543
