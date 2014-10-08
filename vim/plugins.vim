@@ -151,7 +151,12 @@ Bundle 'occur.vim'
 Bundle 'spf13/PIV'
 
 " Powerline{{{
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
+if has('python') && executable('powerline')
+    python from powerline.vim import setup as powerline_setup
+    python powerline_setup()
+    python del powerline_setup
+endif
 
 let g:Powerline_symbols = 'fancy'
 

@@ -69,7 +69,7 @@ alias du3='du -h --max-depth=3'
 export LS_OPTIONS='--color=auto'
 export EDITOR=vim
 export PAGER=less
-export PATH=$HOME/bin:$HOME/android-sdk/platform-tools:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$HOME/android-sdk/platform-tools:/usr/local/bin:$PATH
 export LESS='-RX'
 
 # Bash history commands
