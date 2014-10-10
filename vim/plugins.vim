@@ -144,14 +144,25 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 " NERD Commenter
 Bundle 'scrooloose/nerdcommenter'
 
+" nginx syntax
+Bundle 'evanmiller/nginx-vim-syntax'
+
 " Occur - powerful buffer searching
 Bundle 'occur.vim'
 
+" PHP stuff{{{
+Plugin 'StanAngeloff/php.vim'
+Plugin 'rayburgemeestre/phpfolding.vim'
+Plugin '2072/PHP-Indenting-for-VIm'
+" Include the '$' as part of identifiers.
+let php_var_selector_is_identifier = 1
+
 " PIV - PHP integration
-Bundle 'spf13/PIV'
+"Bundle 'spf13/PIV'
+
+"}}}
 
 " Powerline{{{
-"Bundle 'Lokaltog/vim-powerline'
 if has('python') && executable('powerline')
     python from powerline.vim import setup as powerline_setup
     python powerline_setup()
