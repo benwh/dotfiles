@@ -310,4 +310,7 @@ map! <S-Insert> <MiddleMouse>
 " ,n to get the next location (compilation errors, grep etc)
 nmap <Leader>n :cn<CR>
 
+" Re-sync syntax highlighting from start of file if its broken (usually PHP)
+noremap <F10> <Esc>:syntax sync fromstart<CR>
+
 "}}}
