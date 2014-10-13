@@ -157,6 +157,10 @@ Plugin '2072/PHP-Indenting-for-VIm'
 " Include the '$' as part of identifiers.
 let php_var_selector_is_identifier = 1
 
+Bundle 'm2mdas/phpcomplete-extended'
+autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
+let g:phpcomplete_index_composer_command = 'composer'
+
 " PIV - PHP integration
 "Bundle 'spf13/PIV'
 
@@ -172,6 +176,9 @@ endif
 let g:Powerline_symbols = 'fancy'
 
 "}}}
+
+" vimproc - for phpcomplete and potentially more
+Bundle 'Shougo/vimproc'
 
 " Smart Tabs - fork with fixes
 "Bundle 'skroll/Smart-Tabs'
@@ -209,6 +216,9 @@ Bundle 'majutsushi/tagbar'
 
 " Tomorrow colour scheme
 Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
+
+" unite - for phpcomplete and potentially more
+Bundle 'Shougo/unite.vim'
 
 " Display whitespace
 Bundle 'benwh/vim-trailing-whitespace'
