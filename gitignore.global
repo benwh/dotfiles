@@ -1,2 +1,4 @@
 *.sw?
 tmp
+.phpcomplete_extended/
+index_cache
