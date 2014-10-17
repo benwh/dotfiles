@@ -39,6 +39,7 @@ set wildmode=longest,list,full " List all completions, match until longest commo
 set wildmenu              " Enhanced command completion
 set novisualbell          " Use visual bell instead of beeping
 set laststatus=2          " Show the status line all the time, not just with split windows
+set nostartofline		  " Don't jump to start of line when switching buffers
 
 " Search settings
 set incsearch  " Incremental search
@@ -264,7 +265,7 @@ map <Leader>t :CommandT<Return>
 map <Leader>h :bprev<Return>
 map <Leader>l :bnext<Return>
 map <Leader>d :bd<Return>
-map <Leader>f :b
+map <Leader>f :ls<CR>:buffer<Space>
 
 let mapleader = ","
 

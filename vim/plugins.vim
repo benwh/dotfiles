@@ -37,6 +37,8 @@ let g:ctrlp_working_path_mode = ''
 let g:ctrlp_max_height = 25
 " Sane Ignore For ctrlp
 let g:ctrlp_custom_ignore = { 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$', 'file': '\.exe$\|\.so$\|\.dat$'  }
+" Match by filename only by default. Seems to give better buffer name matching
+let g:ctrlp_by_filename = 1
 
 if executable('ag')
         " Use ag over grep
@@ -143,6 +145,9 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 
 " NERD Commenter
 Bundle 'scrooloose/nerdcommenter'
+
+" NERD Tree
+Bundle 'scrooloose/nerdtree'
 
 " nginx syntax
 Bundle 'evanmiller/nginx-vim-syntax'
