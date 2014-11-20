@@ -16,10 +16,6 @@ then
 	echo "Install git, vim and pip, then re-execute this script"
 	exit 1
 fi
-# If we haven't already cloned vundle, then do it now
-if [[ ! -d $HOME/.vim/bundle/vundle/.git ]]; then
-	git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
-fi
 
 DOTFILESDIR=$(dirname $(readlink -f $0) | sed -e s,$HOME/,, )
 MAPFILE=$HOME/$DOTFILESDIR/install.mapping
@@ -46,8 +42,18 @@ popd > /dev/null
 # Check out all git submodules
 pushd $HOME/$DOTFILESDIR > /dev/null
 git submodule update --init --recursive
-popd > /dev/null
+
+# If we haven't already cloned vundle, then do it now
+if [[ ! -d $DOTFILESDIR/vim/bundle/vundle/.git ]]; then
+	git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
+fi
 
 vim +BundleInstall! +qall
+popd > /dev/null
+
+# Build vimproc library
+cd vim/bundle/vimproc > /dev/null
+make
+popd > /dev/null
 
 echo "If this is the first time running this script, then start a new shell"
