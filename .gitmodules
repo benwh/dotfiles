@@ -1,3 +1,6 @@
 [submodule "vendor/rupa-z"]
 	path = vendor/rupa-z
 	url = https://github.com/rupa/z.git
+[submodule "vendor/micha-resty"]
+	path = vendor/micha-resty
+	url = https://github.com/micha/resty.git
