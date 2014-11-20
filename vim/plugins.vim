@@ -78,6 +78,10 @@ Bundle 'pangloss/vim-javascript'
 " JellyBeans colour scheme
 Bundle 'nanotech/jellybeans.vim'
 
+" Bundle vim-json
+Bundle 'elzr/vim-json'
+let g:vim_json_syntax_conceal = 0
+
 " JST/EJS highlighting + indenting
 "Bundle 'rummik/vim-jst'
 

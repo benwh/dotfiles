@@ -16,6 +16,10 @@ then
 	echo "Install git, vim and pip, then re-execute this script"
 	exit 1
 fi
+# If we haven't already cloned vundle, then do it now
+if [[ ! -d $HOME/.vim/bundle/vundle/.git ]]; then
+	git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+fi
 
 DOTFILESDIR=$(dirname $(readlink -f $0) | sed -e s,$HOME/,, )
 MAPFILE=$HOME/$DOTFILESDIR/install.mapping
@@ -43,14 +47,6 @@ popd > /dev/null
 pushd $HOME/$DOTFILESDIR > /dev/null
 git submodule update --init --recursive
 popd > /dev/null
-
-# If we haven't already cloned vundle, then do it now
-if [[ ! -d $HOME/.vim/bundle/vundle/.git ]]; then
-	git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
-fi
-
-# Install powerline
-pip install --user git+git://github.com/Lokaltog/powerline
 
 vim +BundleInstall! +qall
 
