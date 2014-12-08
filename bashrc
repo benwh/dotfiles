@@ -38,7 +38,7 @@ fi
 
 
 export LS_OPTIONS='--color=auto'
-export GREP_OPTIONS='--color'
+GREP_OPTIONS='--color'
 export PERL_CPANM_OPT='--sudo '
 
 if [ -x /usr/bin/dircolors ]
@@ -64,6 +64,7 @@ alias vless='/usr/share/vim/vimcurrent/macros/less.sh'
 alias du1='du -h --max-depth=1'
 alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
+alias grep='grep $GREP_OPTIONS'
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
