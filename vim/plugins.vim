@@ -160,9 +160,9 @@ Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'occur.vim'
 
 " PHP stuff{{{
-Plugin 'StanAngeloff/php.vim'
-Plugin 'rayburgemeestre/phpfolding.vim'
-Plugin '2072/PHP-Indenting-for-VIm'
+Bundle 'StanAngeloff/php.vim'
+Bundle 'rayburgemeestre/phpfolding.vim'
+Bundle '2072/PHP-Indenting-for-VIm'
 " Include the '$' as part of identifiers.
 let php_var_selector_is_identifier = 1
 
@@ -177,6 +177,9 @@ let g:phpcomplete_index_composer_command = 'composer'
 
 " Powerline{{{
 if has('python') && executable('powerline')
+    if (isdirectory('/usr/lib/python3.4/site-packages'))
+        let $PYTHONPATH='/usr/lib/python3.4/site-packages'
+    endif
     python from powerline.vim import setup as powerline_setup
     python powerline_setup()
     python del powerline_setup
