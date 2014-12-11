@@ -49,7 +49,6 @@ if [[ ! -d $DOTFILESDIR/vim/bundle/vundle/.git ]]; then
 fi
 
 vim +BundleInstall! +qall
-popd > /dev/null
 
 # Build vimproc library
 cd vim/bundle/vimproc > /dev/null
