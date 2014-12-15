@@ -44,11 +44,13 @@ pushd $HOME/$DOTFILESDIR > /dev/null
 git submodule update --init --recursive
 
 # If we haven't already cloned vundle, then do it now
-if [[ ! -d $DOTFILESDIR/vim/bundle/vundle/.git ]]; then
+if [[ ! -d vim/bundle/vundle/.git ]]; then
 	git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
+	vim +BundleInstall! +qall
+else
+	vim +BundleInstall +qall
 fi
 
-vim +BundleInstall! +qall
 
 # Build vimproc library
 cd vim/bundle/vimproc > /dev/null

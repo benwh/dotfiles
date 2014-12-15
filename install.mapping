@@ -7,3 +7,5 @@ vim:.vim
 vim/vimrc:.vimrc
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global
+scmbrc:.scmbrc
+scmbrc.git:.git.scmbrc

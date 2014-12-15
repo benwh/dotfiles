@@ -4,3 +4,6 @@
 [submodule "vendor/micha-resty"]
 	path = vendor/micha-resty
 	url = https://github.com/micha/resty.git
+[submodule "vendor/ndbroadbent-scm_breeze"]
+	path = vendor/ndbroadbent-scm_breeze
+	url = https://github.com/ndbroadbent/scm_breeze.git

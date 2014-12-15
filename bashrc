@@ -102,4 +102,4 @@ export HISTTIMEFORMAT="%s "
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Enable SCM Breeze
-[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"
+[ -s "$HOME/dotfiles/vendor/ndbroadbent-scm_breeze/scm_breeze.sh" ] && source "$HOME/dotfiles/vendor/ndbroadbent-scm_breeze/scm_breeze.sh"
