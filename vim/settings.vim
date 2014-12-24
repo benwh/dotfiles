@@ -238,6 +238,14 @@ augroup filetype_html
 augroup END
 "}}}
 
+
+" JSON:{{{
+augroup filetype_json
+	autocmd!
+	autocmd FileType json set foldlevel=1
+augroup END
+"}}}
+
 " PHP:{{{
 " PHP highlighting extras
 let php_sql_query = 1
