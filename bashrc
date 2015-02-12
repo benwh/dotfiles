@@ -53,8 +53,6 @@ alias ls='ls $LS_OPTIONS'
 alias l='ls $LS_OPTIONS -llAh'
 alias lsl='ls -lh --color=always | less -r'
 alias recent="ls -lAt | head"
-alias sr="screen -aAr"
-alias scr="screen"
 alias sus="sudo su -"
 alias s='sudo'
 alias iostat='iostat -x'
@@ -65,6 +63,7 @@ alias du1='du -h --max-depth=1'
 alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
 alias grep='grep $GREP_OPTIONS'
+alias rm='rm -I'
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
