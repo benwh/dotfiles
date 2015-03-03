@@ -66,9 +66,6 @@ Bundle 'Blackrush/vim-gocode'
 " Go autocompletion
 Bundle 'nsf/gocode', {'rtp': 'vim/'}
 
-" Git gutter
-Bundle 'airblade/vim-gitgutter'
-
 " ir_black colour scheme
 Bundle 'wgibbs/vim-irblack'
 
@@ -189,8 +186,8 @@ let g:Powerline_symbols = 'fancy'
 
 "}}}
 
-" vimproc - for phpcomplete and potentially more
-Bundle 'Shougo/vimproc'
+" Signify - VCS diff in gutter
+Bundle 'mhinz/vim-signify'
 
 " Smart Tabs - fork with fixes
 "Bundle 'skroll/Smart-Tabs'
@@ -231,6 +228,9 @@ Bundle 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
 " unite - for phpcomplete and potentially more
 Bundle 'Shougo/unite.vim'
+
+" vimproc - for phpcomplete and potentially more
+Bundle 'Shougo/vimproc'
 
 " Display whitespace
 Bundle 'benwh/vim-trailing-whitespace'
