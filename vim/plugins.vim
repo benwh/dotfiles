@@ -18,6 +18,12 @@ Bundle 'gmarik/vundle'
 "Ag
 Bundle 'epmatsw/ag.vim'
 
+" Airline{{{
+Bundle 'bling/vim-airline'
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'dark'
+"}}}
+
 " Align
 Bundle 'Align'
 
@@ -169,20 +175,6 @@ let g:phpcomplete_index_composer_command = 'composer'
 
 " PIV - PHP integration
 "Bundle 'spf13/PIV'
-
-"}}}
-
-" Powerline{{{
-if has('python') && executable('powerline')
-    if (isdirectory('/usr/lib/python3.4/site-packages'))
-        let $PYTHONPATH='/usr/lib/python3.4/site-packages'
-    endif
-    python from powerline.vim import setup as powerline_setup
-    python powerline_setup()
-    python del powerline_setup
-endif
-
-let g:Powerline_symbols = 'fancy'
 
 "}}}
 

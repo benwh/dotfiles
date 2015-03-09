@@ -10,10 +10,9 @@ command_exists () {
 
 # Check for binaries on PATH that are required for installation of plugins
 if	   ! command_exists git \
-	|| ! command_exists vim \
-	|| ! command_exists pip
+	|| ! command_exists vim
 then
-	echo "Install git, vim and pip, then re-execute this script"
+	echo "Install git and vim, then re-execute this script"
 	exit 1
 fi
 
