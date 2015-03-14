@@ -47,15 +47,15 @@ let g:ctrlp_custom_ignore = { 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/i
 let g:ctrlp_by_filename = 1
 
 if executable('ag')
-        " Use ag over grep
-        set grepprg=ag\ --nogroup\ --nocolor
+    " Use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
 
-        " Use ag in CtrlP for listing files. Lightning fast and
-        " respects .gitignore
-        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " Use ag in CtrlP for listing files. Lightning fast and
+    " respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-        " ag is fast enough that CtrlP doesn't need to cache
-        let g:ctrlp_use_caching = 0
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
 endif
 
 "}}}
@@ -169,9 +169,11 @@ Bundle '2072/PHP-Indenting-for-VIm'
 " Include the '$' as part of identifiers.
 let php_var_selector_is_identifier = 1
 
-Bundle 'm2mdas/phpcomplete-extended'
-autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
-let g:phpcomplete_index_composer_command = 'composer'
+if executable('php')
+    Bundle 'm2mdas/phpcomplete-extended'
+    autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
+    let g:phpcomplete_index_composer_command = 'composer'
+endif
 
 " PIV - PHP integration
 "Bundle 'spf13/PIV'
