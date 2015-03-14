@@ -224,6 +224,9 @@ Bundle 'Shougo/unite.vim'
 " vimproc - for phpcomplete and potentially more
 Bundle 'Shougo/vimproc'
 
+" vimux - tmux integration
+Bundle 'benmills/vimux'
+
 " Display whitespace
 Bundle 'benwh/vim-trailing-whitespace'
 
