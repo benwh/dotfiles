@@ -53,7 +53,7 @@ fi
 
 # Build vimproc library
 cd vim/bundle/vimproc > /dev/null
-make
+make > /dev/null
 popd > /dev/null
 
 echo "If this is the first time running this script, then start a new shell"
