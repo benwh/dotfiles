@@ -32,6 +32,12 @@ Bundle 'jiangmiao/auto-pairs'
 
 " CtrlP fuzzy finder{{{
 Bundle 'kien/ctrlp.vim'
+if has('python')
+	Bundle 'JazzCore/ctrlp-cmatcher'
+	if filereadable(expand('~/.vim/bundle/ctrlp-cmatcher/autoload/fuzzycomt.so'))
+		let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+	endif
+endif
 
 " Use files+buffers+MRU mode as default
 let g:ctrlp_cmd = 'CtrlPMixed'

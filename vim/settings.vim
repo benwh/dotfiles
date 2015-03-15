@@ -71,13 +71,6 @@ if $TERM =~ '^screen-256color'
 	imap <Esc>OF <End>
 endif
 
-" Status line
-if exists("g:loaded_syntastic_plugin")
-	"set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%{SyntasticStatuslineFlag()}%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
-else
-	"set statusline=%02n:%<%1*%f%*\ %h%m%r%#warningmsg#%*%=line:\ %l\ of\ %L,\ col:\ %c%V\ (%P)
-endif
-
 " Mouse settings
 if has("mouse")
 	set mouse=v
@@ -265,6 +258,8 @@ augroup END
 
 "}}}
 
+"}}}
+
 " Key bindings {{{
 
 " Buffer switching/manipulation
@@ -321,5 +316,7 @@ nmap <Leader>n :cn<CR>
 
 " Re-sync syntax highlighting from start of file if its broken (usually PHP)
 noremap <F10> <Esc>:syntax sync fromstart<CR>
+
+nmap <C-L> :CtrlPBuffer<CR>
 
 "}}}
