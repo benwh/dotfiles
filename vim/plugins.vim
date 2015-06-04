@@ -16,7 +16,7 @@ Bundle 'gmarik/vundle'
 "Bundle 'mileszs/ack.vim'
 
 "Ag
-Bundle 'epmatsw/ag.vim'
+Bundle 'rking/ag.vim'
 
 " Airline{{{
 Bundle 'bling/vim-airline'
