@@ -27,6 +27,9 @@ let g:airline_theme = 'dark'
 " Align
 Bundle 'Align'
 
+" Ansible
+Bundle 'chase/vim-ansible-yaml'
+
 " auto-pairs
 Bundle 'jiangmiao/auto-pairs'
 
