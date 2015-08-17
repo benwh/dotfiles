@@ -10,3 +10,6 @@
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
+[submodule "vendor/pixelb-ps_mem"]
+	path = vendor/pixelb-ps_mem
+	url = https://github.com/pixelb/ps_mem.git

@@ -19,8 +19,15 @@ fi
 DOTFILESDIR=$(dirname $(readlink -f $0) | sed -e s,$HOME/,, )
 MAPFILE=$HOME/$DOTFILESDIR/install.mapping
 
+# Check out all git submodules
+pushd $HOME/$DOTFILESDIR > /dev/null
+git submodule update --init --recursive
+
 # cd to $HOME so that we can create relative symlinks
 pushd $HOME > /dev/null
+
+# Add some standard directories
+mkdir -p ~/bin/
 
 # Iterate over the mappings in the mapping file
 for kv in $(cat $MAPFILE); do
@@ -32,15 +39,11 @@ for kv in $(cat $MAPFILE); do
 	# Check to see if there's already a symlink between the destination and source paths
 	if [ "$(readlink -e $HOME/$DEST)" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
 		# If not, create a relative symlink, backing up any old file with the same name
-		ln -b -s $DOTFILESDIR/$SOURCE $DEST
+		ln -b -s -r $DOTFILESDIR/$SOURCE $DEST
 	fi
 done
 
 popd > /dev/null
-
-# Check out all git submodules
-pushd $HOME/$DOTFILESDIR > /dev/null
-git submodule update --init --recursive
 
 # If we haven't already cloned vundle, then do it now
 if [[ ! -d vim/bundle/vundle/.git ]]; then
