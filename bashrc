@@ -22,6 +22,7 @@ then
 	if [ $OSTYPE != "msys" ]
 	then
 		stty stop ''
+		stty -ixon
 	fi
 fi
 umask 022
@@ -102,3 +103,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)
 
 # Enable SCM Breeze
 [ -s "$HOME/dotfiles/vendor/ndbroadbent-scm_breeze/scm_breeze.sh" ] && source "$HOME/dotfiles/vendor/ndbroadbent-scm_breeze/scm_breeze.sh"
+
+export NVM_DIR="/home/ben/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+source ~/.autoenv/activate.sh

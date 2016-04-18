@@ -34,7 +34,7 @@ Bundle 'chase/vim-ansible-yaml'
 Bundle 'jiangmiao/auto-pairs'
 
 " CtrlP fuzzy finder{{{
-Bundle 'kien/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 if has('python')
 	Bundle 'JazzCore/ctrlp-cmatcher'
 	if filereadable(expand('~/.vim/bundle/ctrlp-cmatcher/autoload/fuzzycomt.so'))
@@ -71,6 +71,9 @@ endif
 
 " Command-T finder
 "Bundle 'git://git.wincent.com/command-t.git'
+
+" Indentation detection
+"Bundle 'ciaranm/detectindent'
 
 " Fugitive - Git integration
 Bundle 'tpope/vim-fugitive'
@@ -208,6 +211,9 @@ Bundle 'tpope/vim-sleuth'
 "let g:snips_author = 'Ben Wheatley <contact@benwh.com>'
 
 "}}}
+
+"" Splice - 3-way merge resolution
+"Bundle 'sjl/splice.vim'
 
 " Synic colour scheme
 Bundle 'synic.vim'
