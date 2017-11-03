@@ -2,3 +2,4 @@
 tmp
 .phpcomplete_extended/
 index_cache
+*.iml

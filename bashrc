@@ -65,6 +65,7 @@ alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
 alias grep='grep $GREP_OPTIONS'
 alias rm='rm -I'
+alias ag='ag --hidden' # By default it doesn't search dotfiles, which can result in a lot of wasted time
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
@@ -94,6 +95,12 @@ GOBIN=$GOROOT/bin:$MYGO/bin
 export GOPATH=$GOROOT:$MYGO
 export PATH=$GOBIN:$PATH
 
+ARCPATH=$HOME/src/arcanist/bin
+export PATH=$ARCPATH:$PATH
+
+CARGOPATH=$HOME/.cargo/bin
+export PATH=$CARGOPATH:$PATH
+
 # Bash eternal history:
 # http://www.debian-administration.org/articles/543
 [[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
@@ -110,3 +117,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 
 
+
+export FZF_CTRL_R_OPTS="--exact"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'

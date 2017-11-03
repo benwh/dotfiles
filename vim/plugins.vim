@@ -55,16 +55,24 @@ let g:ctrlp_custom_ignore = { 'dir': '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/i
 " Match by filename only by default. Seems to give better buffer name matching
 let g:ctrlp_by_filename = 1
 
-if executable('ag')
-    " Use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+elseif executable('sift')
+    set grepprg=sift\ -nMs\ --no-color\ --binary-skip\ --column\ --no-group\ --git\ --follow
+    set grepformat=%f:%l:%c:%m
+elseif executable('ag')
+    set grepprg=ag\ --vimgrep\ --ignore=\"**.min.js\"
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
     " Use ag in CtrlP for listing files. Lightning fast and
     " respects .gitignore
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
+elseif executable('ack')
+    set grepprg=ack\ --nogroup\ --nocolor\ --ignore-case\ --column
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
 "}}}
@@ -77,6 +85,14 @@ endif
 
 " Fugitive - Git integration
 Bundle 'tpope/vim-fugitive'
+
+" fzf - fuzzy finder
+Bundle 'junegunn/fzf.vim'
+
+" vim/tmux compatible
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+" neovim version:
+" command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " Golang - distribution plugins plus extras
 Bundle 'Blackrush/vim-gocode'
