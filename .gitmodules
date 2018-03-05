@@ -4,12 +4,12 @@
 [submodule "vendor/micha-resty"]
 	path = vendor/micha-resty
 	url = https://github.com/micha/resty.git
-[submodule "vendor/ndbroadbent-scm_breeze"]
-	path = vendor/ndbroadbent-scm_breeze
-	url = https://github.com/ndbroadbent/scm_breeze.git
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
 [submodule "vendor/pixelb-ps_mem"]
 	path = vendor/pixelb-ps_mem
 	url = https://github.com/pixelb/ps_mem.git
+[submodule "vendor/scmbreeze-scm_breeze"]
+	path = vendor/scmbreeze-scm_breeze
+	url = git://github.com/scmbreeze/scm_breeze.git
