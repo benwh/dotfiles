@@ -13,3 +13,6 @@
 [submodule "vendor/scmbreeze-scm_breeze"]
 	path = vendor/scmbreeze-scm_breeze
 	url = git://github.com/scmbreeze/scm_breeze.git
+[submodule "vendor/junegunn-vim-plug"]
+	path = vendor/junegunn-vim-plug
+	url = https://github.com/junegunn/vim-plug
