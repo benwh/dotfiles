@@ -2,7 +2,6 @@ set bind-tty-special-chars off
 set completion-ignore-case on
 set editing-mode vi
 set show-all-if-ambiguous on
-"jj": vi-movement-mode
 
 # Make HOME and END work
 # VT
