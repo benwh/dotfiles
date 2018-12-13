@@ -97,7 +97,7 @@ vnice() {
 			shift
 		done
 	else
-		ionice -n7 nice -n20 $@
+		ionice -n7 nice -n20 "$@"
 	fi
 }
 
@@ -131,7 +131,7 @@ agreplace() {
 	fi
 	#ag -l $1 | xargs sed -i "s#$1#$2#g"
 	echo "ag -l $1 | xargs perl -pi -0777 -e \"s#${1}#${2}#g\""
-	ag -l $1 | xargs perl -pi -0777 -e "s#${1}#${2}#g"
+	ag -l "$1" | xargs perl -pi -0777 -e "s#${1}#${2}#g"
 }
 
 applyenv() {
