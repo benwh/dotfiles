@@ -1,6 +1,18 @@
-# Assumptions are made that the dotfiles directory is residing under $HOME, in order to provide relative symlinks
-if [[ -z "$(readlink -f $0 | grep $HOME)" ]]; then
-	echo "$(readlink -f $0) must reside under $HOME"
+set -o nounset
+set -o errexit
+
+if [[ "$(uname)" == "Darwin" ]]; then
+	READLINK=greadlink
+	LN=gln
+else
+	READLINK=readlink
+	LN=ln
+fi
+
+# Assumptions are made that the dotfiles directory is residing under $HOME, in order to provide
+# relative symlinks
+if [[ -z "$($READLINK -f $0 | grep $HOME)" ]]; then
+	echo "$($READLINK -f $0) must reside under $HOME"
 	exit 1
 fi
 
@@ -9,22 +21,22 @@ command_exists () {
 }
 
 # Check for binaries on PATH that are required for installation of plugins
-if	   ! command_exists git \
-	|| ! command_exists vim
+if	!			command_exists git \
+		||	! command_exists vim
 then
 	echo "Install git and vim, then re-execute this script"
 	exit 1
 fi
 
-DOTFILESDIR=$(dirname $(readlink -f $0) | sed -e s,$HOME/,, )
+DOTFILESDIR="$(dirname $($READLINK -f $0) | sed -e s,$HOME/,, )"
 MAPFILE=$HOME/$DOTFILESDIR/install.mapping
 
 # Check out all git submodules
-pushd $HOME/$DOTFILESDIR > /dev/null
+pushd "$HOME/$DOTFILESDIR" > /dev/null
 git submodule update --init --recursive
 
 # cd to $HOME so that we can create relative symlinks
-pushd $HOME > /dev/null
+pushd "$HOME" > /dev/null
 
 # Add some standard directories
 mkdir -p ~/bin/
