@@ -8,6 +8,7 @@ vim:.vim
 vim/vimrc:.vimrc
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global
+psqlrc:.psqlrc
 scmbrc:.scmbrc
 scmbrc.git:.git.scmbrc
 vendor/pixelb-ps_mem/ps_mem.py:bin/ps_mem.py
