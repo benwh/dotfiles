@@ -6,6 +6,7 @@ tmux:.tmux
 tmux/tmux.conf:.tmux.conf
 vim:.vim
 vim/vimrc:.vimrc
+vim/neovim-init.vim:.config/nvim/init.vim
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global
 psqlrc:.psqlrc

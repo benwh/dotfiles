@@ -47,6 +47,10 @@ set hlsearch   " Highlight search match
 set ignorecase " Do case insensitive matching
 set smartcase  " If input has capitals in, then do a case-sensitive search
 set wrapscan   " Searches wrap around at end of file
+set maxmempattern=2000000 " Attempt to prevent running out of memory when jumping to def in big Go files
+" Use 'very magic' without having to type \v every damn time.
+nnoremap / /\v
+cnoremap %s/ %s/\v
 
 " File display settings
 set textwidth=0         " Do not wrap lines in insert mode
@@ -62,6 +66,14 @@ if &term =~? '^\(xterm\|screen\|putty\|konsole\|gnome\)'
 	set titlelen=30       " Don't set a ridiculously huge terminal title
 endif
 
+" Mouse settings
+if has("mouse")
+	set mouse=v
+endif
+set mousemodel=popup_setpos     " Reposition the cursor on right-click
+set mousehide                           " Hide mouse pointer on insert mode."
+
+
 " Handle TERM quirks in vim
 if $TERM =~ '^screen-256color'
 	set t_Co=256
@@ -71,15 +83,10 @@ if $TERM =~ '^screen-256color'
 	imap <Esc>OF <End>
 endif
 
-" Mouse settings
-if has("mouse")
-	set mouse=v
-endif
-set mousemodel=popup_setpos     " Reposition the cursor on right-click
-set mousehide                           " Hide mouse pointer on insert mode."
-
 " Colour and style settings{{{
 set background=dark
+" Unset per-mode cursor styling
+set guicursor=
 
 let g:jellybeans_overrides =
 \{
@@ -96,6 +103,9 @@ if &term == "linux"
 	colorscheme slate
 else
 	set t_Co=256
+	if has('nvim')
+		set termguicolors
+	endif
 	colorscheme jellybeans
 endif
 
@@ -135,11 +145,20 @@ set sessionoptions=blank,buffers,curdir,folds,globals,help,localoptions,options,
 set binary                           " Don't add newlines at the end of files when I don't ask for them
 
 " Viminfo
+" TODO: replace with Shada stuff for nvim
 set history=1000  " Keep 1000 lines of command line history
 set viminfo=
 set viminfo+='100 " Remember 100 previously edited files' marks
 set viminfo+=!    " Remember some global variables
 set viminfo+=h    " Don't restore the hlsearch highlighting
+
+" Upon opening a file, jump to the last position
+if has('nvim')
+  au BufReadPost *
+     \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+     \ |   exe "normal! g`\""
+     \ | endif
+endif
 
 " Directory settings
 set backupdir=~/.backup,.       " list of directories for the backup file
@@ -162,7 +181,7 @@ augroup LargeFile
 	autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
 augroup END
 
-function LargeFile()
+function! LargeFile()
 	" no syntax highlighting etc
 	set eventignore+=FileType
 	" save memory when other file is viewed
@@ -180,16 +199,16 @@ endfunction
 " Folding
 set foldcolumn=0      " columns for folding
 set foldmethod=syntax
-set foldlevel=0
+set foldlevel=6
 " set nofoldenable    " Let's try folding for a while
 
 " Tabbing and Indentation - to be used with SmartTabs plugin
-set noexpandtab " Use tabs for tabbing, not spaces
+set expandtab " Spaces seem to have won :(
 set copyindent
 set preserveindent
 set softtabstop=0
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set cindent  " Also see autoindent
 set cino+=(0 " Line up multi-line parameter lists
 set cino+=u0 " And the same for one level deeper
@@ -199,7 +218,7 @@ set cino+=l1 " Align case statements properly
 "}}}
 
 " Autocmds{{{
-function DeleteIfWhitespaceOnly()
+function! DeleteIfWhitespaceOnly()
 	if getline('.') =~? '^\s\+$'
 		normal! 0
 		normal! "_d$
@@ -230,17 +249,20 @@ endif
 augroup filetype_gitcommit
 	autocmd!
 	autocmd FileType gitcommit setlocal foldlevel=2 spell
+	autocmd FileType gitcommit set nocindent
 augroup END
 "}}}
 
-" Go:{{{
+" Golang:{{{
 augroup filetype_go
 	autocmd!
-	autocmd FileType go setlocal shiftwidth=2 tabstop=2 omnifunc=gocomplete#Complete noexpandtab
+	autocmd FileType go setlocal softtabstop=2 shiftwidth=2 tabstop=2 noexpandtab
+	" Preview is annoying and useless?
 	autocmd FileType go set completeopt-=preview
+	autocmd FileType go nmap <F3> :GoTest -short<cr><cr>
+	autocmd FileType go nmap <F4> :GoCoverageToggle<cr><cr>
 augroup END
 "}}}
-
 
 " HTML:{{{
 augroup filetype_html
@@ -250,11 +272,17 @@ augroup filetype_html
 augroup END
 "}}}
 
-
 " JSON:{{{
 augroup filetype_json
 	autocmd!
 	autocmd FileType json set foldlevel=1
+augroup END
+"}}}
+
+" Markdown:{{{
+augroup filetype_markdown
+	autocmd!
+	autocmd FileType markdown setlocal spell textwidth=80
 augroup END
 "}}}
 
@@ -265,7 +293,15 @@ let php_htmlInStrings = 1
 let php_baselib = 1
 
 " Don't show variables in tag list
-let tlist_php_settings='php;f:function'
+  let tlist_php_settings='php;f:function'
+"}}}
+
+" Quickfix:{{{
+augroup qf
+    autocmd!
+    " Prevent quickfix from appearing in buffer list
+    autocmd FileType qf set nobuflisted
+augroup END
 "}}}
 
 " Vim:{{{
@@ -283,11 +319,10 @@ augroup END
 
 " Buffer switching/manipulation
 let mapleader = '\'
-map <Leader>t :CommandT<Return>
 map <Leader>h :bprev<Return>
 map <Leader>l :bnext<Return>
 map <Leader>d :bd<Return>
-map <Leader>f :ls<CR>:buffer<Space>
+" map <Leader>f :ls<CR>:buffer<Space>
 
 let mapleader = ","
 
@@ -307,8 +342,8 @@ map Q gq
 "make Y consistent with C and D
 nnoremap Y y$
 
-" Disable F1 for help
-map <F1> <Nop>
+" Map F1 to ALEFix
+map <F1> :ALEFix<CR>
 
 " Ctrl-N to clear search results
 nmap <silent> <C-N> :silent noh<CR>
@@ -320,7 +355,7 @@ nmap <C-E> :b#<CR>
 nmap <Leader>e :e **/
 
 " Use sudo to write to protected files, but reload to get rid of the warning
-command W :execute ':silent w !sudo tee % > /dev/null' | :edit!
+command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " Destroy EOL whitespace with <leader>w
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
@@ -334,8 +369,42 @@ map! <S-Insert> <MiddleMouse>
 nmap <Leader>n :cn<CR>
 
 " Re-sync syntax highlighting from start of file if its broken (usually PHP)
-noremap <F10> <Esc>:syntax sync fromstart<CR>
+" noremap <F10> <Esc>:syntax sync fromstart<CR>
 
 nmap <C-L> :CtrlPBuffer<CR>
+
+" Alternatively - map {keys} :set invpaste<CR>
+set pastetoggle=<F10>
+
+" Make completion feel right
+inoremap <silent><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr><CR>  pumvisible() ? "\<C-Y>" : "\<CR>"
+" inoremap <silent><expr><ESC>  pumvisible() ? "\<C-E><ESC>" : "\<ESC>"
+
+" Base64 encode/decode selection (works on a *range*, not just a whole line
+" selection)
+vnoremap <silent> <Leader>atob c<c-r>=system('base64', @")<CR><ESC>
+vnoremap <silent> <Leader>btoa c<c-r>=system('base64 --decode', @")<CR><ESC>
+
+
+" Window movement{{{
+
+" Do the splits
+map <C-W>- <C-W>s<C-W><Down>
+map <C-W>\| <C-W>v<C-W><Right>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+" Go wide
+nnoremap <C-W>w <C-W><Bar>
+" Go tall
+nnoremap <C-W>t <C-W>_
+
+"}}}
+
+" Macro for base64 decode a JSON map value
+" f:f"xf"x<ESC>F:llvt,,btoa<ESC>j
 
 "}}}

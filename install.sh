@@ -28,6 +28,7 @@ pushd $HOME > /dev/null
 
 # Add some standard directories
 mkdir -p ~/bin/
+mkdir -p ~/.config/nvim/
 
 # Iterate over the mappings in the mapping file
 for kv in $(cat $MAPFILE); do
@@ -37,26 +38,15 @@ for kv in $(cat $MAPFILE); do
 	DEST=${MAP[1]}
 
 	# Check to see if there's already a symlink between the destination and source paths
-	if [ "$(readlink -e $HOME/$DEST)" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
+	if [ "$($READLINK -e $HOME/$DEST)" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
 		# If not, create a relative symlink, backing up any old file with the same name
-		ln -b -s -r $DOTFILESDIR/$SOURCE $DEST
+		$LN -b -s -r "$DOTFILESDIR/$SOURCE" "$DEST"
 	fi
 done
 
 popd > /dev/null
 
-# If we haven't already cloned vundle, then do it now
-if [[ ! -d vim/bundle/vundle/.git ]]; then
-	git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
-	vim +BundleInstall! +qall
-else
-	vim +BundleInstall +qall
-fi
-
-
-# Build vimproc library
-cd vim/bundle/vimproc > /dev/null
-make > /dev/null
-popd > /dev/null
+# Install vim plugins
+vim +PlugInstall! +qall
 
 echo "If this is the first time running this script, then start a new shell"

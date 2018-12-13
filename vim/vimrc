@@ -3,16 +3,9 @@
 " Get this out of the way first
 set nocompatible
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+source ~/.vim/plugins.vim
 
-if filereadable(expand("~/.vim/plugins.vim"))
-  source ~/.vim/plugins.vim
-endif
-
-if filereadable(expand("~/.vim/settings.vim"))
-  source ~/.vim/settings.vim
-endif
+source ~/.vim/settings.vim
 
 " Workaround for utf-8 listchars issue
 if filereadable(expand("~/.vim/settings2.vim"))
