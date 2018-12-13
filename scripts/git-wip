@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+git add --all
+
+if [ "$(git log --max-count=1 --pretty=%B)" = "WIP" ]; then
+    # Don't sign because I don't want to deal with the pinentry dialog and am
+    # never going to merge WIP commits.
+    git commit --amend --no-edit --no-gpg-sign
+else
+    git commit --message="WIP" --no-gpg-sign
+fi

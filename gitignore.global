@@ -1,4 +1,9 @@
 *.sw?
-tmp
+/tmp/
 .phpcomplete_extended/
 index_cache
+.env
+.env.*
+.bundle
+.lvimrc
+.ignore

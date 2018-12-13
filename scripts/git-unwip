@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+if [ "$(git log --max-count=1 --pretty=%B)" = "WIP" ]; then
+    git reset --mixed HEAD^
+else
+    echo "No WIP commit"
+    exit 1
+fi
+
