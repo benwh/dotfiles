@@ -145,3 +145,19 @@ applyenv() {
 
 }
 
+ghclone() {
+	git clone "git@github.com:${1}/${2}.git"
+	cd "$2"
+}
+
+function ssh-auto-retry() {     false;     while [ $? -ne 0 ]; do         ssh "$@" || (echo -n ".";sleep 1;false);     done; }
+# function ssh-auto-retry() {
+	# false
+  # while [ $? -ne 0 ] do
+		# ssh "$@" || (echo -n "."; sleep 1; false);
+  # done
+# }
+
+console-kube-psql() {
+	kubectl run --context lab --namespace ben -it --rm=true --restart=Never --image postgres psql --command -- psql "$@"
+}
