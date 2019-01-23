@@ -41,6 +41,7 @@ pushd "$HOME" > /dev/null
 # Add some standard directories
 mkdir -p ~/bin/
 mkdir -p ~/.config/nvim/
+mkdir -p ~/.git-hooks/
 
 # Iterate over the mappings in the mapping file
 for kv in $(cat $MAPFILE); do

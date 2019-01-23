@@ -16,3 +16,4 @@ vendor/pixelb-ps_mem/ps_mem.py:bin/ps_mem.py
 scripts/github-open-pr.sh:bin/github-open-pr
 scripts/git-wip:bin/git-wip
 scripts/git-unwip:bin/git-unwip
+scripts/git-hook-global-pre-push:.git-hooks/pre-push

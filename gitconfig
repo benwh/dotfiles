@@ -19,6 +19,7 @@
     ui = true
 [core]
     excludesfile = ~/.gitignore.global
+    hookspath = ~/.git-hooks
 [alias]
     s       = status
     st      = status -s

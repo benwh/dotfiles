@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This hook exists to stop me from accidentally push (or worse, force-pushing)
+# to "protected" branches. If GitHub didn't disregard branch protection rules
+# for org admins then maybe this awful piece of shell scripting wouldn't be
+# necessary.
+
+set -euo pipefail
+
+# REMOTE_NAME="$1"
+REMOTE_URL="$2"
+CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+
+PROTECTED_BRANCHES="^(master.*|dev)$"
+EXCLUDED_REPOS="^.+:(benwh/dotfiles|some/repo)"
+
+if [[ "$CURRENT_BRANCH" =~ $PROTECTED_BRANCHES ]] && [[ ! "$REMOTE_URL" =~ $EXCLUDED_REPOS ]]; then
+  read -p "Do you really want to push to \"$CURRENT_BRANCH\"? (y/n): " -n 1 -r < /dev/tty
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    exit 0
+  fi
+  echo "Push aborted."
+  exit 1
+fi
