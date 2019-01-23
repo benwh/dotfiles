@@ -77,7 +77,7 @@ alias rg='rg --hidden'
 alias vim='nvim'
 alias view='nvim -R'
 alias k='kubectl'
-alias git-prunebranches='git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
