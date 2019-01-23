@@ -311,6 +311,10 @@ augroup filetype_vim
 augroup END
 "}}}
 
+" YAML:{{{
+let g:ale_fixers = {'yaml': ['prettier']}
+"}}}
+
 "}}}
 
 "}}}
