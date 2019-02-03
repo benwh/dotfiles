@@ -130,6 +130,8 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " Fugitive - Git integration
 Plug 'tpope/vim-fugitive'
+" GitHub support
+Plug 'tpope/vim-rhubarb'
 
 " fuzzy finding
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
