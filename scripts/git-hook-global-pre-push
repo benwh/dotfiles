@@ -12,7 +12,7 @@ REMOTE_URL="$2"
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 
 PROTECTED_BRANCHES="^(master.*|dev)$"
-EXCLUDED_REPOS="^.+:(benwh/dotfiles|some/repo)"
+EXCLUDED_REPOS="^.+:(benwh/dotfiles|benwh/infra|some/repo)"
 
 if [[ "$CURRENT_BRANCH" =~ $PROTECTED_BRANCHES ]] && [[ ! "$REMOTE_URL" =~ $EXCLUDED_REPOS ]]; then
   read -p "Do you really want to push to \"$CURRENT_BRANCH\"? (y/n): " -n 1 -r < /dev/tty
