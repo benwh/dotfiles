@@ -14,8 +14,24 @@ elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
 fi
 
-# Load z, only if running an interactive shell (otherwise scp is cocked up)
-[[ $- == *i* ]] && source $HOME/dotfiles/vendor/rupa-z/z.sh
+# # Load z, only if running an interactive shell (otherwise scp is cocked up)
+# [[ $- == *i* ]] && source $HOME/dotfiles/vendor/rupa-z/z.sh
+
+# Load fasd
+if [ -x "$(command -v fasd)" ]; then
+  fasd_cd() {
+    if [ $# -le 1 ]; then
+      fasd "$@"
+    else
+      local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+      [ -z "$_fasd_ret" ] && return
+      [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+    fi
+  }
+  alias z='fasd_cd -d'
+
+  eval "$(fasd --init bash-hook)"
+fi
 
 # Vi mode ON!
 set -o vi
