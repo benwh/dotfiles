@@ -9,6 +9,7 @@ vim/vimrc:.vimrc
 vim/neovim-init.vim:.config/nvim/init.vim
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global
+pryrc:.pryrc
 psqlrc:.psqlrc
 scmbrc:.scmbrc
 scmbrc.git:.git.scmbrc
