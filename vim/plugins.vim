@@ -4,11 +4,13 @@ call plug#begin('~/.vim/plugged')
 "Bundle 'mileszs/ack.vim'
 
 " Ag
+" TODO: This plugin is deprecated, switch back to ack.vim ?
 Plug 'rking/ag.vim'
 Plug 'Chun-Yang/vim-action-ag'
 " Always use Ag!, which prevents the first result being opened in a buffer
 " immediately after searching.
 cabbrev Ag Ag!
+let g:ag_prg="ag --hidden --ignore .git --vimgrep"
 
 
 " Airline{{{
