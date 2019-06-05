@@ -140,9 +140,9 @@ set autoread                         " Automatically read file that has been cha
 set backspace=indent,eol,start
 set completeopt=menu,preview,longest " Show a menu if more than one match. Show completion source. Don't complete whole word until chosen.
 let bash_is_sh=1                     " Syntax shell files as bash scripts
-set modelines=5                      " Number of lines to check for vim: directives at the start/end of file
+set nomodeline                       " Do not execute modelines, as these can be insecure
 set sessionoptions=blank,buffers,curdir,folds,globals,help,localoptions,options,resize,tabpages,winsize,winpos
-set binary                           " Don't add newlines at the end of files when I don't ask for them
+set nofixendofline                   " Don't add newlines at the end of files when I don't ask for them
 
 " Viminfo
 " TODO: replace with Shada stuff for nvim
