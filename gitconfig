@@ -87,7 +87,10 @@
 [commit]
 	gpgsign = true
 [merge]
-	tool = vimdiff
-	prompt = true
+  tool = sublime_merge
+  prompt = true
 [mergetool "vimdiff"]
   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[mergetool "sublime_merge"]
+  trustExitCode = true
+  cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
