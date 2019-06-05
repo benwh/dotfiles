@@ -1,91 +1,98 @@
 [color]
-    branch = auto
-    diff = auto
-    status = auto
+  branch = auto
+  diff = auto
+  status = auto
 [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
 [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 [color]
-    ui = true
+  ui = true
+
 [core]
-    excludesfile = ~/.gitignore.global
-    hookspath = ~/.git-hooks
+  excludesfile = ~/.gitignore.global
+  hookspath = ~/.git-hooks
+[include]
+  path = .gitconfig.github
+
 [alias]
-    s       = status
-    st      = status -s
-    ss      = status -s -uno
+  s       = status
+  st      = status -s
+  ss      = status -s -uno
 
-    c       = commit
-    cm      = commit -m
-    d = difftool
-    l       = log
-    lg      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit --date=relative
-    lgf     = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen%cI%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit
-    unstage = reset HEAD
-    lgp     = log --reverse --abbrev-commit --format='%h: %s%n%n%b'
-    f       = fetch --all --tags --prune
-    p       = push
+  c       = commit
+  cm      = commit -m
+  d = difftool
+  l       = log
+  lg      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit --date=relative
+  lgf     = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen%cI%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit
+  unstage = reset HEAD
+  lgp     = log --reverse --abbrev-commit --format='%h: %s%n%n%b'
+  f       = fetch --all --tags --prune
+  p       = push
 
-    # Remote update, fetch remote info only
-    ru      = remote update
+  # Remote update, fetch remote info only
+  ru      = remote update
 
-    # Remote log diff, shows commits which exist remotely but not locally
-    rl      = log HEAD..origin/master
-    rlp     = log -p HEAD..origin/master
+  # Remote log diff, shows commits which exist remotely but not locally
+  rl      = log HEAD..origin/master
+  rlp     = log -p HEAD..origin/master
 
-    pushbranch = push -u origin HEAD
-    gud = "!f(){ BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
-    # https://stackoverflow.com/a/33244119
-    catchup = "!f(){ echo -n \"reset \\033[0;33m$(git symbolic-ref -q --short HEAD)\\033[0m to \\033[0;33m$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))\\033[0m? (Y/n) \"; read -r ans; if [ \"$ans\" = \"y\" -o \"$ans\" = \"Y\" -o -z \"$ans\" ]; then git reset --hard $(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)); else echo \"catchup aborted\"; fi }; f"
-    ch = rev-parse HEAD
-    pr = "!f(){ github-open-pr; }; f"
+  pushbranch = push -u origin HEAD
+  gud = "!f(){ BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
+  # https://stackoverflow.com/a/33244119
+  catchup = "!f(){ echo -n \"reset \\033[0;33m$(git symbolic-ref -q --short HEAD)\\033[0m to \\033[0;33m$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))\\033[0m? (Y/n) \"; read -r ans; if [ \"$ans\" = \"y\" -o \"$ans\" = \"Y\" -o -z \"$ans\" ]; then git reset --hard $(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)); else echo \"catchup aborted\"; fi }; f"
+  ch = rev-parse HEAD
+  pr = "!f(){ github-open-pr; }; f"
 
 
-    # https://blog.theodo.fr/2017/06/git-game-advanced-git-aliases/
-    # Show which commits are safe to amend/rebase
-    unpushed = log @{u}..
-    # Show what you've done since yesterday to prepare your standup
-    standup = "!f() { git log --since yesterday --author=$(git config user.email) --oneline --all ; }; f"
-    myhist = "!f() { git log --since '6 months ago' --author=$(git config user.email) --oneline --all ; }; f"
-    # Show the history difference between a local branche and its remote
-    divergence = log --left-right --graph --cherry-pick --oneline $1...origin/$1
-    # Quickly solve conflicts using an editor and then add the conflicted files
-    edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
-    add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+  # https://blog.theodo.fr/2017/06/git-game-advanced-git-aliases/
+  # Show which commits are safe to amend/rebase
+  unpushed = log @{u}..
+  # Show what you've done since yesterday to prepare your standup
+  standup = "!f() { git log --since yesterday --author=$(git config user.email) --oneline --all ; }; f"
+  myhist = "!f() { git log --since '6 months ago' --author=$(git config user.email) --oneline --all ; }; f"
+  # Show the history difference between a local branche and its remote
+  divergence = log --left-right --graph --cherry-pick --oneline $1...origin/$1
+  # Quickly solve conflicts using an editor and then add the conflicted files
+  edit-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
+  add-unmerged = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
 [user]
     name = Ben Wheatley
     email = contact@benwh.com
     #email = benwheatley@gocardless.com
     signingkey = CE78DCE7A8FF3A42
+
+[commit]
+  gpgsign = true
+
 [branch]
     # Auto merge only for remote branches
     # autosetupmerge = true
     # Don't create unintentional and unnecessary merge commits.
     # Remember to use --no-rebase if pulling from a feature branch though
     # autosetuprebase = always
+
 [rebase]
     autostash = true
 [push]
     default = tracking
+
 [diff]
-	tool = vimdiff
+  tool = vimdiff
 [difftool]
-	prompt = false
-[include]
-	path = .gitconfig.github
-[commit]
-	gpgsign = true
+  prompt = false
+
 [merge]
   tool = sublime_merge
   prompt = true
