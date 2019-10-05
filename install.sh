@@ -1,7 +1,10 @@
 set -o nounset
 set -o errexit
 
-if [[ "$(uname)" == "Darwin" ]]; then
+PLATFORM=$(uname)
+DISTRO=$(lsb_release -i -s)
+
+if [[ "$PLATFORM" == "Darwin" ]]; then
 	READLINK=greadlink
 	LN=gln
 else
@@ -51,13 +54,21 @@ for kv in $(cat $MAPFILE); do
 	DEST=${MAP[1]}
 
 	# Check to see if there's already a symlink between the destination and source paths
-	if [ "$($READLINK -e $HOME/$DEST)" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
+	if [ "$($READLINK -e "${HOME}/${DEST}")" != "$HOME/$DOTFILESDIR/$SOURCE" ]; then
 		# If not, create a relative symlink, backing up any old file with the same name
 		$LN -b -s -r "$DOTFILESDIR/$SOURCE" "$DEST"
 	fi
 done
 
 popd > /dev/null
+
+# Install vim dependencies
+if [[ "$DISTRO" == "Ubuntu" ]]; then
+	if ! command_exists pip3; then
+		sudo apt install python3-pip
+	fi
+	pip3 install --upgrade pynvim
+fi
 
 # Install vim plugins
 vim +PlugInstall! +qall
