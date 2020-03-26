@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+name=$1
+
+die() {
+  echo -e "$@" >&2
+  exit 1
+}
+
+search() {
+  grep -h "$1" ~/.ssh/config.d/hosts* | perl -pe 's/Host //g'
+}
+
+if ! results=$(search "$name"); then
+  die "Found no results for '$name'"
+fi
+
+num_results="$(echo "$results" | wc -l)"
+
+if [ "$num_results" -gt 1 ]; then
+  die "Found multiple results for '$name':\n\n$results"
+else
+  ssh "$results" -- "${@:2}"
+fi

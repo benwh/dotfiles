@@ -21,3 +21,4 @@ scripts/time-curl-format.txt:bin/time-curl-format.txt
 scripts/git-wip:bin/git-wip
 scripts/git-unwip:bin/git-unwip
 scripts/git-hook-global-pre-push:.git-hooks/pre-push
+scripts/sshto:bin/sshto
