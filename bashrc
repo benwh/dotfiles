@@ -95,7 +95,7 @@ alias grep='grep $GREP_OPTIONS'
 alias rg='rg --hidden'
 alias vim='nvim'
 alias view='nvim -R'
-alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] && git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] || (echo "Not on master"; exit 1) && git branch --merged master | grep -v "\* master" | xargs -n 1 echo git branch -d'
 alias ag="ag --hidden"
 
 # Kubernetes
