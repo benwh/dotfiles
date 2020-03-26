@@ -21,6 +21,7 @@
 [core]
   excludesfile = ~/.gitignore.global
   hookspath = ~/.git-hooks
+
 [include]
   path = .gitconfig.github
 
@@ -85,19 +86,24 @@
 
 [rebase]
     autostash = true
+
 [push]
     default = tracking
 
 [diff]
   tool = vimdiff
+  noprefix = true
+
 [difftool]
   prompt = false
 
 [merge]
   tool = sublime_merge
   prompt = true
+
 [mergetool "vimdiff"]
   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
 [mergetool "sublime_merge"]
   trustExitCode = true
   cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
