@@ -7,6 +7,9 @@ source "${HOME}/.bashrc.functions"
 # Brew is slow, so calculate the prefix once
 export BREW_PREFIX="/usr/local/opt"
 export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+export HOMEBREW_NO_ANALYTICS=1
 
 if [[ -x "$(command -v brew)" && -f "$(brew --prefix)/share/bash-completion/bash_completion" ]]; then
 	source "$(brew --prefix)/share/bash-completion/bash_completion"
