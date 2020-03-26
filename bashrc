@@ -161,6 +161,19 @@ export FZF_DEFAULT_OPTS='--height 100%'
 # why is no-reverse required??
 export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
 
+# Override the default history function with one that looks at .bash_eternal_history instead
+__fzf_history__() (
+  local line
+  shopt -u nocaseglob nocasematch
+  line=$(
+    tac ~/.bash_eternal_history | uniq | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd)
+  )
+  # Originally there was some grepping going on - not sure why?
+  # I'm expecting the contents of the eternal history file to be completely homogenous, so will skip this.
+  # command grep '^ *[0-9]') &&
+  sed -E 's/^.*[0-9]{10} *//' <<< "$line"
+)
+
 
 # This causes duplicate PATH entries, but the solution is perhaps more unpleasant than the problem.
 # https://github.com/rbenv/rbenv/issues/369#issuecomment-22200587
