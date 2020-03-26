@@ -161,3 +161,9 @@ function ssh-auto-retry() {     false;     while [ $? -ne 0 ]; do         ssh "$
 console-kube-psql() {
 	kubectl run --context lab --namespace ben -it --rm=true --restart=Never --image postgres psql --command -- psql "$@"
 }
+
+body() {
+  IFS= read -r header
+  printf '%s\n' "$header"
+  "$@"
+}
