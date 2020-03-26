@@ -107,3 +107,6 @@
 [mergetool "sublime_merge"]
   trustExitCode = true
   cmd = smerge mergetool \"$BASE\" \"$LOCAL\" \"$REMOTE\" -o \"$MERGED\"
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
