@@ -148,6 +148,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 [ -f "${BREW_PREFIX}/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/autoenv/activate.sh"
 [ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
+[ -f "${BREW_PREFIX}/asdf/asdf.sh"  ] && source "${BREW_PREFIX}/asdf/asdf.sh"
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
 # [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
