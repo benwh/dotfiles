@@ -174,6 +174,32 @@ __fzf_history__() (
   sed -E 's/^.*[0-9]{10} *//' <<< "$line"
 )
 
+# https://github.com/junegunn/fzf/wiki/examples#git
+fzbr() {
+  local branches branch
+  branches=$(
+    git for-each-ref --sort=committerdate --format='%(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)' \
+    | sed "s#origin/##"| uniq | grep -v HEAD) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+fzasdfi() {
+  local lang=${1}
+
+  if [[ ! $lang ]]; then
+    lang=$(asdf plugin-list | fzf)
+  fi
+
+  if [[ $lang ]]; then
+    local versions=$(asdf list-all $lang | fzf -m)
+    if [[ $versions ]]; then
+      for version in $(echo $versions); do
+	asdf install $lang $version
+      done;
+    fi
+  fi
+}
 
 # This causes duplicate PATH entries, but the solution is perhaps more unpleasant than the problem.
 # https://github.com/rbenv/rbenv/issues/369#issuecomment-22200587
