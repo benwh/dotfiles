@@ -282,7 +282,7 @@ augroup END
 " Markdown:{{{
 augroup filetype_markdown
 	autocmd!
-	autocmd FileType markdown setlocal spell textwidth=80
+	autocmd FileType markdown setlocal spell textwidth=80 nocindent
 augroup END
 "}}}
 
