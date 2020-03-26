@@ -20,7 +20,7 @@ let g:airline_theme = 'dark'
 "}}}
 
 " ALE
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 let g:airline#extensions#ale#enabled = 1
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_completion_delay = 500
@@ -32,6 +32,16 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " let g:ale_sign_error = '⤫'
 " let g:ale_sign_warning = '⚠'
+
+" Additional linters:
+let g:ale_linters = { 'go': ['golangci-lint', 'go vet'] }
+
+" Language-specific options
+"
+" Golang
+" ------
+" Disable typecheck due to: https://github.com/golang/lint/issues/43
+let g:ale_go_golangci_lint_options = '--enable-all --disable typecheck'
 
 " Align
 " TODO: https://github.com/junegunn/vim-easy-align
@@ -130,6 +140,8 @@ endfunction
 Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+Plug 'itkq/fluentd-vim'
+
 " Fugitive - Git integration
 Plug 'tpope/vim-fugitive'
 " GitHub support
@@ -157,6 +169,7 @@ let g:go_highlight_operators         = 1
 let g:go_highlight_structs           = 1
 let g:go_highlight_types             = 1
 let g:go_addtags_transform           = "snakecase"
+let g:go_def_mode                    = "godef"
 
 " Go autocompletion
 " Plug 'nsf/gocode', {'rtp': 'vim/'}
@@ -165,9 +178,9 @@ let g:go_addtags_transform           = "snakecase"
 Plug 'buoto/gotests-vim'
 
 " hclfmt - Terraform etc.
-Plug 'fatih/vim-hclfmt'
 Plug 'hashivim/vim-terraform'
 let g:terraform_align = 1
+let g:terraform_fmt_on_save = 1
 
 " ir_black colour scheme
 Plug 'wgibbs/vim-irblack'
@@ -181,6 +194,9 @@ Plug 'nanotech/jellybeans.vim'
 " Bundle vim-json
 Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
+
+" jsonnet syntax
+Plug 'google/vim-jsonnet'
 
 " JST/EJS highlighting + indenting
 "Bundle 'rummik/vim-jst'
@@ -197,6 +213,11 @@ let g:localvimrc_sandbox = 0
 
 " Matchit - with a couple of fixes
 Plug 'tmhedberg/matchit'
+
+" Mark
+Plug 'inkarkat/vim-mark'
+" Mark depends on functions defined in a separate library
+Plug 'inkarkat/vim-ingo-library'
 
 " MiniBufExplorer (new fork: https://github.com/fholgado/minibufexpl.vim)
 " Plug 'weynhamz/vim-plugin-minibufexpl'
@@ -359,7 +380,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 
 " Tagbar
-" Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " Tomorrow colour scheme
 Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
