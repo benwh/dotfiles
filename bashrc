@@ -138,6 +138,7 @@ export GOPATH=$GOROOT:$MYGO
 [[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
 export HISTTIMEFORMAT="%s "
 # Append, because z.sh may have already tampered with PROMPT_COMMAND
+# Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Enable SCM Breeze
