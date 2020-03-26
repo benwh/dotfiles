@@ -216,6 +216,7 @@ fzasdfi() {
 
 export GPG_TTY=$(tty)
 alias be='bundle exec'
+alias bi='bundle install'
 alias tar=gtar
 alias givemedocker='eval $(docker-machine env default)'
 alias c="pbcopy"
@@ -225,6 +226,7 @@ alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
 # Sometimes I cat things that I shouldn't
 alias resettitle='printf "\e]0;\a"'
 alias docker-machine-fix='docker-machine ssh default "sudo mkdir /sys/fs/cgroup/systemd; sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd"'
+alias splits='ts -s "%.S"'
 
 gh() {
 	if git remote > /dev/null; then
