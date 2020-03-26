@@ -14,6 +14,7 @@ psqlrc:.psqlrc
 scmbrc:.scmbrc
 scmbrc.git:.git.scmbrc
 vendor/pixelb-ps_mem/ps_mem.py:bin/ps_mem.py
+scripts/ftwind:bin/ftwind
 scripts/github-open-pr.sh:bin/github-open-pr
 scripts/time-curl:bin/time-curl
 scripts/time-curl-format.txt:bin/time-curl-format.txt
