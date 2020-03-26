@@ -348,6 +348,9 @@ nnoremap Y y$
 
 " Map F1 to ALEFix
 map <F1> :ALEFix<CR>
+" Map ,f to ALEFix too, in case you're working on a system which has decided
+" to omit usable function keys
+map <Leader>f :ALEFix<CR>
 
 " Ctrl-N to clear search results
 nmap <silent> <C-N> :silent noh<CR>
@@ -370,7 +373,7 @@ map <S-Insert> <MiddleMouse>
 map! <S-Insert> <MiddleMouse>
 
 " ,n to get the next location (compilation errors, grep etc)
-nmap <Leader>n :cn<CR>
+" nmap <Leader>n :cn<CR>
 
 " Re-sync syntax highlighting from start of file if its broken (usually PHP)
 " noremap <F10> <Esc>:syntax sync fromstart<CR>
