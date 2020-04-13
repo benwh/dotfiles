@@ -6,6 +6,8 @@ set show-all-if-ambiguous on
 # Make HOME and END work
 # VT
 "\e[1~": beginning-of-line
+# Prevent backspace from sending C-h, which moves between tmux panes
+"\e[3~": delete-char
 "\e[4~": end-of-line
 # # kvt
 "\e[H":beginning-of-line
