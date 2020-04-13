@@ -93,8 +93,6 @@ alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
 alias grep='grep $GREP_OPTIONS'
 alias rg='rg --hidden'
-alias vim='nvim'
-alias view='nvim -R'
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] || (echo "Not on master"; exit 1) && git branch --merged master | grep -v "\* master" | xargs -n 1 echo git branch -d'
 alias ag="ag --hidden"
 alias killsshmux="pkill -f ssh:"
@@ -105,8 +103,10 @@ complete -o default -F __start_kubectl k
 
 ## Shell varibles
 export LS_OPTIONS='--color=auto'
-if type nvim > /dev/null; then
+if type nvim > /dev/null 2>&1; then
 	export EDITOR=nvim
+	alias vim='nvim'
+	alias view='nvim -R'
 else
 	export EDITOR=vim
 fi
