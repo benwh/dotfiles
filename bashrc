@@ -96,12 +96,29 @@ alias rg='rg --hidden'
 alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] || (echo "Not on master"; exit 1) && git branch --merged master | grep -v "\* master" | xargs -n 1 echo git branch -d'
 alias ag="ag --hidden"
 alias killsshmux="pkill -f ssh:"
+alias be='bundle exec'
+alias bi='bundle install'
+alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+alias gpf="git push --force-with-lease"
+alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
+# Sometimes I cat things that I shouldn't
+alias resettitle='printf "\e]0;\a"'
+alias splits='ts -s "%.S"'
 
 # Kubernetes
 alias k='kubectl'
 complete -o default -F __start_kubectl k
 
-## Shell varibles
+
+# macOS-specific things
+if type gtar > /dev/null 2>&1; then
+	alias tar=gtar
+fi
+alias c="pbcopy"
+alias docker-machine-fix='docker-machine ssh default "sudo mkdir /sys/fs/cgroup/systemd; sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd"'
+alias givemedocker='eval $(docker-machine env default)'
+
+## Shell variables
 export LS_OPTIONS='--color=auto'
 if type nvim > /dev/null 2>&1; then
 	export EDITOR=nvim
@@ -112,6 +129,7 @@ else
 fi
 export PAGER=less
 export LESS='-RX'
+export GPG_TTY=$(tty)
 
 # Bash history commands
 export HISTSIZE=10000 # Keep 10000 lines in session history
@@ -213,20 +231,6 @@ fzasdfi() {
 #	__GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
 #	source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
 #fi
-
-export GPG_TTY=$(tty)
-alias be='bundle exec'
-alias bi='bundle install'
-alias tar=gtar
-alias givemedocker='eval $(docker-machine env default)'
-alias c="pbcopy"
-alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
-alias gpf="git push --force-with-lease"
-alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
-# Sometimes I cat things that I shouldn't
-alias resettitle='printf "\e]0;\a"'
-alias docker-machine-fix='docker-machine ssh default "sudo mkdir /sys/fs/cgroup/systemd; sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd"'
-alias splits='ts -s "%.S"'
 
 gh() {
 	if git remote > /dev/null; then
