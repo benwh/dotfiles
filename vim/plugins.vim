@@ -42,6 +42,8 @@ let g:ale_linters = { 'go': ['golangci-lint', 'go vet'] }
 " ------
 " Disable typecheck due to: https://github.com/golang/lint/issues/43
 let g:ale_go_golangci_lint_options = '--enable-all --disable typecheck'
+" TODO: Enable whole package, otherwise it doesn't work?!
+let g:ale_go_golangci_lint_package = 1
 
 " Align
 " TODO: https://github.com/junegunn/vim-easy-align
