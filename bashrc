@@ -155,9 +155,17 @@ export GOPATH=$GOROOT:$MYGO
 # http://www.debian-administration.org/articles/543
 [[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
 export HISTTIMEFORMAT="%s "
+
+# TODO: what is this...
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"
+
 # Append, because z.sh may have already tampered with PROMPT_COMMAND
+if [ -n "$PROMPT_COMMAND" ]; then
+  PROMPT_COMMAND="${PROMPT_COMMAND} ;"
+fi
+
 # Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"'; echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
+PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Enable SCM Breeze
 [ -s "$HOME/dotfiles/vendor/scmbreeze-scm_breeze/scm_breeze.sh" ] && source "$HOME/dotfiles/vendor/scmbreeze-scm_breeze/scm_breeze.sh"
