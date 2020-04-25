@@ -189,17 +189,27 @@ export FZF_DEFAULT_OPTS='--height 100%'
 export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
 
 # Override the default history function with one that looks at .bash_eternal_history instead
-__fzf_history__() (
-  local line
-  shopt -u nocaseglob nocasematch
-  line=$(
-    tac ~/.bash_eternal_history | uniq | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd)
-  )
-  # Originally there was some grepping going on - not sure why?
-  # I'm expecting the contents of the eternal history file to be completely homogenous, so will skip this.
-  # command grep '^ *[0-9]') &&
-  perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//' <<< "$line"
-)
+# This should be kept up to date with the upstream version: https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
+__fzf_history__() {
+  local output
+  output=$(
+
+  # Original code:
+    # builtin fc -lnr -2147483648 |
+      # last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+
+    # Maybe todo: de-dupe?
+    tac ~/.bash_eternal_history | uniq |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) --query "$READLINE_LINE" |
+      perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//'
+  ) || return
+  READLINE_LINE=${output#*$'\t'}
+  if [ -z "$READLINE_POINT" ]; then
+    echo "$READLINE_LINE"
+  else
+    READLINE_POINT=0x7fffffff
+  fi
+}
 
 # https://github.com/junegunn/fzf/wiki/examples#git
 fzbr() {
