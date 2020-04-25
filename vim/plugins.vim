@@ -173,6 +173,9 @@ let g:go_highlight_types             = 1
 let g:go_addtags_transform           = "snakecase"
 let g:go_def_mode                    = "godef"
 
+" ginkgo syntax highlighting
+Plug 'ivy/vim-ginkgo'
+
 " Go autocompletion
 " Plug 'nsf/gocode', {'rtp': 'vim/'}
 
