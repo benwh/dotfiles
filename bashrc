@@ -198,7 +198,7 @@ __fzf_history__() (
   # Originally there was some grepping going on - not sure why?
   # I'm expecting the contents of the eternal history file to be completely homogenous, so will skip this.
   # command grep '^ *[0-9]') &&
-  sed -E 's/^.*[0-9]{10} *//' <<< "$line"
+  perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//' <<< "$line"
 )
 
 # https://github.com/junegunn/fzf/wiki/examples#git
