@@ -2,7 +2,13 @@ set -o nounset
 set -o errexit
 
 PLATFORM=$(uname)
-DISTRO=$(lsb_release -i -s)
+
+if [ -f /etc/os-release ]; then
+	. /etc/os-release
+	DISTRO=$NAME
+elif type lsb_release >/dev/null 2>&1; then
+	DISTRO=$(lsb_release -si)
+fi
 
 if [[ "$PLATFORM" == "Darwin" ]]; then
 	READLINK=greadlink
@@ -63,7 +69,7 @@ done
 popd > /dev/null
 
 # Install vim dependencies
-if [[ "$DISTRO" == "Ubuntu" ]]; then
+if [[ "$PLATFORM" == "Linux" ]]; then
 	if ! command_exists pip3; then
 		sudo apt install python3-pip
 	fi
