@@ -175,6 +175,7 @@ PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_h
 [ -f "${BREW_PREFIX}/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/autoenv/activate.sh"
 [ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
 [ -f "${BREW_PREFIX}/asdf/asdf.sh"  ] && source "${BREW_PREFIX}/asdf/asdf.sh"
+[ -f "${HOME}/.asdf/asdf.sh"  ] && source "${HOME}/.asdf/asdf.sh" && source "${HOME}/.asdf/completions/asdf.bash"
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
 # [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
