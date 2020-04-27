@@ -156,12 +156,12 @@ export GOPATH=$GOROOT:$MYGO
 [[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
 export HISTTIMEFORMAT="%s "
 
-# TODO: what is this...
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND }"
-
-# Append, because z.sh may have already tampered with PROMPT_COMMAND
-if [ -n "$PROMPT_COMMAND" ]; then
-  PROMPT_COMMAND="${PROMPT_COMMAND} ;"
+# We're about to append our eternal history command to PROMPT_COMMAND, but
+# other things may have tampered with PROMPT_COMMAND before this point.
+# To address this, ensure that we separate with a semicolon, but only if there
+# isn't one already present.
+if [ -n "$PROMPT_COMMAND" ] && [[ ! "$PROMPT_COMMAND" =~ \;\s*$ ]]; then
+  PROMPT_COMMAND="${PROMPT_COMMAND};"
 fi
 
 # Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
