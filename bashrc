@@ -5,14 +5,14 @@
 source "${HOME}/.bashrc.functions"
 
 # Brew is slow, so calculate the prefix once
-export BREW_PREFIX="/usr/local/opt"
+export BREW_PREFIX="/usr/local"
 export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_NO_ANALYTICS=1
 
-if [[ -x "$(command -v brew)" && -f "$(brew --prefix)/share/bash-completion/bash_completion" ]]; then
-	source "$(brew --prefix)/share/bash-completion/bash_completion"
+if [[ -f "${BREW_PREFIX}/share/bash-completion/bash_completion" ]]; then
+	source "${BREW_PREFIX}/share/bash-completion/bash_completion"
 elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
 fi
@@ -172,9 +172,9 @@ PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_h
 
 
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
-[ -f "${BREW_PREFIX}/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/autoenv/activate.sh"
+[ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"
 [ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
-[ -f "${BREW_PREFIX}/asdf/asdf.sh"  ] && source "${BREW_PREFIX}/asdf/asdf.sh"
+[ -f "${BREW_PREFIX}/opt/asdf/asdf.sh"  ] && source "${BREW_PREFIX}/opt/asdf/asdf.sh"
 [ -f "${HOME}/.asdf/asdf.sh"  ] && source "${HOME}/.asdf/asdf.sh" && source "${HOME}/.asdf/completions/asdf.bash"
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
