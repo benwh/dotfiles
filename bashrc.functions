@@ -167,3 +167,11 @@ body() {
   printf '%s\n' "$header"
   "$@"
 }
+
+epoch2date() {
+  cmd="date"
+  if type gdate > /dev/null 2>&1; then
+    cmd="gdate"
+  fi
+  $cmd -Iseconds -d "@${1}"
+}
