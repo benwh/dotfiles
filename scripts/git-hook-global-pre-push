@@ -1,9 +1,7 @@
 #!/bin/bash
 
 # This hook exists to stop me from accidentally push (or worse, force-pushing)
-# to "protected" branches. If GitHub didn't disregard branch protection rules
-# for org admins then maybe this awful piece of shell scripting wouldn't be
-# necessary.
+# to "protected" branches.
 
 set -euo pipefail
 
@@ -12,7 +10,9 @@ REMOTE_URL="$2"
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 
 PROTECTED_BRANCHES="^(master.*|dev)$"
-EXCLUDED_REPOS="^.+:(benwh/dotfiles|benwh/infra|some/repo)"
+
+OTHER_REPOS=${GIT_BRANCH_PUSH_EXCLUDED_REPO_PATTERNS:-some/repo}
+EXCLUDED_REPOS="^.+:(benwh/dotfiles|${OTHER_REPOS})"
 EXCLUDED_USERS="^dokku@.+"
 
 if [[ "$CURRENT_BRANCH" =~ $PROTECTED_BRANCHES ]] && \
