@@ -50,8 +50,11 @@
 
   pushbranch = push -u origin HEAD
   gud = "!f(){ BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
+  realgud = "!f(){ git fetch --all; BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
   # https://stackoverflow.com/a/33244119
   catchup = "!f(){ echo -n \"reset \\033[0;33m$(git symbolic-ref -q --short HEAD)\\033[0m to \\033[0;33m$(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD))\\033[0m? (Y/n) \"; read -r ans; if [ \"$ans\" = \"y\" -o \"$ans\" = \"Y\" -o -z \"$ans\" ]; then git reset --hard $(git for-each-ref --format='%(upstream:short)' $(git symbolic-ref -q HEAD)); else echo \"catchup aborted\"; fi }; f"
+  # Switch branch
+  sb = "!f(){ git fetch --all; git checkout $1; }; f"
   ch = rev-parse HEAD
   pr = "!f(){ github-open-pr; }; f"
 
