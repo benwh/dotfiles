@@ -172,8 +172,15 @@ PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_h
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 [ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"
 [ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
-[ -f "${BREW_PREFIX}/opt/asdf/asdf.sh"  ] && source "${BREW_PREFIX}/opt/asdf/asdf.sh"
-[ -f "${HOME}/.asdf/asdf.sh"  ] && source "${HOME}/.asdf/asdf.sh" && source "${HOME}/.asdf/completions/asdf.bash"
+
+if [ -f "${HOME}/.asdf/asdf.sh" ]; then
+	source "${HOME}/.asdf/asdf.sh"
+	source "${HOME}/.asdf/completions/asdf.bash"
+elif [ -f "${BREW_PREFIX}/opt/asdf/asdf.sh" ]; then
+	source "${BREW_PREFIX}/opt/asdf/asdf.sh"
+fi
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
 # [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
