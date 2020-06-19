@@ -101,9 +101,9 @@ alias bi='bundle install'
 alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 alias gpf="git push --force-with-lease"
 alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
-# Sometimes I cat things that I shouldn't
-alias resettitle='printf "\e]0;\a"'
+alias resettitle='printf "\e]0;\a"' # Sometimes I cat things that I shouldn't
 alias splits='ts -s "%.S"'
+alias times='ts "%H:%M:%.S"'
 
 # Kubernetes
 alias k='kubectl'
