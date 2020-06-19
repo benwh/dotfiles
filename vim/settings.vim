@@ -251,6 +251,9 @@ augroup filetype_gitcommit
 	autocmd FileType gitcommit setlocal foldlevel=2 spell
 	autocmd FileType gitcommit set nocindent
 augroup END
+
+" Use gitconfig syntax for my file named 'gitconfig'
+autocmd BufNewFile,BufRead gitconfig setfiletype gitconfig
 "}}}
 
 " Golang:{{{
