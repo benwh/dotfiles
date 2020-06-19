@@ -238,9 +238,6 @@ fzasdfi() {
   fi
 }
 
-# This causes duplicate PATH entries, but the solution is perhaps more unpleasant than the problem.
-# https://github.com/rbenv/rbenv/issues/369#issuecomment-22200587
-[ -x "$(command -v rbenv)" ] && eval "$(rbenv init -)"
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
