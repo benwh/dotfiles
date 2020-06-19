@@ -144,12 +144,10 @@ shopt -s histappend
 shopt -s histverify
 
 # Golang stuff
-# https://patrickmn.com/software/from-r60-to-go1/
-# 'go get' will install in to $HOME/go. My code will live under $HOME/dev/go
-GOROOT=$HOME/go
-MYGO=$HOME/dev/go
-GOBIN=$MYGO/bin:$GOROOT/bin
-export GOPATH=$GOROOT:$MYGO
+# This seems to be required since 1.12, otherwise I can't jump to definition
+# for tags in the standard library
+GOROOT=$(go env GOROOT)
+export GOROOT
 
 # Bash eternal history:
 # http://www.debian-administration.org/articles/543
