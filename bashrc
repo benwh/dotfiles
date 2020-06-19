@@ -5,12 +5,12 @@
 source "${HOME}/.bashrc.functions"
 
 # Brew is slow, so calculate the prefix once
-export BREW_PREFIX="/usr/local"
 export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_NO_ANALYTICS=1
 
+export BREW_PREFIX="/usr/local"
 if [[ -f "${BREW_PREFIX}/share/bash-completion/bash_completion" ]]; then
 	source "${BREW_PREFIX}/share/bash-completion/bash_completion"
 elif [ -f /etc/bash_completion ]; then
@@ -22,18 +22,18 @@ fi
 
 # Load fasd
 if [ -x "$(command -v fasd)" ]; then
-  fasd_cd() {
-    if [ $# -le 1 ]; then
-      fasd "$@"
-    else
-      local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-      [ -z "$_fasd_ret" ] && return
-      [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
-    fi
-  }
-  alias z='fasd_cd -d'
+	fasd_cd() {
+		if [ $# -le 1 ]; then
+			fasd "$@"
+		else
+			local _fasd_ret="$(fasd -e 'printf %s' "$@")"
+			[ -z "$_fasd_ret" ] && return
+			[ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
+		fi
+	}
+	alias z='fasd_cd -d'
 
-  eval "$(fasd --init bash-hook)"
+	eval "$(fasd --init bash-hook)"
 fi
 
 # Vi mode ON!
@@ -60,7 +60,7 @@ then
 	export PS1="\[\e[32;1m\]\u@\H > \[\e[0m\]"
 else
 	# we're not on the console, assume an xterm
-	bash_prompt
+	bash_prompt # from bashrc.functions
 	#export TERM='screen-256color'
 	# TODO: why this no work?
 	#export TERM='xterm-kitty'
@@ -159,7 +159,7 @@ export HISTTIMEFORMAT="%s "
 # To address this, ensure that we separate with a semicolon, but only if there
 # isn't one already present.
 if [ -n "$PROMPT_COMMAND" ] && [[ ! "$PROMPT_COMMAND" =~ \;\s*$ ]]; then
-  PROMPT_COMMAND="${PROMPT_COMMAND};"
+	PROMPT_COMMAND="${PROMPT_COMMAND};"
 fi
 
 # Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
@@ -189,53 +189,52 @@ export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
 # Override the default history function with one that looks at .bash_eternal_history instead
 # This should be kept up to date with the upstream version: https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
 __fzf_history__() {
-  local output
-  output=$(
+	local output
+	output=$(
 
-  # Original code:
-    # builtin fc -lnr -2147483648 |
-      # last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+	# Original code:
+		# builtin fc -lnr -2147483648 |
+			# last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
 
-    # Maybe todo: de-dupe?
-    tac ~/.bash_eternal_history | uniq |
-      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) --query "$READLINE_LINE" |
-      perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//'
-  ) || return
-  READLINE_LINE=${output#*$'\t'}
-  if [ -z "$READLINE_POINT" ]; then
-    echo "$READLINE_LINE"
-  else
-    READLINE_POINT=0x7fffffff
-  fi
+		# Maybe todo: de-dupe?
+		tac ~/.bash_eternal_history | uniq |
+			FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) --query "$READLINE_LINE" |
+			perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//'
+	) || return
+	READLINE_LINE=${output#*$'\t'}
+	if [ -z "$READLINE_POINT" ]; then
+		echo "$READLINE_LINE"
+	else
+		READLINE_POINT=0x7fffffff
+	fi
 }
 
 # https://github.com/junegunn/fzf/wiki/examples#git
 fzbr() {
-  local branches branch
-  branches=$(
-    git for-each-ref --sort=committerdate --format='%(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)' \
-    | sed "s#origin/##"| uniq | grep -v HEAD) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+	local branches branch
+	branches=$(
+		git for-each-ref --sort=committerdate --format='%(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)' \
+		| sed "s#origin/##"| uniq | grep -v HEAD) &&
+	branch=$(echo "$branches" | fzf +m) &&
+	git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 fzasdfi() {
-  local lang=${1}
+	local lang=${1}
 
-  if [[ ! $lang ]]; then
-    lang=$(asdf plugin-list | fzf)
-  fi
+	if [[ ! $lang ]]; then
+		lang=$(asdf plugin-list | fzf)
+	fi
 
-  if [[ $lang ]]; then
-    local versions=$(asdf list-all $lang | fzf -m)
-    if [[ $versions ]]; then
-      for version in $(echo $versions); do
-	asdf install $lang $version
-      done;
-    fi
-  fi
+	if [[ $lang ]]; then
+		local versions=$(asdf list-all $lang | fzf -m)
+		if [[ $versions ]]; then
+			for version in $(echo $versions); do
+				asdf install $lang $version
+			done;
+		fi
+	fi
 }
-
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
