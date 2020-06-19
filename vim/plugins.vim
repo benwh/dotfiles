@@ -387,6 +387,10 @@ Plug 'tpope/vim-surround'
 " Tagbar
 Plug 'majutsushi/tagbar'
 
+" https://github.com/vim-test/vim-test
+Plug 'vim-test/vim-test'
+let test#strategy = "neovim"
+
 " Tomorrow colour scheme
 Plug 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 
