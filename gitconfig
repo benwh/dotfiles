@@ -105,3 +105,7 @@
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
+[pull]
+	# Refuse to do anything but a fast-forward when executing a plain `git pull`.
+	ff = only
