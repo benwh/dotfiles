@@ -39,7 +39,7 @@
 	cm      = commit -m
 	d       = difftool
 	l       = log
-	lg      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit --date     = relative
+	lg      = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit --date=relative
 	lgf     = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen%cI%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue<%an>' --abbrev-commit
 	unstage = reset HEAD
 	lgp     = log --reverse --abbrev-commit --format='%h: %s%n%n%b'
