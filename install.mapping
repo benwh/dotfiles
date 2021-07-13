@@ -22,3 +22,4 @@ scripts/git-wip:bin/git-wip
 scripts/git-unwip:bin/git-unwip
 scripts/git-hook-global-pre-push:.git-hooks/pre-push
 scripts/sshto:bin/sshto
+starship.toml:.config/starship.toml
