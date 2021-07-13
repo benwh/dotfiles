@@ -252,10 +252,10 @@ fzasdfi() {
 #	source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
 #fi
 
-gh() {
+ghbrowse() {
 	if git remote > /dev/null; then
 		URL=$(git remote -v | head -n1 | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#http://#' -e 's@com:@com/@')
-		echo open "$URL"
+		open "$URL"
 	fi
 }
 
