@@ -221,8 +221,7 @@ fzbr() {
 	local branches branch
 	branches=$(
 		git for-each-ref --sort=committerdate --format='%(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)' \
-		| sed "s#origin/##"| uniq | grep -v HEAD) &&
-	branch=$(echo "$branches" | fzf +m) &&
+		| sed "s#origin/##"| uniq | grep -v HEAD) && branch=$(echo "$branches" | fzf +m) &&
 	git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
