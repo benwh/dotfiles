@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+ipm update --confirm=false
+ipm install --packages-file inkdrop-packages.txt
+ipm update --confirm=false
+ipm list --installed --bare > inkdrop-packages.txt

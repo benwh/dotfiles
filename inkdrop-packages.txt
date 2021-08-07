@@ -1,7 +1,7 @@
 copy-code-to-clipboard@0.6.0
 paste-as-markdown@2.0.0
 paste-as-plain-text@2.0.0
-sidetoc@1.11.0
+sidetoc@1.12.0
 spell-checker@2.0.3
 table-editor@1.0.1
 toc@3.0.0

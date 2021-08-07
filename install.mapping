@@ -12,6 +12,7 @@ scripts/git-hook-global-pre-push:.git-hooks/pre-push
 scripts/git-unwip:bin/git-unwip
 scripts/git-wip:bin/git-wip
 scripts/github-open-pr.sh:bin/github-open-pr
+scripts/ipm-import:bin/ipm-import
 scripts/sshto:bin/sshto
 scripts/time-curl-format.txt:bin/time-curl-format.txt
 scripts/time-curl:bin/time-curl
