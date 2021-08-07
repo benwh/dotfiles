@@ -93,13 +93,10 @@ alias du2='du -h --max-depth=2'
 alias du3='du -h --max-depth=3'
 alias grep='grep $GREP_OPTIONS'
 alias rg='rg --hidden'
-alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] || (echo "Not on master"; exit 1) && git branch --merged master | grep -v "\* master" | xargs -n 1 echo git branch -d'
 alias ag="ag --hidden"
 alias killsshmux="pkill -f ssh:"
 alias be='bundle exec'
 alias bi='bundle install'
-alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
-alias gpf="git push --force-with-lease"
 alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
 alias resettitle='printf "\e]0;\a"' # Sometimes I cat things that I shouldn't
 alias splits='ts -s "%.S"'
@@ -108,6 +105,27 @@ alias times='ts "%H:%M:%.S"'
 # Kubernetes
 alias k='kubectl'
 complete -o default -F __start_kubectl k
+
+# Git aliases
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gcm="git commit --amend"
+alias gcmh="git commit --amend -C HEAD"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gcv="git commit --verbose"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias git-prunebranches='[ "$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)" == "master" ] || (echo "Not on master"; exit 1) && git branch --merged master | grep -v "\* master" | xargs -n 1 echo git branch -d'
+alias gl="git log"
+alias gp="git push"
+alias gpf="git push --force-with-lease"
+alias gpl="git pull"
+alias grbc="git rebase --continue"
+alias grm="git rm"
+alias grs="git reset"
+alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 
 
 # macOS-specific things
@@ -165,9 +183,10 @@ fi
 # Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
 PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
-# Enable SCM Breeze
-[ -s "$HOME/dotfiles/vendor/scmbreeze-scm_breeze/scm_breeze.sh" ] && source "$HOME/dotfiles/vendor/scmbreeze-scm_breeze/scm_breeze.sh"
-
+# Load scmpuff if enabled, for numbered git shortcuts
+if [ -x "$(command -v scmpuff)" ]; then
+	eval "$(scmpuff init -s)"
+fi
 
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 [ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"

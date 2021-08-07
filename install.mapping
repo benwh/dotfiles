@@ -7,8 +7,6 @@ inputrc:.inputrc
 kitty.conf:.config/kitty/kitty.conf
 pryrc:.pryrc
 psqlrc:.psqlrc
-scmbrc.git:.git.scmbrc
-scmbrc:.scmbrc
 scripts/ftwind:bin/ftwind
 scripts/git-hook-global-pre-push:.git-hooks/pre-push
 scripts/git-unwip:bin/git-unwip
