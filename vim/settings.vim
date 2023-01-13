@@ -59,9 +59,8 @@ set showmatch           " Show matching brackets.
 set listchars=tab:▷⋅,trail:·,extends:>,precedes:<,eol:$,nbsp:·
 
 " Terminal settings
-if &term =~? '^\(xterm\|screen\|putty\|konsole\|gnome\)'
-	set ttyfast           " Because no one should have to suffer
-	set ttymouse=xterm2   " Assume xterm mouse support
+if &term != "linux"
+	set ttyfast           " Make things faster - has no effect in neovim.
 	set title
 	set titlelen=30       " Don't set a ridiculously huge terminal title
 endif
@@ -299,6 +298,10 @@ let php_baselib = 1
   let tlist_php_settings='php;f:function'
 "}}}
 
+" Ruby:{{{
+" let g:ale_fixers = {'ruby': ['prettier']}
+"}}}
+
 " Quickfix:{{{
 augroup qf
     autocmd!
@@ -315,7 +318,11 @@ augroup END
 "}}}
 
 " YAML:{{{
-let g:ale_fixers = {'yaml': ['prettier']}
+augroup filetype_vim
+	autocmd!
+	autocmd FileType vim setlocal foldmethod=marker
+	" let b:ale_fixers = {'yaml': ['prettier']}
+augroup END
 "}}}
 
 "}}}
@@ -369,7 +376,7 @@ command! W :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " Destroy EOL whitespace with <leader>w
 " http://sartak.org/2011/03/end-of-line-whitespace-in-vim.html
-nmap <Leader>w :%s/\s\+$//<CR>:let @/=''<CR>
+nmap <Leader>w :%s/\v\s\+$//<CR>:let @/=''<CR>
 
 " Make shift-insert work like in Xterm
 map <S-Insert> <MiddleMouse>
@@ -396,6 +403,10 @@ inoremap <silent><expr><CR>  pumvisible() ? "\<C-Y>" : "\<CR>"
 vnoremap <silent> <Leader>atob c<c-r>=system('base64', @")<CR><ESC>
 vnoremap <silent> <Leader>btoa c<c-r>=system('base64 --decode', @")<CR><ESC>
 
+" Navigate quickfix list with ease
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+" nnoremap <silent> c :copen<CR>
 
 " Window movement{{{
 
@@ -417,4 +428,11 @@ nnoremap <C-W>t <C-W>_
 " Macro for base64 decode a JSON map value
 " f:f"xf"x<ESC>F:llvt,,btoa<ESC>j
 
+"}}}
+
+" Functions {{{
+function ReplaceCurlyQuotes()
+  %s/[’]/'/ge
+  %s/[“”]/"/ge
+endfunction
 "}}}
