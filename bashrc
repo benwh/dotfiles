@@ -98,6 +98,8 @@ alias times='ts "%H:%M:%.S"'
 # Kubernetes
 alias k='kubectl'
 complete -o default -F __start_kubectl k
+# TODO: Remove after 1.26
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Git aliases
 alias ga="git add"
