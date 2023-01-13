@@ -4,4 +4,4 @@ set -euo pipefail
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-curl --location --silent --show-error --output /dev/null --write-out "@${SCRIPTDIR}/curl-time-format.txt" "$@"
+curl --location --silent --show-error --output /dev/null --write-out "@${SCRIPTDIR}/time-curl-format.txt" "$@"
