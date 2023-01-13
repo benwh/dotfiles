@@ -1,17 +1,35 @@
 call plug#begin('~/.vim/plugged')
 
-"" Ack
-"Bundle 'mileszs/ack.vim'
 
-" Ag
-" TODO: This plugin is deprecated, switch back to ack.vim ?
-Plug 'rking/ag.vim'
+" Gives a nice TODOToggle command, but doesn't actually highlight like I want
+" Plug 'Dimercel/todo-vim'
+
+" Ack/Ag/rg {{{
+" Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
 Plug 'Chun-Yang/vim-action-ag'
-" Always use Ag!, which prevents the first result being opened in a buffer
-" immediately after searching.
-cabbrev Ag Ag!
-let g:ag_prg="ag --hidden --ignore .git --vimgrep"
 
+" Use ripgrep for searching ⚡️
+" Options include:
+" --vimgrep -> Needed to parse the rg response properly for ack.vim
+" --type-not sql -> Avoid huge sql file dumps as it slows down the search
+" --smart-case -> Search case insensitive if all lowercase pattern, Search case sensitively otherwise
+let g:ackprg = 'rg --vimgrep --smart-case'
+
+" Don't auto close the Quickfix list after pressing '<enter>' on a list item
+let g:ack_autoclose = 0
+
+" Any empty ack search will search for the work the cursor is on
+let g:ack_use_cword_for_empty_search = 1
+
+" Don't jump to first match
+cnoreabbrev Ack Ack!
+cnoreabbrev ag Ack!
+cnoreabbrev Ag Ack!
+
+" Maps <leader>/ so we're ready to type the search keyword
+nnoremap <Leader>/ :Ack!<Space>
+" }}}
 
 " Airline{{{
 Plug 'bling/vim-airline'
@@ -34,7 +52,11 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " let g:ale_sign_warning = '⚠'
 
 " Additional linters:
-let g:ale_linters = { 'go': ['golangci-lint', 'go vet'] }
+let g:ale_linters = { 'go': ['golangci-lint', 'go vet'], 'yaml': 'prettier'}
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'ruby': ['rubocop'],
+\}
 
 " Language-specific options
 "
@@ -122,7 +144,8 @@ else
     endif
 endif
 let g:deoplete#enable_at_startup = 1
-Plug 'zchee/deoplete-go', { 'do': 'make' }
+" TODO: replace with LSP / gopls ?
+" Plug 'zchee/deoplete-go', { 'do': 'make' }
 let g:deoplete#sources#go#pointer = 1
 " TODO: test
 " Irrelevant because longest is set
@@ -155,23 +178,26 @@ Plug 'junegunn/fzf.vim'
 nnoremap <c-p> :FZF<CR>
 nnoremap <Leader>f :Buffers<CR>
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.5, 'yoffset': 1.0, 'border': 'top' } }
 
 " Golang
 Plug 'fatih/vim-go'
-" let g:go_auto_sameids              = 1
+" let g:go_auto_sameids                                                     = 1
 " TODO: it would be nice to have this, but for it to not interfere with ALE
-let g:go_auto_type_info              = 0
-let g:go_fmt_command                 = "goimports"
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types       = 1
-let g:go_highlight_fields            = 1
-let g:go_highlight_functions         = 1
-let g:go_highlight_methods           = 1
-let g:go_highlight_operators         = 1
-let g:go_highlight_structs           = 1
-let g:go_highlight_types             = 1
-let g:go_addtags_transform           = "snakecase"
-let g:go_def_mode                    = "godef"
+let g:go_auto_type_info                                                     = 0
+let g:go_fmt_command                                                        = "goimports"
+let g:go_highlight_build_constraints                                        = 1
+let g:go_highlight_extra_types                                              = 1
+let g:go_highlight_fields                                                   = 1
+let g:go_highlight_functions                                                = 1
+let g:go_highlight_methods                                                  = 1
+let g:go_highlight_operators                                                = 1
+let g:go_highlight_structs                                                  = 1
+let g:go_highlight_types                                                    = 1
+let g:go_addtags_transform                                                  = "snakecase"
+" let g:go_def_mode                                                         = "godef"
+let g:go_def_mode                                                           = "gopls"
+let g:go_info_mode                                                          = "gopls"
 
 " ginkgo syntax highlighting
 Plug 'ivy/vim-ginkgo'
@@ -201,7 +227,12 @@ Plug 'elzr/vim-json'
 let g:vim_json_syntax_conceal = 0
 
 " jsonnet syntax
-Plug 'google/vim-jsonnet'
+" google's repo is the OG, but abandonware
+" Plug 'google/vim-jsonnet'
+Plug 'partcyborg/vim-jsonnet'
+
+" https://github.com/bfrg/vim-jq
+Plug 'bfrg/vim-jq'
 
 " JST/EJS highlighting + indenting
 "Bundle 'rummik/vim-jst'
@@ -215,6 +246,10 @@ let g:localvimrc_persistent = 1
 let g:localvimrc_sandbox = 0
 
 "}}}
+"
+
+" LSP configs: https://github.com/neovim/nvim-lspconfig
+Plug 'neovim/nvim-lspconfig'
 
 " Matchit - with a couple of fixes
 Plug 'tmhedberg/matchit'
@@ -330,6 +365,10 @@ nmap <silent> _ :NERDTreeFind<CR>
 
 "}}}
 
+" Matching colours for paretheses
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
+
 Plug 'kuremu/vim-rename'
 
 Plug 'vim-ruby/vim-ruby'
@@ -387,6 +426,13 @@ Plug 'tpope/vim-surround'
 " Tagbar
 Plug 'majutsushi/tagbar'
 
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Show context of location: https://github.com/nvim-treesitter/nvim-treesitter-context
+Plug 'nvim-treesitter/nvim-treesitter-context'
+
+" packadd nvim-treesitter
+
 " https://github.com/vim-test/vim-test
 Plug 'vim-test/vim-test'
 let test#strategy = "neovim"
@@ -413,3 +459,49 @@ let g:tmux_navigator_disable_when_zoomed = 1
 
 " Initialise plugin system
 call plug#end()
+
+" Treesitter config must come after Plug initialisation
+
+lua << EOF
+
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all"
+  ensure_installed = { "c", "vim", "ruby", "go", "lua", "rust", "jsonnet" },
+
+  -- Install parsers synchronously (only applied to `ensure_installed`)
+  sync_install = false,
+
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
+  -- List of parsers to ignore installing (for "all")
+  ignore_install = { "javascript" },
+
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+
+    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+    -- the name of the parser)
+    -- list of language that will be disabled
+    disable = { },
+    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+    disable = function(lang, buf)
+        local max_filesize = 100 * 1024 -- 100 KB
+        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+        if ok and stats and stats.size > max_filesize then
+            return true
+        end
+    end,
+
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+
+EOF
