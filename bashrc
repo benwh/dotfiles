@@ -178,6 +178,10 @@ if [ -x "$(command -v scmpuff)" ]; then
 	eval "$(scmpuff init -s)"
 fi
 
+if [ -x "$(command -v direnv)" ]; then
+	eval "$(direnv hook bash)"
+fi
+
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 [ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"
 [ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
