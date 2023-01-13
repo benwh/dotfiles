@@ -184,7 +184,6 @@ fi
 
 [ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
 [ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"
-[ -s "$HOME/src/liquidprompt/liquidprompt" ] && source "$HOME/src/liquidprompt/liquidprompt"
 
 if [ -f "${HOME}/.asdf/asdf.sh" ]; then
 	source "${HOME}/.asdf/asdf.sh"
@@ -286,3 +285,14 @@ for filename in ~/.bashrc.private*; do
 	[ -e "$filename" ] || continue
 	source "$filename"
 done
+
+if [ -x "$(command -v starship)" ]; then
+    # Nice terminal window titles, when within tmux too.
+    function set_win_title(){
+        echo -ne "\033]0; $PWD \007"
+    }
+
+    # shellcheck disable=SC2034
+    starship_precmd_user_func="set_win_title"
+    eval "$(starship init bash)"
+fi
