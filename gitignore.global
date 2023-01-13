@@ -7,3 +7,4 @@ index_cache
 .bundle
 .lvimrc
 .ignore
+.tool-versions
