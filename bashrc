@@ -10,13 +10,6 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_NO_ANALYTICS=1
 
-export BREW_PREFIX="/usr/local"
-if [[ -f "${BREW_PREFIX}/share/bash-completion/bash_completion" ]]; then
-	source "${BREW_PREFIX}/share/bash-completion/bash_completion"
-elif [ -f /etc/bash_completion ]; then
-	source /etc/bash_completion
-fi
-
 # # Load z, only if running an interactive shell (otherwise scp is cocked up)
 # [[ $- == *i* ]] && source $HOME/dotfiles/vendor/rupa-z/z.sh
 
@@ -160,12 +153,6 @@ shopt -s histappend
 
 # Don't immediately execute command when using history substitution
 shopt -s histverify
-
-# Golang stuff
-# This seems to be required since 1.12, otherwise I can't jump to definition
-# for tags in the standard library
-GOROOT=$(go env GOROOT)
-export GOROOT
 
 # Bash eternal history:
 # http://www.debian-administration.org/articles/543
