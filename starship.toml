@@ -25,3 +25,11 @@ disabled = true
 ahead = "⇡${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
+
+[time]
+disabled = false
+format = "[$time]($style) "
+style = "yellow"
+
+[gcloud]
+disabled = true
