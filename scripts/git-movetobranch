@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "$(basename "$0"): Move commits to a different branch
+
+Usage: $0 new-branch-name
+" >&2
+  exit 1
+fi
+
+newbranch=$1
+curbranch=$(git rev-parse --abbrev-ref HEAD)
+
+stash=false
+if ! git diff --quiet; then
+  stash=true
+fi
+
+echo "## Moving to new branch"
+git checkout -q -b "$newbranch"
+echo "## Moving back to old branch"
+git checkout -q "$curbranch"
+
+if [[ "$stash" == "true" ]]; then
+  git stash save
+fi
+
+echo "## Resetting to origin"
+git reset --hard "origin/${curbranch}"
+
+echo "## Moving back to new branch"
+git checkout -q "$newbranch"
+
+if [[ "$stash" == "true" ]]; then
+    echo "## Restoring workspace"
+  git stash pop
+fi

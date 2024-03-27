@@ -11,6 +11,7 @@ scripts/ftwind:bin/ftwind
 scripts/git-hook-global-pre-push:.git-hooks/pre-push
 scripts/git-unwip:bin/git-unwip
 scripts/git-wip:bin/git-wip
+scripts/git-movetobranch:bin/git-movetobranch
 scripts/github-open-pr.sh:bin/github-open-pr
 scripts/ipm-import:bin/ipm-import
 scripts/sshto:bin/sshto
