@@ -101,6 +101,10 @@ complete -o default -F __start_kubectl k
 # TODO: Remove after 1.26
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
+# Alias g to git, keep completions
+alias g='git'
+__git_complete g __git_main
+
 # Git aliases
 alias ga="git add"
 alias gb="git branch"

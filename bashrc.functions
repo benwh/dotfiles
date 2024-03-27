@@ -101,20 +101,6 @@ vnice() {
 	fi
 }
 
-g() {
-	if [[ $# == '0' ]]; then
-		git status -s -uno
-	else
-		case $1 in
-			fuss)
-				shift
-				git rebase -i HEAD~"$1";;
-			*)
-				git "$@";;
-		esac
-	fi
-}
-
 svndiff() {
 	svn diff "${@} | colordiff"
 }
