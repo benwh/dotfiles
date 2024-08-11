@@ -110,16 +110,6 @@ hr() {
 	printf '━%.0s' $(seq $COLUMNS);
 }
 
-agreplace() {
-	if [[ $# != '2' ]]; then
-		echo "Usage: agreplace <original> <replacement>"
-		return 1
-	fi
-	#ag -l $1 | xargs sed -i "s#$1#$2#g"
-	echo "ag -l $1 | xargs perl -pi -0777 -e \"s#${1}#${2}#g\""
-	ag -l "$1" | xargs perl -pi -0777 -e "s#${1}#${2}#g"
-}
-
 applyenv() {
 	if [[ $# != '1' ]]; then
 		echo "Usage: applyenv <envname>"

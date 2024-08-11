@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -o nounset
 set -o errexit
 
@@ -51,6 +53,7 @@ pushd "$HOME" > /dev/null
 mkdir -p ~/bin/
 mkdir -p ~/.config/nvim/
 mkdir -p ~/.git-hooks/
+mkdir -p ~/.ssh/c/
 
 # Iterate over the mappings in the mapping file
 for kv in $(cat $MAPFILE); do
