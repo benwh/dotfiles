@@ -6,30 +6,38 @@ export LANGUAGE=en_GB.UTF-8
 (( SOURCED_PROFILE )) && return
 export SOURCED_PROFILE=1
 
-BREW_PREFIX="/usr/local"
-
-export BREW_PREFIX="/usr/local"
-if [[ -f "${BREW_PREFIX}/share/bash-completion/bash_completion" ]]; then
-	source "${BREW_PREFIX}/share/bash-completion/bash_completion"
-elif [ -f /etc/bash_completion ]; then
-	source /etc/bash_completion
+if [ -x "$(command -v /opt/homebrew/bin/brew)" ]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+	HOMEBREW_PREFIX=$(brew --prefix)
 fi
+
+# TODO - can be removed for intel?
+# BREW_PREFIX="/usr/local"
+
+# export BREW_PREFIX="/usr/local"
+
+
+# TODO: Required?
+# source <(kubectl completion bash)
 
 # nvm // node.js // tj/n
 export N_PREFIX=$HOME/n
 
 # PATH
-if [[ -f "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
-	source "${BREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+if [[ -f "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
+	source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
 fi
+
+PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 PATH="/usr/local/opt/ncurses/bin:$PATH"
 PATH="/usr/local/bin:$PATH"
-PATH="$HOME/go/bin/:$PATH"
+PATH="$HOME/go/bin:$PATH"
 PATH="$HOME/dev/go/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/n/bin:$PATH"
 PATH="$HOME/bin:$PATH"
+PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 export PATH
 

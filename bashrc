@@ -59,6 +59,24 @@ else
 	#export TERM='xterm-kitty'
 fi
 
+if [[ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]]; then
+	source "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
+fi
+
+if [[ -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+	source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+elif [ -f /etc/bash_completion ]; then
+	source /etc/bash_completion
+fi
+
+if [[ -f "${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash" ]]; then
+	source "${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash"
+fi
+
+if [[ -r "${HOME}/dotfiles/kubectl_aliases" ]]; then
+	source "${HOME}/dotfiles/kubectl_aliases"
+fi
+
 
 GREP_OPTIONS='--color'
 export PERL_CPANM_OPT='--sudo '
@@ -186,17 +204,9 @@ if [ -x "$(command -v direnv)" ]; then
 	eval "$(direnv hook bash)"
 fi
 
-[ -s "$HOME/.autoenv/activate.sh" ] && source "$HOME/.autoenv/activate.sh"
-[ -f "${BREW_PREFIX}/opt/autoenv/activate.sh"  ] && source "${BREW_PREFIX}/opt/autoenv/activate.sh"
-
-if [ -f "${HOME}/.asdf/asdf.sh" ]; then
-	source "${HOME}/.asdf/asdf.sh"
-	source "${HOME}/.asdf/completions/asdf.bash"
-elif [ -f "${BREW_PREFIX}/opt/asdf/asdf.sh" ]; then
-	source "${BREW_PREFIX}/opt/asdf/asdf.sh"
+if [ -x "$(command -v fnm)" ]; then
+	eval "$(fnm env --use-on-cd)"
 fi
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
 # [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
