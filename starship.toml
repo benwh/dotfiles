@@ -18,6 +18,9 @@ disabled = true
 [golang]
 disabled = true
 
+[java]
+disabled = true
+
 [ruby]
 disabled = true
 
@@ -33,3 +36,29 @@ style = "yellow"
 
 [gcloud]
 disabled = true
+
+[docker_context]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[kubernetes]
+format = '[⛵ $context \($namespace\)]($style) '
+disabled = false
+style = "bold blue"
+
+[[kubernetes.contexts]]
+context_pattern = 'gke_(?P<var_project>.*?production.*?)_(?P<var_region>[\w-]+)_(?P<var_cluster>[\w-]+)'
+context_alias = "gke-$var_project"
+style = "bold red bg:yellow"
+
+[[kubernetes.contexts]]
+context_pattern = 'gke_(?P<var_project>[\w-]+)_(?P<var_region>[\w-]+)_(?P<var_cluster>[\w-]+disaster)'
+context_alias = "gke-$var_project:$var_cluster"
+style = "bold red bg:white"
+
+[[kubernetes.contexts]]
+context_pattern = 'gke_(?P<var_project>[\w-]+)_(?P<var_region>[\w-]+)_(?P<var_cluster>[\w-]+)'
+context_alias = "gke-$var_project"
+style = "dimmed green"
