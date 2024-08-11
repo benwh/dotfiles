@@ -112,6 +112,9 @@ alias smallprompt='unset PROMPT_COMMAND; PS1="> "';
 alias resettitle='printf "\e]0;\a"' # Sometimes I cat things that I shouldn't
 alias splits='ts -s "%.S"'
 alias times='ts "%H:%M:%.S"'
+alias gipr='github-open-pr'
+alias tmux-restore='tmux new -s restore ~/dotfiles/tmux/plugins/tmux-resurrect/scripts/restore.sh'
+alias epochtime='date "+%s"'
 
 # Kubernetes
 alias k='kubectl'
@@ -160,6 +163,7 @@ if type nvim > /dev/null 2>&1; then
 	export EDITOR=nvim
 	alias vim='nvim'
 	alias view='nvim -R'
+	alias vimdiff='nvim -d'
 else
 	export EDITOR=vim
 fi
