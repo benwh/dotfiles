@@ -27,6 +27,7 @@ Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
 " Plug 'honza/vim-snippets'
 
 Plug 'dstein64/vim-startuptime'
+
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
@@ -37,7 +38,7 @@ Plug 'direnv/direnv.vim'
 
 Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
 
-Plug 'ray-x/lsp_signature.nvim'
+" Plug 'ray-x/lsp_signature.nvim'
 
 " Grafana agent configuration file
 Plug 'grafana/vim-alloy', { 'branch': 'main'}
@@ -268,11 +269,6 @@ Plug 'hashivim/vim-terraform'
 let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
 
-" ir_black colour scheme
-" Plug 'wgibbs/vim-irblack'
-
-Plug 'ray-x/aurora'
-
 " vim-javascript (syntax and indentation)
 "Bundle 'pangloss/vim-javascript'
 
@@ -484,10 +480,10 @@ Plug 'tpope/vim-surround'
 " Tagbar
 Plug 'majutsushi/tagbar'
 
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Show context of location: https://github.com/nvim-treesitter/nvim-treesitter-context
-Plug 'nvim-treesitter/nvim-treesitter-context'
+" " Treesitter
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" " Show context of location: https://github.com/nvim-treesitter/nvim-treesitter-context
+" Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " packadd nvim-treesitter
 
@@ -533,51 +529,51 @@ require'lspconfig'.gopls.setup{
 require'lspconfig'.terraformls.setup{}
 require'lspconfig'.tflint.setup{}
 
-require'nvim-treesitter.configs'.setup {
-  -- A list of parser names, or "all"
-  ensure_installed = { "c", "vim", "ruby", "go", "lua", "rust", "jsonnet", "hcl" },
-
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = true,
-
-  -- List of parsers to ignore installing (for "all")
-  ignore_install = { "javascript" },
-
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
-
-    -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-    -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-    -- the name of the parser)
-    -- list of language that will be disabled
-    disable = { },
-    -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
-    disable = function(lang, buf)
-        local max_filesize = 100 * 1024 -- 100 KB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-            return true
-        end
-    end,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
+-- require'nvim-treesitter.configs'.setup {
+--   -- A list of parser names, or "all"
+--   ensure_installed = { "c", "vim", "ruby", "go", "lua", "rust", "jsonnet", "hcl" },
+-- 
+--   -- Install parsers synchronously (only applied to `ensure_installed`)
+--   sync_install = false,
+-- 
+--   -- Automatically install missing parsers when entering buffer
+--   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+--   auto_install = true,
+-- 
+--   -- List of parsers to ignore installing (for "all")
+--   ignore_install = { "javascript" },
+-- 
+--   highlight = {
+--     -- `false` will disable the whole extension
+--     enable = true,
+-- 
+--     -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+--     -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+--     -- the name of the parser)
+--     -- list of language that will be disabled
+--     disable = { },
+--     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+--     disable = function(lang, buf)
+--         local max_filesize = 100 * 1024 -- 100 KB
+--         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+--         if ok and stats and stats.size > max_filesize then
+--             return true
+--         end
+--     end,
+-- 
+--     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+--     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+--     -- Using this option may slow down your editor, and you may see some duplicate highlights.
+--     -- Instead of true it can also be a list of languages
+--     additional_vim_regex_highlighting = false,
+--   },
+-- }
 
 EOF
 
-lua << EOF
-  require "lsp_signature".setup(cfg)
-EOF
+" lua << EOF
+"   require "lsp_signature".setup(cfg)
+" EOF
 
 lua << EOF
   require("bufferline").setup{
