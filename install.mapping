@@ -3,6 +3,7 @@ bashrc.functions:.bashrc.functions
 bashrc:.bashrc
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global
+gpg-agent.conf:.gnupg/gpg-agent.conf
 inputrc:.inputrc
 kitty.conf:.config/kitty/kitty.conf
 pryrc:.pryrc
