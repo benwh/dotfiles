@@ -18,6 +18,7 @@ scripts/ipm-import:bin/ipm-import
 scripts/sshto:bin/sshto
 scripts/time-curl-format.txt:bin/time-curl-format.txt
 scripts/time-curl:bin/time-curl
+ssh_config:.ssh/config
 starship.toml:.config/starship.toml
 tmux/tmux.conf:.tmux.conf
 tmux:.tmux

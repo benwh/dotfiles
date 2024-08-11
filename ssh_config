@@ -1,0 +1,10 @@
+Host *
+  AddKeysToAgent yes
+  StrictHostKeyChecking accept-new
+  ControlMaster auto
+  ControlPath ~/.ssh/c/%C
+  ControlPersist 1m
+  ServerAliveInterval 30
+  SendEnv FAKE
+
+Include config.d/*
