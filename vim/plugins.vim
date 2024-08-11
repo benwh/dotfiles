@@ -1,4 +1,47 @@
+" TODO: replace with Packer? https://github.com/wbthomason/packer.nvim
 call plug#begin('~/.vim/plugged')
+
+" Lua functions, used for many things. todo-comments is one of them.
+Plug 'nvim-lua/plenary.nvim'
+
+
+
+" Testing
+
+
+Plug 'github/copilot.vim', { 'branch': 'release' }
+
+" Already included below
+" Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp', { 'branch': 'main' }
+Plug 'hrsh7th/cmp-buffer', { 'branch': 'main' }
+Plug 'hrsh7th/cmp-path', { 'branch': 'main' }
+Plug 'hrsh7th/cmp-cmdline', { 'branch': 'main' }
+Plug 'hrsh7th/nvim-cmp', { 'branch': 'main' }
+
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets', { 'branch': 'main' }
+
+
+Plug 'L3MON4D3/LuaSnip', {'tag': 'v2.*', 'do': 'make install_jsregexp'}
+" Plug 'honza/vim-snippets'
+
+Plug 'dstein64/vim-startuptime'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+
+Plug 'folke/todo-comments.nvim', { 'branch': 'main' }
+
+Plug 'direnv/direnv.vim'
+
+
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+
+Plug 'ray-x/lsp_signature.nvim'
+
+" Grafana agent configuration file
+Plug 'grafana/vim-alloy', { 'branch': 'main'}
+
 
 
 " Gives a nice TODOToggle command, but doesn't actually highlight like I want
@@ -32,9 +75,15 @@ nnoremap <Leader>/ :Ack!<Space>
 " }}}
 
 " Airline{{{
-Plug 'bling/vim-airline'
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'dark'
+" Plug 'bling/vim-airline'
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme = 'dark'
+
+Plug 'nvim-lualine/lualine.nvim'
+" If you want to have icons in your statusline choose one of these
+Plug 'nvim-tree/nvim-web-devicons'
+
+
 "}}}
 
 " ALE
@@ -52,7 +101,9 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " let g:ale_sign_warning = '⚠'
 
 " Additional linters:
-let g:ale_linters = { 'go': ['golangci-lint', 'go vet'], 'yaml': 'prettier'}
+" TODO: disabled go vet, as it was eating CPU
+" let g:ale_linters = { 'go': ['golangci-lint', 'go vet'], 'yaml': 'prettier'}
+let g:ale_linters = { 'go': ['golangci-lint'], 'yaml': 'prettier'}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop'],
@@ -79,12 +130,12 @@ Plug 'vim-scripts/Align'
 " Plug 'jiangmiao/auto-pairs'
 
 " Buftabline - replacement for minibufexpl
-Plug 'ap/vim-buftabline'
-let g:buftabline_show = 1 " Only show if there's multiple buffers
-let g:buftabline_numbers = 1 " Show buffer numbers
-let g:buftabline_indicators = 1 " Show buffer state (modified)
-let g:buftabline_plug_max = 0 " Disable ordinal buffer switching mappings
-let g:buftabline_separators = 1 " Show separators
+" Plug 'ap/vim-buftabline'
+" let g:buftabline_show = 1 " Only show if there's multiple buffers
+" let g:buftabline_numbers = 1 " Show buffer numbers
+" let g:buftabline_indicators = 1 " Show buffer state (modified)
+" let g:buftabline_plug_max = 0 " Disable ordinal buffer switching mappings
+" let g:buftabline_separators = 1 " Show separators
 
 " " CtrlP fuzzy finder{{{
 " Plug 'ctrlpvim/ctrlp.vim'
@@ -169,6 +220,8 @@ Plug 'itkq/fluentd-vim'
 
 " Fugitive - Git integration
 Plug 'tpope/vim-fugitive'
+command Gblame Git blame
+
 " GitHub support
 Plug 'tpope/vim-rhubarb'
 
@@ -199,6 +252,8 @@ let g:go_addtags_transform                                                  = "s
 let g:go_def_mode                                                           = "gopls"
 let g:go_info_mode                                                          = "gopls"
 
+autocmd FileType go nmap <leader>h  <Plug>(go-referrers)
+
 " ginkgo syntax highlighting
 Plug 'ivy/vim-ginkgo'
 
@@ -214,7 +269,9 @@ let g:terraform_align = 1
 let g:terraform_fmt_on_save = 1
 
 " ir_black colour scheme
-Plug 'wgibbs/vim-irblack'
+" Plug 'wgibbs/vim-irblack'
+
+Plug 'ray-x/aurora'
 
 " vim-javascript (syntax and indentation)
 "Bundle 'pangloss/vim-javascript'
@@ -395,6 +452,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 " Sleuth - Automatic buffer options based on file contents
 Plug 'tpope/vim-sleuth'
 
+" TODO: Drop
 " Snipmate{{{
 "Bundle 'garbas/vim-snipmate'
 "Bundle 'honza/snipmate-snippets'
@@ -464,9 +522,20 @@ call plug#end()
 
 lua << EOF
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+
+require'lspconfig'.tsserver.setup {}
+-- require'lspconfig'.golangci_lint_ls.setup{}
+require'lspconfig'.gopls.setup{
+  filetypes = { "go", "gomod", "gowork", "gotmpl", "ginkgo.go" } -- Add ginkgo
+}
+
+require'lspconfig'.terraformls.setup{}
+require'lspconfig'.tflint.setup{}
+
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "c", "vim", "ruby", "go", "lua", "rust", "jsonnet" },
+  ensure_installed = { "c", "vim", "ruby", "go", "lua", "rust", "jsonnet", "hcl" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -504,4 +573,156 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+EOF
+
+lua << EOF
+  require "lsp_signature".setup(cfg)
+EOF
+
+lua << EOF
+  require("bufferline").setup{
+    options = {
+      numbers = "buffer_id"
+    }
+  }
+EOF
+
+lua << END
+require('lualine').setup()
+END
+
+lua << EOF
+  require("todo-comments").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  -- keywords recognized as todo comments
+  keywords = {
+    FIX = {
+      icon = " ", -- icon used for the sign, and in search results
+      color = "error", -- can be a hex color, or a named color (see below)
+      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+      -- signs = false, -- configure signs for some keywords individually
+    },
+    TODO = { icon = " ", color = "info" },
+    HACK = { icon = " ", color = "warning" },
+    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+  },
+    highlight = {
+        comments_only = true,
+    },
+    search = {
+        -- The default requires a colon. This may return false positives, but I often omit colons so...
+        pattern = [[\b(KEYWORDS)]],
+    },
+}
+EOF
+
+lua <<EOF
+  vim.api.nvim_set_hl(0, '@string', {fg='#59E343'})
+  vim.api.nvim_set_hl(0, '@field', {fg='#f93393'})
+  vim.api.nvim_set_hl(0, '@number', {fg='#e933e3'})
+
+  -- Make gitcommit diff work with non-treesitter compatible themes.
+  vim.cmd [[highlight def link @text.diff.add DiffAdded]]
+  vim.cmd [[highlight def link @text.diff.delete DiffRemoved]]
+EOF
+
+" Testing
+
+" snippets
+lua <<EOF
+  -- require("luasnip.loaders.from_snipmate").lazy_load()
+  require("luasnip.loaders.from_vscode").lazy_load()
+
+  vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+  vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = true})
+  vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+
+  vim.keymap.set({"i", "s"}, "<C-E>", function()
+          if ls.choice_active() then
+                  ls.change_choice(1)
+          end
+  end, {silent = true})
+EOF
+
+" nvim-cmp
+lua <<EOF
+  -- Set up nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      -- { name = 'luasnip' }, -- For luasnip users.
+      -- { name = 'ultisnips' }, -- For ultisnips users.
+      -- { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Set up lspconfig.
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  require('lspconfig')['gopls'].setup {
+    capabilities = capabilities
+  }
+  require('lspconfig')['terraformls'].setup {
+    capabilities = capabilities
+  }
+  require('lspconfig')['tflint'].setup {
+    capabilities = capabilities
+  }
 EOF

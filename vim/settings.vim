@@ -53,8 +53,8 @@ nnoremap / /\v
 cnoremap %s/ %s/\v
 
 " File display settings
-set textwidth=0         " Do not wrap lines in insert mode
-set nowrap              " Do not wrap words in normal mod
+set textwidth=90        " Bump the normal wrap length up a bit
+set nowrap              " Do not wrap words in normal mode
 set showmatch           " Show matching brackets.
 set listchars=tab:▷⋅,trail:·,extends:>,precedes:<,eol:$,nbsp:·
 
@@ -67,7 +67,7 @@ endif
 
 " Mouse settings
 if has("mouse")
-	set mouse=v
+	set mouse=nv
 endif
 set mousemodel=popup_setpos     " Reposition the cursor on right-click
 set mousehide                           " Hide mouse pointer on insert mode."
@@ -86,16 +86,6 @@ endif
 set background=dark
 " Unset per-mode cursor styling
 set guicursor=
-
-let g:jellybeans_overrides =
-\{
-\    'Todo': { 'guifg': 'eeeeee', 'guibg': 'ff0080',
-\              'ctermfg': 'White', 'ctermbg': 'Pink',
-\              'attr': 'bold' },
-\    'Search': { 'guifg': '444444', 'guibg': 'ffd000',
-\              'ctermfg': 'Grey', 'ctermbg': 'Yellow',
-\              'attr': 'bold' },
-\}
 
 if &term == "linux"
 	set t_Co=16
@@ -407,6 +397,9 @@ vnoremap <silent> <Leader>btoa c<c-r>=system('base64 --decode', @")<CR><ESC>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 " nnoremap <silent> c :copen<CR>
+
+" Close everything other than the code
+nnoremap <C-w><C-d> :cclose <CR> :NERDTreeClose <CR>
 
 " Window movement{{{
 
