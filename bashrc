@@ -129,11 +129,14 @@ __git_complete g __git_main
 # Git aliases
 alias ga="git add"
 alias gb="git branch"
+__git_complete gcob _git_branch
 alias gc="git commit"
 alias gcm="git commit --amend"
 alias gcmh="git commit --amend -C HEAD"
 alias gco="git checkout"
+__git_complete gco _git_checkout
 alias gcob="git checkout -b"
+__git_complete gcob _git_checkout
 alias gcv="git commit --verbose"
 alias gd="git diff"
 alias gdc="git diff --cached"
@@ -145,8 +148,11 @@ alias gpl="git pull"
 alias grba="git rebase --abort"
 alias grbc="git rebase --continue"
 alias grm="git rm"
+__git_complete grm _git_rm
 alias grs="git reset"
 alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
+alias gm="git checkout master && git pull"
+alias ge="scmpuff expand"
 
 
 # macOS-specific things

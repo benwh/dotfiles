@@ -53,6 +53,9 @@
 	rl  = log HEAD..origin/master
 	rlp = log -p HEAD..origin/master
 
+	logn = !git log $(git merge-base origin/master HEAD)...HEAD
+	lognr = !git logn --reverse
+
 	pushbranch = push -u origin HEAD
 	gud        = "!f(){ BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
 	realgud    = "!f(){ git fetch --all; BRANCH=$(git rev-parse --abbrev-ref --symbolic-full-name @{u}); git reset --hard "$BRANCH"; }; f"
@@ -77,7 +80,8 @@
 	add-unmerged  = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
 	# https://github.com/nagoya-foundation/co-authored-commit
-  co-commit = "!co_authored_commit(){ usage='usage: git commit -m \"Commit message\" --co \"co_author_name\"\n'; while [ \"${#}\" -gt 0 ]; do case \"${1}\" in -m) shift; message="${1}"; shift;; --co) shift; co_author=\"Co-authored-by: \"${1}\"\n\"; co_authors=\"${co_authors}${co_author}\"; shift;; *) shift;; esac; done; if [ -z \"${co_authors}\" ]; then echo ${usage}; exit 1; fi; if [ -z \"${message}\" ]; then echo ${usage}; exit 1; fi; co_authored_message=\"${message}\n\n\n${co_authors}\"; git commit -m \"${co_authored_message}\"; }; co_authored_commit"
+	co-commit = "!co_authored_commit(){ usage='usage: git commit -m \"Commit message\" --co \"co_author_name\"\n'; while [ \"${#}\" -gt 0 ]; do case \"${1}\" in -m) shift; message="${1}"; shift;; --co) shift; co_author=\"Co-authored-by: \"${1}\"\n\"; co_authors=\"${co_authors}${co_author}\"; shift;; *) shift;; esac; done; if [ -z \"${co_authors}\" ]; then echo ${usage}; exit 1; fi; if [ -z \"${message}\" ]; then echo ${usage}; exit 1; fi; co_authored_message=\"${message}\n\n\n${co_authors}\"; git commit -m \"${co_authored_message}\"; }; co_authored_commit"
+	co-author = !git commit --amend --message=\"$(git show --format=%B --no-patch HEAD)\" --message=\"$(printf 'Co-Authored-By: %s <%s>' \"$(git config --get user.name)\" \"$(git config --get user.email)\")\"
 
 [commit]
 	gpgsign = true
