@@ -152,7 +152,6 @@ __git_complete grm _git_rm
 alias grs="git reset"
 alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 alias gm="git checkout master && git pull"
-alias ge="scmpuff expand"
 
 
 # macOS-specific things
@@ -254,11 +253,11 @@ __fzf_history__() {
 
 # https://github.com/junegunn/fzf/wiki/examples#git
 fzbr() {
-	local branches branch
-	branches=$(
-		git for-each-ref --sort=committerdate --format='%(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) %(color:reset)' \
-		| sed "s#origin/##"| uniq | grep -v HEAD) && branch=$(echo "$branches" | fzf +m) &&
-	git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 fzasdfi() {

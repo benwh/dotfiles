@@ -132,20 +132,33 @@ applyenv() {
 }
 
 ghclone() {
-	git clone "git@github.com:${1}/${2}.git"
-	cd "$2"
+	if [[ $# -eq 1 ]]; then
+		repo=$(echo "$1" | cut -d'/' -f2)
+		path="$1"
+	else
+		owner=$1
+		repo=$2
+		path="${owner}/${path}"
+	fi
+
+	git clone "git@github.com:${path}.git"
+	cd "$repo"
 }
 
-function ssh-auto-retry() {     false;     while [ $? -ne 0 ]; do         ssh "$@" || (echo -n ".";sleep 1;false);     done; }
-# function ssh-auto-retry() {
-	# false
-  # while [ $? -ne 0 ] do
-		# ssh "$@" || (echo -n "."; sleep 1; false);
-  # done
-# }
-
-console-kube-psql() {
-	kubectl run --context lab --namespace ben -it --rm=true --restart=Never --image postgres psql --command -- psql "$@"
+ge() {
+	cmd=$(scmpuff expand "$@")
+	echo -n 'Running: `'
+	echo -n "$cmd"
+	echo '`'
+	read -p "Continue? (y/n): " -n 1 -r < /dev/tty
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+		eval $cmd
+		return 0
+	else
+		echo "Aborted" >&2
+		return 1
+	fi
 }
 
 body() {
@@ -160,4 +173,25 @@ epoch2date() {
     cmd="gdate"
   fi
   $cmd -Iseconds -d "@${1}"
+}
+
+spacectl-preview() {
+  id="$1"
+  spacectl whoami >/dev/null || spacectl profile login
+  spacectl stack local-preview --id "$id"
+}
+
+nwd() {
+  name="$1"
+  if [[ -z "$name" ]]; then
+    echo "Usage: nwd <dir-name>"
+    return 1
+  fi
+  mkdir -p "~/work/$name"
+  cd "~/work/$name"
+}
+
+nwdd() {
+  name="$1"
+  nwd "$(date "+%Y%m%d")-$name"
 }
