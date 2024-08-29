@@ -13,6 +13,9 @@ return {
         desc = '[F]ormat buffer',
       },
     },
+    -- This will provide type hinting with LuaLS
+    ---@module "conform"
+    ---@type conform.setupOpts
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
@@ -26,12 +29,25 @@ return {
         }
       end,
       formatters_by_ft = {
+        ['*'] = { 'trim_whitespace' },
+
+        -- Run on files which don't have formatters
+        -- ["_"] = { 'trim_whitespace' },
+
+        cue = { 'cue_fmt' },
+        go = { 'gci' },
         lua = { 'stylua' },
+        jsonnet = { 'jsonnetfmt' },
+        just = { 'just' },
+        markdown = { 'markdownlint-cli2', 'trim_whitespace' },
+        terraform = { 'terraform_fmt' },
+        tofu = { 'tofu_fmt' },
+        sql = { 'sqlfluff' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+
+        -- Use 'stop_after_first' to run the first available formatter from the list
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
