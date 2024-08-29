@@ -8,22 +8,22 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Buffer navigation
-vim.keymap.set('n', '<Tab>', ':bnext!<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<S-Tab>', ':bprevious!<CR>', { desc = 'Previous buffer' })
-vim.keymap.set('n', '<C-e>', ':b#<CR>', { desc = 'Last buffer' })
+vim.keymap.set('n', '<Tab>', '<cmd>bnext!<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<S-Tab>', '<cmd>bprevious!<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<C-e>', '<cmd>b#<CR>', { desc = 'Last buffer' })
 
 -- Old habits...
-vim.keymap.set('n', '<Bslash>h', ':bprevious!<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<Bslash>l', ':bnext!<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<Bslash>h', '<cmd>bprevious!<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<Bslash>l', '<cmd>bnext!<CR>', { desc = 'Next buffer' })
 
 -- Quick repeat of indentation
 vim.keymap.set('v', '>', '>gv', { desc = 'Next buffer' })
 vim.keymap.set('v', '<', '<gv', { desc = 'Next buffer' })
 
-vim.keymap.set('n', '<Leader>l', ':set list!<CR>', { desc = 'Show whitespace' })
+vim.keymap.set('n', '<Leader>l', '<cmd>set list!<CR>', { desc = 'Show whitespace' })
 
 -- Clear search results
-vim.keymap.set('n', '<C-n>', ':silent nohlsearch<CR>', { desc = 'Show whitespace' })
+vim.keymap.set('n', '<C-n>', '<cmd>nohlsearch<CR>', { desc = 'Show whitespace' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- [[ User commands ]]
