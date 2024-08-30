@@ -31,11 +31,11 @@ return {
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
         defaults = {
-          layout_strategy = "flex",
+          layout_strategy = 'flex',
           layout_config = {
             flex = {
               height = 0.95,
-              width = 0.95
+              width = 0.95,
             },
             center = {
               width = 0.5,
@@ -67,7 +67,13 @@ return {
 
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       -- Another old habit
-      vim.keymap.set('n', '<C-p>',      builtin.find_files, { desc = 'Search files' })
+      vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = 'Search files' })
+
+      -- fzf style "fuzzy live grep"
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/564
+      vim.keymap.set('n', '<leader>su', function()
+        builtin.grep_string { shorten_path = true, word_match = '-w', only_sort_text = true, search = '' }
+      end, { desc = '[S]earch F[u]zzy all files' })
 
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
