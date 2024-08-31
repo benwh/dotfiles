@@ -33,8 +33,8 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+-- Use up to 3 columns for signs, if needed.
+vim.opt.signcolumn = 'auto:3'
 
 -- Decrease update time
 vim.opt.updatetime = 250

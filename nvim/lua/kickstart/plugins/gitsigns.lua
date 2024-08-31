@@ -1,13 +1,19 @@
--- Here is a more advanced example where we pass configuration
--- options to `gitsigns.nvim`. This is equivalent to the following Lua:
---    require('gitsigns').setup({ ... })
---
--- See `:help gitsigns` to understand what the configuration keys do
 return {
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    -- This is equivalent to the following Lua:
+    --    require('gitsigns').setup({ ... })
     opts = {
       signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+      -- Disable staged hunk display, as this is a bit buggy right now.
+      signs_staged_enable = false,
+      signs_staged = {
         add = { text = '+' },
         change = { text = '~' },
         delete = { text = '_' },
