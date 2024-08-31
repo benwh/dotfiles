@@ -4,6 +4,10 @@ return {
     'tiagovla/tokyodark.nvim',
     opts = {
       gamma = 0.9,
+
+      -- See files for reference:
+      -- https://github.com/tiagovla/tokyodark.nvim/blob/master/lua/tokyodark/highlights.lua
+      -- https://github.com/tiagovla/tokyodark.nvim/blob/master/lua/tokyodark/palette.lua
       custom_highlights = function(_, palette)
         return {
           -- Make visual selection brighter. We've got to override the fg too, as otherwise you can't distinguish between the two.
