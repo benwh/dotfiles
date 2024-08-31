@@ -1,7 +1,7 @@
 -- [[ Configure and install plugins ]]
 --
 require('lazy').setup({
-   -- Detect tabstop and shiftwidth automatically
+  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
   -- Use `opts = {}` to force a plugin to be loaded.
@@ -20,8 +20,6 @@ require('lazy').setup({
 
   require 'kickstart/plugins/cmp',
 
-  require 'kickstart/plugins/tokyonight',
-
   require 'kickstart/plugins/todo-comments',
 
   require 'kickstart/plugins/mini',
@@ -30,7 +28,7 @@ require('lazy').setup({
 
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
 
@@ -54,6 +52,10 @@ require('lazy').setup({
       task = '📌',
       lazy = '💤 ',
     },
+  },
+  -- Disable the useless and annoying "Config Change Detected" popup.
+  change_detection = {
+    notify = false,
   },
 })
 
