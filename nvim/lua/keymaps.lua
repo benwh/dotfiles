@@ -23,8 +23,7 @@ vim.keymap.set('v', '<', '<gv', { desc = 'Next buffer' })
 vim.keymap.set('n', '<Leader>l', '<cmd>set list!<CR>', { desc = 'Show whitespace' })
 
 -- Clear search results
-vim.keymap.set('n', '<C-n>', '<cmd>nohlsearch<CR>', { desc = 'Show whitespace' })
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<C-n>', '<cmd>nohlsearch<CR>', { desc = 'Clear search results' })
 
 -- [[ User commands ]]
 
