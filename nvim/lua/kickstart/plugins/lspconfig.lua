@@ -178,6 +178,8 @@ return {
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         --
+        jsonnet_ls = {},
+        jsonnetfmt = {},
 
         lua_ls = {
           -- cmd = {...},
