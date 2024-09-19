@@ -25,6 +25,16 @@ end)
 
 -- Enable break indent
 vim.opt.breakindent = true
+vim.opt.copyindent = true
+vim.opt.preserveindent = true
+vim.opt.smartindent = true
+
+vim.opt.cindent = true
+-- vim.g.yaml_indent_multiline_scalar = 1
+-- set cino+=(0 " Line up multi-line parameter lists
+-- set cino+=u0 " And the same for one level deeper
+-- set cino+=U0 " Align statements properly if they proceed a line containing a lone bracket
+-- set cino+=l1 " Align case statements properly
 
 -- Save undo history
 vim.opt.undofile = true
@@ -41,17 +51,15 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 1000
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = false
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '>', precedes = '<', eol = '$' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
