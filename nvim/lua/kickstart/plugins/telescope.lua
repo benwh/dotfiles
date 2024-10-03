@@ -20,6 +20,22 @@ return {
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      {
+        -- search specific subdirectories with sdg/sdf
+        'princejoogie/dir-telescope.nvim',
+        config = function()
+          require('dir-telescope').setup {
+            -- Defaults
+            hidden = true,
+            no_ignore = true,
+            show_preview = true,
+            follow_symlinks = false,
+          }
+
+          vim.keymap.set('n', '<leader>sdg', '<cmd>Telescope dir live_grep<cr>', { desc = '[S]earch [D]irectory with [G]rep' })
+          vim.keymap.set('n', '<leader>sdf', '<cmd>Telescope dir find_files<cr>', { desc = '[S]earch [D]irectory [F]iles' })
+        end,
+      },
     },
     config = function()
       --
@@ -45,11 +61,35 @@ return {
             },
           },
           mappings = {
-            -- Ctrl-f to refine, e.g. in live grep mode
-            i = { ['<c-f>'] = 'to_fuzzy_refine' },
+            i = {
+              -- Ctrl-f to refine, e.g. in live grep mode
+              ['<c-f>'] = 'to_fuzzy_refine',
+              -- Allow Ctrl-u to clear current input
+              ['<c-u>'] = false,
+            },
           },
         },
-        -- pickers = {}
+        pickers = {
+          find_files = {
+            hidden = true,
+            no_ignore = true,
+          },
+          live_grep = {
+            vimgrep_arguments = {
+              -- Defaults
+              'rg',
+              '--color=never',
+              '--no-heading',
+              '--with-filename',
+              '--line-number',
+              '--column',
+              '--smart-case',
+              -- Extras
+              '--hidden',
+              '--no-ignore-vcs', -- NOTE: check the performance impact - is it worth it?
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -60,6 +100,7 @@ return {
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'dir')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -80,7 +121,7 @@ return {
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+      vim.keymap.set('n', '<leader>sq', builtin.diagnostics, { desc = '[S]earch [Q] Diagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 
@@ -90,6 +131,10 @@ return {
       vim.keymap.set('n', '<leader>sld', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP [D]efinition' })
       vim.keymap.set('n', '<leader>slm', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP I[m]plementations' })
       vim.keymap.set('n', '<leader>sls', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP Doc [S]ymbols' })
+
+      -- Allow specifying a custom directory
+      vim.keymap.set('n', '<leader>sodf', ':Telescope find_files cwd=', { desc = '[S]earch [O]ther [D]irectory [F]iles' })
+      vim.keymap.set('n', '<leader>sodg', ':Telescope find_files cwd=', { desc = '[S]earch [O]ther [D]irectory [G]rep' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
