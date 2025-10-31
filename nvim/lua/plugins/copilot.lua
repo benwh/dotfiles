@@ -10,6 +10,7 @@ return {
       cmd = 'Copilot',
       config = function()
         require('copilot').setup {
+          -- TODO: check out options
           suggestion = { enabled = false },
           panel = { enabled = false },
         }
