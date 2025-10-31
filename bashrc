@@ -9,6 +9,8 @@ export HOMEBREW_AUTO_UPDATE_SECS="604800" # Update once a week max.
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_NO_ANALYTICS=1
+# Don't install runtimes! These should be installed via other managers, e.g. `mise`.
+export HOMEBREW_FORBIDDEN_FORMULAE="node go go@1.24"
 
 # TODO: fasder looks nicer, but requires zsh
 if [ -x "$(command -v zoxide)" ]; then
@@ -45,19 +47,30 @@ else
 	#export TERM='xterm-kitty'
 fi
 
-if [[ -f "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh" ]]; then
-	source "${HOMEBREW_PREFIX}/opt/asdf/libexec/asdf.sh"
-fi
-
 if [[ -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
 	source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 elif [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion
 fi
 
-if [[ -f "${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash" ]]; then
-	source "${HOMEBREW_PREFIX}/opt/asdf/etc/bash_completion.d/asdf.bash"
+# Mise must be defined in the rc file, not the profile file.
+# https://mise.jdx.dev/troubleshooting.html#mise-activate-doesn-t-work-in-profile-bash-profile-zprofile
+# If wanting noninteractive usage, then try shims.
+if [ -x "$(command -v mise)" ]; then
+	if [ -n "$CLAUDECODE" ]; then
+		# Use shims in Claude Code to avoid cd / `__zsh_like_cd` issues
+		# TODO: could try --no-hook-env instead
+		eval "$(mise activate bash --shims)"
+	else
+		eval "$(mise activate bash)"
+	fi
 fi
+[ -x "$(command -v mise)" ] && eval "$(mise completion bash)"
+
+# Overwrite mise's per-install GOBIN, so that we have install via `go install` to a
+# persistent directory (not lost when the `go` runtime is upgraded).
+# TODO: Put `go_set_gobin=false` in global mise config instead?
+export GOBIN="$HOME/go/bin"
 
 if [[ -r "${HOME}/dotfiles/kubectl_aliases" ]]; then
 	source "${HOME}/dotfiles/kubectl_aliases"
@@ -197,10 +210,6 @@ fi
 
 if [ -x "$(command -v direnv)" ]; then
 	eval "$(direnv hook bash)"
-fi
-
-if [ -x "$(command -v fnm)" ]; then
-	eval "$(fnm env --use-on-cd)"
 fi
 
 # TODO is there any practical difference between my version (top) and the vendored version (bottom)?
