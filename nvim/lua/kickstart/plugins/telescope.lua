@@ -45,6 +45,7 @@ return {
       --
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+      local actions = require 'telescope.actions'
       require('telescope').setup {
         defaults = {
           layout_strategy = 'flex',
@@ -66,6 +67,8 @@ return {
               ['<c-f>'] = 'to_fuzzy_refine',
               -- Allow Ctrl-u to clear current input
               ['<c-u>'] = false,
+              ['<C-j>'] = actions.move_selection_next,
+              ['<C-k>'] = actions.move_selection_previous,
             },
           },
         },
@@ -73,6 +76,15 @@ return {
           find_files = {
             hidden = true,
             no_ignore = true,
+            find_command = {
+              -- Ensure that `rg` never searches in `.git`, even when we specify `--hidden`.
+              'rg',
+              '--files',
+              '--color',
+              'never',
+              '--glob',
+              '!.git',
+            },
           },
           live_grep = {
             vimgrep_arguments = {
@@ -86,7 +98,7 @@ return {
               '--smart-case',
               -- Extras
               '--hidden',
-              '--no-ignore-vcs', -- NOTE: check the performance impact - is it worth it?
+              -- '--no-ignore-vcs', -- NOTE: check the performance impact - is it worth it?
             },
           },
         },
@@ -95,6 +107,7 @@ return {
             require('telescope.themes').get_dropdown(),
           },
         },
+        fzf = {},
       }
 
       -- Enable Telescope extensions if they are installed
@@ -125,16 +138,18 @@ return {
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 
-      vim.keymap.set('n', '<leader>slr', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP [R]eferences' })
+      vim.keymap.set('n', '<leader>slr', builtin.lsp_references, { desc = '[S]earch [L]SP [R]eferences' })
       vim.keymap.set('n', '<leader>sli', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP [I]ncoming calls' })
       vim.keymap.set('n', '<leader>slo', builtin.lsp_outgoing_calls, { desc = '[S]earch [L]SP [O]utgoing calls' })
-      vim.keymap.set('n', '<leader>sld', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP [D]efinition' })
-      vim.keymap.set('n', '<leader>slm', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP I[m]plementations' })
-      vim.keymap.set('n', '<leader>sls', builtin.lsp_incoming_calls, { desc = '[S]earch [L]SP Doc [S]ymbols' })
+      vim.keymap.set('n', '<leader>sld', builtin.lsp_definitions, { desc = '[S]earch [L]SP [D]efinition' })
+      vim.keymap.set('n', '<leader>slm', builtin.lsp_implementations, { desc = '[S]earch [L]SP I[m]plementations' })
+      vim.keymap.set('n', '<leader>sls', builtin.lsp_document_symbols, { desc = '[S]earch [L]SP Doc [S]ymbols' })
+      vim.keymap.set('n', '<leader>slt', builtin.lsp_type_definitions, { desc = '[S]earch [L]SP Doc [T]ype Definition' })
+      vim.keymap.set('n', '<leader>slws', builtin.lsp_workspace_symbols, { desc = '[S]earch [L]SP Doc [W]orkspace Symbols' })
 
       -- Allow specifying a custom directory
       vim.keymap.set('n', '<leader>sodf', ':Telescope find_files cwd=', { desc = '[S]earch [O]ther [D]irectory [F]iles' })
-      vim.keymap.set('n', '<leader>sodg', ':Telescope find_files cwd=', { desc = '[S]earch [O]ther [D]irectory [G]rep' })
+      vim.keymap.set('n', '<leader>sodg', ':Telescope live_grep cwd=', { desc = '[S]earch [O]ther [D]irectory [G]rep' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
