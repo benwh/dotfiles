@@ -1,0 +1,100 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Usage: ./gcp-ssh-tmux.sh <project-id> <instance-pattern>
+
+usage() {
+    echo "Usage: $0 <project-id> <instance-pattern>"
+    echo "  instance-pattern: can be a prefix or contain wildcards (* and ?)"
+    echo "Examples:"
+    echo "  $0 my-project web-"
+    echo "  $0 my-project web-*-prod"
+    echo "  $0 my-project *database*"
+    exit 1
+}
+
+PROJECT_ID="${1:-}"
+INSTANCE_PATTERN="${2:-}"
+
+if [[ -z "${PROJECT_ID}" || -z "${INSTANCE_PATTERN}" ]]; then
+    usage
+fi
+
+# Check if we're in tmux
+if [[ -z "${TMUX:-}" ]]; then
+    echo "Error: Not in a tmux session"
+    exit 1
+fi
+
+# Get matching instances with details using pattern matching, sorted by creation time
+INSTANCE_DATA=$(gcloud --project="${PROJECT_ID}" compute instances list --format="value(name,status,creationTimestamp)" --sort-by="creationTimestamp" | grep -E "$(echo "${INSTANCE_PATTERN}" | sed 's/\*/\.\*/g' | sed 's/?/\./g')")
+
+if [[ -z "${INSTANCE_DATA}" ]]; then
+    echo "No instances found matching pattern: ${INSTANCE_PATTERN}"
+    exit 1
+fi
+
+# Extract just instance names for later use
+INSTANCES=$(echo "${INSTANCE_DATA}" | cut -d$'\t' -f1)
+
+# Show which instances will be connected to and ask for confirmation (only if multiple)
+INSTANCE_COUNT=$(echo "${INSTANCES}" | wc -l)
+echo "Found ${INSTANCE_COUNT} matching instances:"
+while IFS=$'\t' read -r name status timestamp; do
+    # Format the timestamp to be more readable
+    formatted_time=$(date -d "${timestamp}" "+%Y-%m-%d %H:%M" 2>/dev/null || echo "${timestamp}")
+    printf "  - %-30s %s (created: %s)\n" "${name}" "${status}" "${formatted_time}"
+done <<< "${INSTANCE_DATA}"
+echo
+
+if [[ "${INSTANCE_COUNT}" -gt 1 ]]; then
+    read -p "Connect to these ${INSTANCE_COUNT} instances? (y/N) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Cancelled."
+        exit 0
+    fi
+fi
+
+# Check if there are other panes and warn user (only for multiple instances)
+if [[ "${INSTANCE_COUNT}" -gt 1 ]]; then
+    PANE_COUNT=$(tmux list-panes | wc -l)
+    if [[ "${PANE_COUNT}" -gt 1 ]]; then
+        read -p "This will kill ${PANE_COUNT} existing panes. Continue? (y/N) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "Cancelled."
+            exit 0
+        fi
+        tmux kill-pane -a
+    fi
+fi
+
+# Connect to first instance in current pane
+FIRST_INSTANCE=$(echo "${INSTANCES}" | head -n1)
+if [[ "${INSTANCE_COUNT}" -gt 1 ]]; then
+    tmux send-keys "TERM=xterm-256color gcloud --project='${PROJECT_ID}' compute ssh --tunnel-through-iap '${FIRST_INSTANCE}'; tmux set-window-option synchronize-panes off" C-m
+else
+    # For single instance, run directly instead of using send-keys
+    echo "Connecting to ${FIRST_INSTANCE}..."
+    TERM=xterm-256color exec gcloud --project="${PROJECT_ID}" compute ssh --tunnel-through-iap "${FIRST_INSTANCE}"
+fi
+
+# Create panes for remaining instances
+if [[ "${INSTANCE_COUNT}" -gt 1 ]]; then
+    echo "${INSTANCES}" | tail -n +2 | while read -r instance; do
+        tmux split-window -h
+        tmux send-keys "TERM=xterm-256color gcloud --project='${PROJECT_ID}' compute ssh --tunnel-through-iap '${instance}'; tmux set-window-option synchronize-panes off" C-m
+        tmux select-layout tiled
+    done
+fi
+
+# Enable pane synchronization only if there are multiple instances
+if [[ "${INSTANCE_COUNT}" -gt 1 ]]; then
+    tmux set-window-option synchronize-panes on
+    echo "Connected to ${INSTANCE_COUNT} instances with pane synchronization enabled."
+    echo "Synchronization will automatically disable if any SSH connection closes."
+else
+    echo "Connected to ${INSTANCE_COUNT} instance."
+fi

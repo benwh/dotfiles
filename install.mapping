@@ -12,6 +12,7 @@ psqlrc:.psqlrc
 scripts/agreplace:bin/agreplace
 scripts/create-worktree:bin/create-worktree
 scripts/ftwind:bin/ftwind
+scripts/gcp-ssh-tmux:bin/gssh
 scripts/git-hook-global-pre-push:.git-hooks/pre-push
 scripts/git-unwip:bin/git-unwip
 scripts/git-wip:bin/git-wip
