@@ -208,8 +208,9 @@ fi
 # Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
 PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
-# Load scmpuff if enabled, for numbered git shortcuts
-if [ -x "$(command -v scmpuff)" ]; then
+# Load scmpuff if enabled, for numbered git shortcuts.
+# But not if we're running in Claude Code, which gets confused by it.
+if [[ -x "$(command -v scmpuff)" && -z "$CLAUDECODE" ]]; then
 	eval "$(scmpuff init -s)"
 fi
 
