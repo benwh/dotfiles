@@ -28,6 +28,5 @@ starship.toml:.config/starship.toml
 tmux/tmux.conf:.tmux.conf
 tmux:.tmux
 vendor/pixelb-ps_mem/ps_mem.py:bin/ps_mem.py
-vim/neovim-init.vim:.config/nvim/init.vim
 vim/vimrc:.vimrc
 vim:.vim
