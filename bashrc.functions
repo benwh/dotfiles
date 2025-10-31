@@ -178,8 +178,8 @@ nwd() {
     echo "Usage: nwd <dir-name>"
     return 1
   fi
-  mkdir -p "~/work/$name"
-  cd "~/work/$name"
+  mkdir -p "$HOME/work/$name"
+  cd "$HOME/work/$name"
 }
 
 nwdd() {
