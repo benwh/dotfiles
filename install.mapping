@@ -20,6 +20,7 @@ scripts/git-movetobranch:bin/git-movetobranch
 scripts/github-open-pr.sh:bin/github-open-pr
 scripts/ipm-import:bin/ipm-import
 scripts/sshto:bin/sshto
+scripts/td-goals:bin/td-goals
 scripts/time-curl-format.txt:bin/time-curl-format.txt
 scripts/time-curl:bin/time-curl
 ssh_config:.ssh/config

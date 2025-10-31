@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+(pbpaste ; echo ) \
+  | perl -pe 's/\s*- \[ \]\s*(.*?)$/$1/' \
+  | perl -pe 's//#work \@work-daily-goal today p3 /' \
+  | tee >(pbcopy)
