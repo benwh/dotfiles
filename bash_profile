@@ -6,38 +6,37 @@ export LANGUAGE=en_GB.UTF-8
 (( SOURCED_PROFILE )) && return
 export SOURCED_PROFILE=1
 
-if [ -x "$(command -v /opt/homebrew/bin/brew)" ]; then
-	eval "$(/opt/homebrew/bin/brew shellenv)"
-	HOMEBREW_PREFIX=$(brew --prefix)
-fi
-
-# TODO - can be removed for intel?
-# BREW_PREFIX="/usr/local"
-
-# export BREW_PREFIX="/usr/local"
-
-
 # TODO: Required?
 # source <(kubectl completion bash)
 
 # nvm // node.js // tj/n
 export N_PREFIX=$HOME/n
 
-# PATH
-if [[ -f "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
-	source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+# PATH: ensure that any new entries here are inserted in order of least to most preferred!
+
+PATH="/usr/local/opt/ncurses/bin:$PATH"
+# Include /usr/local/bin, but keep it behind Homebrew, as things like Docker for Mac will
+# symlink a `kubectl` into here which we don't want.
+PATH="/usr/local/bin:$PATH"
+
+if [ -x "$(command -v /opt/homebrew/bin/brew)" ]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+	HOMEBREW_PREFIX=$(brew --prefix)
+	# Make all java tools available
+	PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+	if [[ -f "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc" ]]; then
+		source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+	fi
 fi
 
-PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-PATH="/usr/local/opt/ncurses/bin:$PATH"
-PATH="/usr/local/bin:$PATH"
+PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Put user-owned directories most prominently in PATH
 PATH="$HOME/go/bin:$PATH"
-PATH="$HOME/dev/go/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
-PATH="$HOME/n/bin:$PATH"
 PATH="$HOME/bin:$PATH"
-PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 export PATH
 
