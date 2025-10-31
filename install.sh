@@ -47,7 +47,7 @@ pushd "$HOME/$DOTFILESDIR" > /dev/null
 git submodule update --init --recursive
 
 # cd to $HOME so that we can create relative symlinks
-pushd "$HOME" > /dev/null
+pushd $HOME > /dev/null
 
 # Add some standard directories
 mkdir -p ~/bin/
@@ -78,8 +78,5 @@ if [[ "$PLATFORM" == "Linux" ]]; then
 	fi
 	pip3 install --upgrade pynvim
 fi
-
-# Install vim plugins
-vim +PlugInstall! +qall
 
 echo "If this is the first time running this script, then start a new shell"
