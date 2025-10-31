@@ -146,6 +146,7 @@ alias gpf="git push --force-with-lease"
 alias gpl="git pull"
 alias grba="git rebase --abort"
 alias grbc="git rebase --continue"
+alias grbi="_git_rebase_origin"
 alias grm="git rm"
 __git_complete grm _git_rm
 alias grs="git reset"
