@@ -10,23 +10,9 @@ export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_NO_ANALYTICS=1
 
-# # Load z, only if running an interactive shell (otherwise scp is cocked up)
-# [[ $- == *i* ]] && source $HOME/dotfiles/vendor/rupa-z/z.sh
-
-# Load fasd
-if [ -x "$(command -v fasd)" ]; then
-	fasd_cd() {
-		if [ $# -le 1 ]; then
-			fasd "$@"
-		else
-			local _fasd_ret="$(fasd -e 'printf %s' "$@")"
-			[ -z "$_fasd_ret" ] && return
-			[ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
-		fi
-	}
-	alias z='fasd_cd -d'
-
-	eval "$(fasd --init bash-hook)"
+# TODO: fasder looks nicer, but requires zsh
+if [ -x "$(command -v zoxide)" ]; then
+	eval "$(zoxide init bash)"
 fi
 
 # Vi mode ON!
