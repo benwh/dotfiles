@@ -20,6 +20,9 @@ return {
           -- NeoTree colors feel a bit back-to-front by default. Make it match closer to scmpuff.
           NeoTreeGitModified = { fg = palette.orange },
           NeoTreeGitUntracked = { fg = palette.cyan },
+
+          -- Brighten-up the treesitter context
+          TreesitterContext = { bg = palette.bg3, italic = true },
         }
       end,
     },
