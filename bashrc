@@ -152,6 +152,7 @@ __git_complete grm _git_rm
 alias grs="git reset"
 alias shac="git rev-parse HEAD | tr -d '\\n' | pbcopy"
 alias gm="git checkout master && git pull"
+alias spacectl-preview="_spacectl_preview"
 
 
 # macOS-specific things
