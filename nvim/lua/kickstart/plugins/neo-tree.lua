@@ -16,6 +16,16 @@ return {
     { '<Leader>-', '<cmd>Neotree float buffers<CR>', desc = 'Neo-tree: show buffers' },
   },
   opts = {
+    window = {
+      -- TODO: this goes excessively wide, I just want it to right-align with the content.
+      -- width = 'fit_content',
+    },
+    filesystem = {
+      bind_to_cwd = false, -- Don't change cwd when revealing something out of cwd
+      filtered_items = {
+        visible = true,
+      },
+    },
     buffers = {
       show_unloaded = true,
     },
