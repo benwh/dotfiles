@@ -9,3 +9,6 @@ index_cache
 .lvimrc
 .ignore
 .tool-versions
+.aider.*
+**/.claude/settings.local.json
+.mcp.json
