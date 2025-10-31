@@ -172,7 +172,12 @@ else
 	export EDITOR=vim
 fi
 export PAGER=less
-export LESS='-RX'
+# F: Quit if the file fits on one screen
+# R: Use colours
+# --mouse: Scrolling
+# --redraw-on-quit: Replaces -X (newer less versions only), preserves content nicely after
+# quitting.
+export LESS='FR --mouse --redraw-on-quit'
 export GPG_TTY=$(tty)
 
 # Bash history commands
