@@ -13,6 +13,8 @@ return {
     },
   },
   { 'Bilal2453/luvit-meta', lazy = true },
+  -- TODO: consider changing?: https://gpanders.com/blog/whats-new-in-neovim-0-11/#simpler-lsp-setup-and-configuration
+  -- TODO: check new kickstart config!
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -175,11 +177,17 @@ return {
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        -- But for many setups, the LSP (`ts_ls`) will work just fine
+        ts_ls = {},
         --
+
+        -- TODO: add some more!
+
         jsonnet_ls = {},
         jsonnetfmt = {},
+        gopls = {},
+
+        ['terraform-ls'] = {},
 
         lua_ls = {
           -- cmd = {...},
