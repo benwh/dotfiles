@@ -186,3 +186,105 @@ nwdd() {
   name="$1"
   nwd "$(date "+%Y%m%d")-$name"
 }
+
+cwt() {
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        # Capture the original repo name before changing directories
+        local original_repo_name
+        original_repo_name=$(basename "$(git rev-parse --show-toplevel)")
+
+        # Run the script and capture the output
+        local worktree_path
+        worktree_path=$(create-worktree "$@")
+
+        # If successful, cd to the new worktree
+        if [ $? -eq 0 ] && [ -n "$worktree_path" ]; then
+            cd "$worktree_path"
+            echo "Changed to worktree: $worktree_path" >&2
+
+            if [ -n "$TMUX" ]; then
+                tmux send-keys "tmux rename-window \"${original_repo_name}-wt-\""
+            fi
+        else
+            return $?
+        fi
+    else
+        echo "Error: Not in a git repository" >&2
+        return 1
+    fi
+}
+
+rmcwt() {
+    # Check if we're in a git repository or worktree
+    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "Error: Not in a git repository or worktree" >&2
+        return 1
+    fi
+
+    # Get current directory name and git root
+    local current_dir=$(pwd)
+    local git_root=$(git rev-parse --show-toplevel)
+    local current_dir_name=$(basename "$current_dir")
+
+    # Check if we're in a worktree by looking for .git file (not directory)
+    if [ -f "$git_root/.git" ]; then
+        # We're in a worktree
+        echo "About to remove worktree at: $current_dir" >&2
+        echo -n "Are you sure? (y/N) " >&2
+        read -r response
+
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            # Get the main repository path before removing
+            local main_repo
+            main_repo=$(cd "$current_dir" && git worktree list | head -1 | awk '{print $1}')
+
+            # Change to parent directory first to avoid the git error
+            cd "$main_repo"
+
+            # Remove the worktree
+            git worktree remove "$current_dir" --force
+
+            echo "✓ Worktree removed successfully" >&2
+            echo "Changed to main repository: $main_repo" >&2
+        else
+            echo "Cancelled" >&2
+            return 1
+        fi
+    else
+        # We're in the main repository, need to specify which worktree to remove
+        if [ $# -eq 0 ]; then
+            echo "Error: Not in a worktree. Please specify branch name to remove:" >&2
+            echo "  rmcwt <branch-name>" >&2
+            echo "" >&2
+            echo "Available worktrees:" >&2
+            git worktree list | grep -v "$(git rev-parse --show-toplevel)" | sed 's/^/  /' >&2
+            return 1
+        fi
+
+        local branch_name="$1"
+        local repo_name=$(basename "$git_root")
+        local safe_branch_name="${branch_name//\//-}"
+        local worktree_name="${repo_name}-worktree-${safe_branch_name}"
+        local worktree_path="$git_root/../$worktree_name"
+
+        if [ -d "$worktree_path" ]; then
+            echo "About to remove worktree: $worktree_path" >&2
+            echo -n "Are you sure? (y/N) " >&2
+            read -r response
+
+            if [[ "$response" =~ ^[Yy]$ ]]; then
+                git worktree remove "$worktree_path" --force
+                echo "✓ Worktree removed successfully" >&2
+            else
+                echo "Cancelled" >&2
+                return 1
+            fi
+        else
+            echo "Error: Worktree not found at $worktree_path" >&2
+            echo "" >&2
+            echo "Available worktrees:" >&2
+            git worktree list | grep -v "$(git rev-parse --show-toplevel)" | sed 's/^/  /' >&2
+            return 1
+        fi
+    fi
+}
