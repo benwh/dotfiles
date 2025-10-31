@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# Script to create a git worktree for Claude Code isolated environments
+# Usage: ./create-worktree.sh <branch-name>
+#
+# To automatically cd into the new worktree:
+#   cd $(./create-worktree.sh <branch-name>)
+
+set -e
+
+# Check if branch name argument is provided
+if [ $# -eq 0 ]; then
+    echo "Error: Please provide a branch name" >&2
+    echo "Usage: $0 <branch-name>" >&2
+    exit 1
+fi
+
+BRANCH_NAME="$1"
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository" >&2
+    exit 1
+fi
+
+# Get the root directory of the git repository
+GIT_ROOT=$(git rev-parse --show-toplevel)
+
+# Check if we're in a worktree and get the main worktree path
+MAIN_WORKTREE=$(git worktree list --porcelain | grep "^worktree" | head -1 | cut -d' ' -f2)
+if [ "$GIT_ROOT" != "$MAIN_WORKTREE" ]; then
+    echo "Detected worktree environment. Switching to main worktree for operation..." >&2
+    cd "$MAIN_WORKTREE"
+    GIT_ROOT="$MAIN_WORKTREE"
+fi
+
+# Get the repository name from the directory
+REPO_NAME=$(basename "$GIT_ROOT")
+
+# Replace slashes with dashes in branch name
+SAFE_BRANCH_NAME="${BRANCH_NAME//\//-}"
+
+# Create worktree name with repo name and branch
+WORKTREE_NAME="${REPO_NAME}-worktree-${SAFE_BRANCH_NAME}"
+WORKTREE_PATH="$GIT_ROOT/../$WORKTREE_NAME"
+
+# Check if worktree already exists
+if [ -d "$WORKTREE_PATH" ]; then
+    echo "Error: Worktree directory already exists at $WORKTREE_PATH" >&2
+    exit 1
+fi
+
+# Fetch latest from remote
+echo "Fetching latest from remote..." >&2
+git fetch origin >&2 2>&1
+
+# Check if branch exists locally or remotely
+if git show-ref --verify --quiet "refs/heads/$BRANCH_NAME"; then
+    echo "Creating worktree for existing local branch: $BRANCH_NAME" >&2
+    git worktree add "$WORKTREE_PATH" "$BRANCH_NAME" >&2
+elif git show-ref --verify --quiet "refs/remotes/origin/$BRANCH_NAME"; then
+    echo "Creating worktree for remote branch: origin/$BRANCH_NAME" >&2
+    git worktree add "$WORKTREE_PATH" -b "$BRANCH_NAME" "origin/$BRANCH_NAME" >&2
+else
+    echo "Branch '$BRANCH_NAME' doesn't exist. Creating new branch from master..." >&2
+    git worktree add "$WORKTREE_PATH" -b "$BRANCH_NAME" --no-track "origin/master" >&2
+fi
+
+echo "✓ Worktree created successfully at: $WORKTREE_PATH" >&2
+echo "✓ Checked out to branch: $BRANCH_NAME" >&2
+
+# Copy Claude configuration files from main repo if they exist
+if [ -f "$GIT_ROOT/CLAUDE.local.md" ]; then
+    cp "$GIT_ROOT/CLAUDE.local.md" "$WORKTREE_PATH/CLAUDE.local.md"
+    echo "✓ Copied CLAUDE.local.md" >&2
+fi
+
+if [ -f "$GIT_ROOT/.claude/settings.local.json" ]; then
+    mkdir -p "$WORKTREE_PATH/.claude"
+    cp "$GIT_ROOT/.claude/settings.local.json" "$WORKTREE_PATH/.claude/settings.local.json"
+    echo "✓ Copied .claude/settings.local.json" >&2
+fi
+
+# TODO: We probably shouldn't special-case this...
+if [ -f "$GIT_ROOT/server/config/.env" ]; then
+    cp "$GIT_ROOT/server/config/.env" "$WORKTREE_PATH/server/config/.env"
+    echo "✓ Copied .env" >&2
+fi
+
+# Add a tmp/ dir
+mkdir -p "$WORKTREE_PATH/tmp"
+
+# Pre-create Claude Code trust directory to avoid trust prompt
+ESCAPED_WORKTREE_PATH=$(echo "$WORKTREE_PATH" | sed 's|/|-|g')
+CLAUDE_PROJECT_DIR="$HOME/.claude/projects/$ESCAPED_WORKTREE_PATH"
+mkdir -p "$CLAUDE_PROJECT_DIR"
+echo "✓ Pre-trusted worktree in Claude Code" >&2
+
+
+echo "" >&2
+echo "To remove this worktree later:" >&2
+echo "  git worktree remove $WORKTREE_PATH" >&2
+echo "" >&2
+
+# Output just the path to stdout for easy cd
+echo "$WORKTREE_PATH"
