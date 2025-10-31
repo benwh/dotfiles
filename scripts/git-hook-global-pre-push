@@ -9,7 +9,7 @@ set -euo pipefail
 REMOTE_URL="$2"
 CURRENT_BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 
-PROTECTED_BRANCHES="^(master.*|dev)$"
+PROTECTED_BRANCHES="^(master.*|main|dev)$"
 
 OTHER_REPOS=${GIT_BRANCH_PUSH_EXCLUDED_REPO_PATTERNS:-some/repo}
 EXCLUDED_REPOS="^.+:(benwh/dotfiles|${OTHER_REPOS})"
