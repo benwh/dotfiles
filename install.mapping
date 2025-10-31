@@ -6,6 +6,7 @@ gitignore.global:.gitignore.global
 gpg-agent.conf:.gnupg/gpg-agent.conf
 inputrc:.inputrc
 kitty.conf:.config/kitty/kitty.conf
+ghostty.conf:.config/ghostty/config
 pryrc:.pryrc
 psqlrc:.psqlrc
 scripts/agreplace:bin/agreplace
