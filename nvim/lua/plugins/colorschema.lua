@@ -31,6 +31,7 @@ return {
       vim.cmd [[colorscheme tokyodark]]
     end,
   },
+
   -- Other colorschemes, rejected for now.
 
   -- {
@@ -40,6 +41,13 @@ return {
   --     vim.cmd.colorscheme 'tokyonight-night'
 
   --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
+  -- {
+  --   'shaunsingh/nord.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+
   --   end,
   -- },
   -- {
