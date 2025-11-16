@@ -42,4 +42,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- I don't want to always sync the clipboard between Neovim and the OS, as that gets
+-- annoying.
+-- But, when I do want to trafer, it's nice to save a few (awkward) keypresses.
+vim.keymap.set({ 'n', 'v' }, 'Y', '"*y', { desc = 'Yank (copy) to system clipboard' })
+
 -- vim: ts=2 sts=2 sw=2 et
