@@ -5,6 +5,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'nvim-lua/plenary.nvim'
 
 
+Plug 'ldelossa/litee.nvim', { 'branch': 'main' }
+Plug 'ldelossa/litee-calltree.nvim', { 'branch': 'main' }
+
 
 " Testing
 
@@ -628,6 +631,13 @@ lua <<EOF
 EOF
 
 " Testing
+
+lua <<EOF
+  -- configure the litee.nvim library
+  require('litee.lib').setup({})
+  -- configure litee-calltree.nvim
+  require('litee.calltree').setup({})
+EOF
 
 " snippets
 lua <<EOF
