@@ -6,6 +6,7 @@ gitignore.global:.gitignore.global
 gpg-agent.conf:.gnupg/gpg-agent.conf
 inputrc:.inputrc
 kitty.conf:.config/kitty/kitty.conf
+kitty-quick-access.conf:.config/kitty/quick-access-terminal.conf
 ghostty.conf:.config/ghostty/config
 pryrc:.pryrc
 psqlrc:.psqlrc
