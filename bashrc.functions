@@ -203,7 +203,7 @@ cwt() {
             echo "Changed to worktree: $worktree_path" >&2
 
             if [ -n "$TMUX" ]; then
-                tmux send-keys "tmux rename-window \"${original_repo_name}-wt-\""
+                tmux send-keys "tmux rename-window ${original_repo_name}-wt-"
             fi
         else
             return $?
