@@ -1,5 +1,8 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+# ble.sh - required for atuin
+[[ $- == *i* ]] && [ -f ~/.local/share/blesh/ble.sh ] && source -- ~/.local/share/blesh/ble.sh --attach=none
+
 # Functions reside in a separate file
 # shellcheck source=bashrc.functions
 source "${HOME}/.bashrc.functions"
@@ -183,8 +186,10 @@ export LESS='FR --mouse --redraw-on-quit'
 export GPG_TTY=$(tty)
 
 # Bash history commands
+# NOTE: Mostly superseded by atuin, but keeping these for fallback.
 export HISTSIZE=10000 # Keep 10000 lines in session history
 export HISTFILESIZE=100000 # Truncate file at 100,000 lines
+export HISTTIMEFORMAT="%s "
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups,ignorespace
 export HISTIGNORE="&:ls:ll:la:l:pwd:exit:clear:gs"
@@ -194,21 +199,49 @@ shopt -s histappend
 # Don't immediately execute command when using history substitution
 shopt -s histverify
 
-# Bash eternal history:
-# http://www.debian-administration.org/articles/543
-[[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
-export HISTTIMEFORMAT="%s "
+if [ -x "$(command -v atuin)" ]; then
+	eval "$(atuin init bash)"
+	# Disable FZF ctrl-r
+	export FZF_CTRL_R_COMMAND=""
+else
+	# Bash eternal history:
+	# http://www.debian-administration.org/articles/543
+	[[ ! -f $HOME/.bash_eternal_history ]] && (touch $HOME/.bash_eternal_history; chmod 0600 $HOME/.bash_eternal_history)
 
-# We're about to append our eternal history command to PROMPT_COMMAND, but
-# other things may have tampered with PROMPT_COMMAND before this point.
-# To address this, ensure that we separate with a semicolon, but only if there
-# isn't one already present.
-if [ -n "$PROMPT_COMMAND" ] && [[ ! "$PROMPT_COMMAND" =~ \;\s*$ ]]; then
-	PROMPT_COMMAND="${PROMPT_COMMAND};"
+	# We're about to append our eternal history command to PROMPT_COMMAND, but
+	# other things may have tampered with PROMPT_COMMAND before this point.
+	# To address this, ensure that we separate with a semicolon, but only if there
+	# isn't one already present.
+	if [ -n "$PROMPT_COMMAND" ] && [[ ! "$PROMPT_COMMAND" =~ \;\s*$ ]]; then
+		PROMPT_COMMAND="${PROMPT_COMMAND};"
+	fi
+
+	# Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
+	PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
+
+	# Override the default history function with one that looks at .bash_eternal_history instead
+	# This should be kept up to date with the upstream version: https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
+	__fzf_history__() {
+		local output
+		output=$(
+
+		# Original code:
+			# builtin fc -lnr -2147483648 |
+				# last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+
+			# Maybe todo: de-dupe?
+			tac ~/.bash_eternal_history | uniq |
+				FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) --query "$READLINE_LINE" |
+				perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//'
+		) || return
+		READLINE_LINE=${output#*$'\t'}
+		if [ -z "$READLINE_POINT" ]; then
+			echo "$READLINE_LINE"
+		else
+			READLINE_POINT=0x7fffffff
+		fi
+	}
 fi
-
-# Format: BASH_PID USER HIST_NUMBER TIMESTAMP COMMAND
-PROMPT_COMMAND=$PROMPT_COMMAND'echo $$ $USER "$(history 1)" >> ~/.bash_eternal_history'
 
 # Load scmpuff if enabled, for numbered git shortcuts.
 # But not if we're running in Claude Code, which gets confused by it.
@@ -220,39 +253,17 @@ if [ -x "$(command -v direnv)" ]; then
 	eval "$(direnv hook bash)"
 fi
 
-# TODO is there any practical difference between my version (top) and the vendored version (bottom)?
-# [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# omit --follow, because otherwise it spews errors about broken symlinks all
-# over the place (e.g. pruned go dependencies)
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS='--height 100%'
-# why is no-reverse required??
-export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
+if [ -x "$(command -v fzf)" ]; then
+	eval "$(fzf --bash)"
 
-# Override the default history function with one that looks at .bash_eternal_history instead
-# This should be kept up to date with the upstream version: https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
-__fzf_history__() {
-	local output
-	output=$(
-
-	# Original code:
-		# builtin fc -lnr -2147483648 |
-			# last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
-
-		# Maybe todo: de-dupe?
-		tac ~/.bash_eternal_history | uniq |
-			FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS +m" $(__fzfcmd) --query "$READLINE_LINE" |
-			perl -pe 's/^[0-9]+\s+[a-z]+\s+[0-9]+\s+[0-9]{10}\s+//'
-	) || return
-	READLINE_LINE=${output#*$'\t'}
-	if [ -z "$READLINE_POINT" ]; then
-		echo "$READLINE_LINE"
-	else
-		READLINE_POINT=0x7fffffff
-	fi
-}
+	# omit --follow, because otherwise it spews errors about broken symlinks all
+	# over the place (e.g. pruned go dependencies)
+	export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*"'
+	export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+	export FZF_DEFAULT_OPTS='--height 100%'
+	# why is no-reverse required??
+	export FZF_CTRL_T_OPTS='--height 100% --no-reverse --bind ctrl-j:down,ctrl-k:up'
+fi
 
 # https://github.com/junegunn/fzf/wiki/examples#git
 fzbr() {
@@ -322,3 +333,9 @@ if [ -x "$(command -v starship)" ]; then
     starship_precmd_user_func="set_win_title"
     eval "$(starship init bash)"
 fi
+
+# ble.sh customizations
+# shellcheck source=bashrc.ble
+source "${HOME}/.bashrc.ble"
+
+[[ ! ${BLE_VERSION-} ]] || ble-attach

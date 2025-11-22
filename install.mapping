@@ -1,5 +1,7 @@
+atuin.toml:.config/atuin/config.toml
 bash_profile:.bash_profile
 bashrc.functions:.bashrc.functions
+bashrc.ble:.bashrc.ble
 bashrc:.bashrc
 gitconfig:.gitconfig
 gitignore.global:.gitignore.global

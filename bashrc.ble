@@ -1,0 +1,74 @@
+# vim: ft=bash
+# ble.sh customizations
+
+# Disable the "[ble: exit 1]" error marker after failed commands
+bleopt exec_errexit_mark=
+
+# Disable history sharing across shells - up arrow shows only current shell history
+bleopt history_share=
+
+# Disable lazy loading of history (loads synchronously at startup instead)
+# bleopt history_lazyload=
+
+# Override the mode indicator to hide insert mode but show other modes
+function my/blerc-vim-load-hook {
+  function ble/prompt/backslash:keymap:vi/mode-indicator {
+    [[ $bleopt_keymap_vi_mode_show ]] || return 0
+    local keymap=${prompt_vi_keymap-}
+    if [[ $keymap ]]; then
+      ble/prompt/unit/add-hash '$_ble_decode_keymap,${_ble_decode_keymap_stack[*]}'
+    else
+      ble/keymap:vi/script/get-vi-keymap || return 0
+    fi
+
+    # Hide insert mode indicator
+    if [[ $keymap == vi_imap && ! $_ble_edit_overwrite_mode ]]; then
+      return 0
+    fi
+
+    # For all other modes, use default behavior
+    local name= show= overwrite=
+    ble/prompt/unit/add-hash '$_ble_edit_overwrite_mode,$_ble_keymap_vi_single_command,$_ble_keymap_vi_single_command_overwrite'
+    if [[ $keymap == vi_imap ]]; then
+      show=1 overwrite=$_ble_edit_overwrite_mode
+    elif [[ $_ble_keymap_vi_single_command && ( $keymap == vi_nmap || $keymap == vi_omap ) ]]; then
+      show=1 overwrite=$_ble_keymap_vi_single_command_overwrite
+    elif [[ $keymap == vi_[xs]map ]]; then
+      show=x overwrite=$_ble_keymap_vi_single_command_overwrite
+    else
+      # Show "-- NORMAL --" in normal mode
+      name=$'\e[1m-- NORMAL --\e[m'
+    fi
+    if [[ $show ]]; then
+      if [[ $overwrite == R ]]; then
+        name=$bleopt_keymap_vi_mode_name_replace
+      elif [[ $overwrite ]]; then
+        name=$bleopt_keymap_vi_mode_name_vreplace
+      else
+        name=$bleopt_keymap_vi_mode_name_insert
+      fi
+      if [[ $_ble_keymap_vi_single_command ]]; then
+        local ret; ble/string#tolower "$name"; name="($ret)"
+      fi
+      if [[ $show == x ]]; then
+        ble/prompt/unit/add-hash '${_ble_edit_mark_active%+}'
+        local mark_type=${_ble_edit_mark_active%+}
+        local visual_name=$bleopt_keymap_vi_mode_name_visual
+        [[ $keymap == vi_smap ]] && visual_name=$bleopt_keymap_vi_mode_name_select
+        if [[ $mark_type == vi_line ]]; then
+          visual_name=$visual_name' '$bleopt_keymap_vi_mode_name_linewise
+        elif [[ $mark_type == vi_block ]]; then
+          visual_name=$visual_name' '$bleopt_keymap_vi_mode_name_blockwise
+        fi
+        if [[ $_ble_keymap_vi_single_command ]]; then
+          name="$name $visual_name"
+        else
+          name=$visual_name
+        fi
+      fi
+      name=$'\e[1m-- '$name$' --\e[m'
+    fi
+    [[ ! $name ]] || ble/prompt/print "$name"
+  }
+}
+blehook/eval-after-load keymap_vi my/blerc-vim-load-hook
